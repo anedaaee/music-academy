@@ -333,7 +333,7 @@ router.post('/add-class',async(req,res) => {
         res.status(201).send({
             "metadata": responseMessage(1),
             "body": {
-                "type": "array",
+                "type": "object",
                 "data": result
             }
         })
@@ -393,7 +393,7 @@ router.patch('/update-class',async(req,res) => {
         res.status(201).send({
             "metadata": responseMessage(1),
             "body": {
-                "type": "array",
+                "type": "object",
                 "data": result
             }
         })
@@ -434,7 +434,7 @@ router.delete('/delete-class',async(req,res) => {
         res.status(201).send({
             "metadata": responseMessage(1),
             "body": {
-                "type": "array",
+                "type": "object",
                 "data": result
             }
         })
@@ -465,7 +465,7 @@ router.patch('/refactore-class',async(req,res) => {
         res.status(201).send({
             "metadata": responseMessage(1),
             "body": {
-                "type": "array",
+                "type": "object",
                 "data": result
             }
         })
@@ -518,5 +518,75 @@ router.get('/get_classes',async(req,res) => {
     }
 })
 
+
+router.post('/add-session',async(req,res) => {
+    try{
+        const valid_status = ['presence','valid_absence','invalid_absence']
+        const schema = Joi.object({
+            class_id : Joi.number()
+                .required(),
+            status : Joi.string()
+                .valid(...valid_status)
+                .required(),
+            description : Joi.string()
+                .optional(),
+            session_date : Joi.date()
+                .required(),
+        })
+        const values = await schema.validateAsync(req.body)
+        const result = await adminCtrl.add_session(req,values)
+        
+        res.status(201).send({
+            "metadata": responseMessage(1),
+            "body": {
+                "type": "object",
+                "data": result
+            }
+        })
+    }catch(err){
+        let message = responseMessage(5)
+        if(err.details) {
+            if(err.details[0].path[0] === 'class_id') { message = responseMessage(33)}
+            if(err.details[0].path[0] === 'status') { message = responseMessage(37)}
+            if(err.details[0].path[0] === 'description') { message = responseMessage(39)}
+            if(err.details[0].path[0] === 'session_date') { message = responseMessage(40)}
+        }
+        if(err.isCustom){
+            message = err.reason
+        }
+        return res.status(400).send({
+            "metadata": message
+        })
+
+    }
+})
+
+
+router.delete('/delete-session',async(req,res) => {
+    try{
+        const schema = Joi.object({
+            id : Joi.number()
+                .required()
+        })
+        const values = await schema.validateAsync(req.body)
+        await adminCtrl.delete_session(req,values)
+        
+        res.status(201).send({
+            "metadata": responseMessage(1)
+        })
+    }catch(err){
+        let message = responseMessage(5)
+        if(err.details) {
+            if(err.details[0].path[0] === 'id') { message = responseMessage(36)}
+        }
+        if(err.isCustom){
+            message = err.reason
+        }
+        return res.status(400).send({
+            "metadata": message
+        })
+
+    }
+})
 
 module.exports = router

@@ -307,3 +307,114 @@ exports.get_classes = async (req,values) => {
         return await request(query,[],req)
     }catch(err){throw err}
 }
+
+
+const update_class_session = async(req,calss_id,status) => {
+    try{
+        let query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                    FROM music_academy.music_class
+                    WHERE id=?;`
+
+        const class_information = await request(query,[calss_id],req)
+
+        const info = {
+            price:class_information[0].session_price,
+            session_left:class_information[0].session_left,
+            absence_left:class_information[0].absence_left,
+            status:status
+        }
+
+        if(info.status == 'valid_absence'){
+            if(info.absence_left == 0){
+                info.session_left -= 1
+                info.status = 'invalid_absence'
+            }else{
+                info.absence_left -= 1
+                info.price = 0
+            }
+        }else{
+            info.session_left -= 1
+        }
+
+        query = `UPDATE music_academy.music_class
+                SET session_left=?, absence_left=?
+                WHERE id=?;`
+        await request(query,[
+            info.session_left
+            ,info.absence_left
+            ,calss_id]
+        ,req)
+
+        
+        
+        return info
+        
+    }catch(err){throw err}
+}
+
+exports.add_session = async (req,values) => {
+    try{
+        const info = await update_class_session(req,values.class_id,values.status)
+
+        let query = `INSERT INTO music_academy.music_session
+                        (class_id, status, price, description, session_date)
+                        VALUES(?, ?, ?, ?, ?);`
+
+        await request(query,[values.class_id,info.status,info.price,values.description,values.session_date],req)
+        query = `SELECT max(id) as latest_input_id
+            FROM music_academy.music_session;`
+
+        const last_input = await request(query,[],req)
+        
+        query = `SELECT id, class_id, status, price, description, session_date
+            FROM music_academy.music_session
+            WHERE id = ?;`
+
+        const session = await request(query,[last_input[0].latest_input_id],req)
+        return session[0]
+
+    }catch(err){throw err}
+}
+const update_class_delete_session = async(req,session_id) => {
+    try{
+
+        let query = `SELECT id, class_id, status, price, description, session_date
+            FROM music_academy.music_session
+            WHERE id=?;`
+
+        const session_information = await request(query,[session_id],req)
+
+        query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                    FROM music_academy.music_class
+                    WHERE id=?;`
+
+        const class_information = await request(query,[session_information[0].class_id],req)
+
+        if(session_information[0].status == 'valid_absence'){
+            class_information[0].absence_left += 1
+        }else{
+            class_information[0].session_left +=1
+        }
+        query = `UPDATE music_academy.music_class
+                SET session_left=?, absence_left=?
+                WHERE id=?;`
+        await request(query,[
+            class_information[0].session_left
+            ,class_information[0].absence_left
+            ,session_information[0].class_id]
+        ,req)
+        
+    }catch(err){throw err}
+}
+
+exports.delete_session = async (req,values) => {
+    try{
+        await update_class_delete_session(req,values.id)
+
+        let query = `DELETE FROM music_academy.music_session
+                        WHERE id=?; `
+
+        await request(query,[values.id],req)
+
+    }catch(err){throw err}
+}
