@@ -100,3 +100,13 @@ exports.get_deleted_users = async (req) => {
         return await request(query,[],req)
     }catch(err){throw err}
 } 
+
+exports.get_none_deleted_users = async (req) => {
+    try{
+        const query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id
+                    FROM music_academy.user_profile
+                    WHERE is_active = 1;`
+
+        return await request(query,[],req)
+    }catch(err){throw err}
+} 
