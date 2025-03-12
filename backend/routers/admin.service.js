@@ -82,8 +82,6 @@ router.patch('/update-user', async(req,res) => {
             }
         })
     }catch(err){
-        console.log(err);
-        
         let message = responseMessage(5)
         if(err.details) {
             if(err.details[0].path[0] === 'username') { message = responseMessage(8)}
@@ -104,5 +102,41 @@ router.patch('/update-user', async(req,res) => {
 
     }
 })
+
+router.delete('/delete-user', async(req,res) => {
+    try{
+        const schema = Joi.object({
+            username: Joi.string()
+                .min(3)
+                .max(16)
+                .required()
+        })
+
+        const values = await schema.validateAsync(req.body)
+        const result = await adminCtrl.delete_user(req,values)
+        
+        res.status(201).send({
+            "metadata": responseMessage(1),
+            "body": {
+                "type": "object",
+                "data": result
+            }
+        })
+    }catch(err){
+        let message = responseMessage(5)
+        if(err.details) {
+            if(err.details[0].path[0] === 'username') { message = responseMessage(8)}
+        }
+        if(err.isCustom){
+            message = err.reason
+        }
+        return res.status(400).send({
+            "metadata": message
+        })
+
+    }
+})
+
+
 
 module.exports = router

@@ -43,5 +43,41 @@ exports.update_user = async (req,values) => {
 
         return user[0]
 
-    }catch(err){}
+    }catch(err){throw err}
+}
+
+exports.delete_user = async (req,values) => {
+    try{
+        let query = `UPDATE music_academy.user_profile
+                SET is_active=0
+                WHERE username=?;`
+
+        await request(query,[values.username],req)
+
+        query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id
+                    FROM music_academy.user_profile
+                    WHERE username =?;`
+        const user = await request(query,[values.username],req)
+
+        return user[0]
+        
+    }catch(err){throw err}
+}
+
+exports.refactore_user = async (req,values) => {
+    try{
+        let query = `UPDATE music_academy.user_profile
+                SET is_active=1
+                WHERE username=?;`
+
+        await request(query,[values.username],req)
+
+        query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id
+                    FROM music_academy.user_profile
+                    WHERE username =?;`
+        const user = await request(query,[values.username],req)
+
+        return user[0]
+        
+    }catch(err){throw err}
 }
