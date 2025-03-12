@@ -133,4 +133,55 @@ exports.get_users_with_role = async (req,values) => {
 } 
 
 
+const check_role = async (req,username,role) => {
+    try{
+        const query = `SELECT username,${`role`}
+            FROM music_academy.user_profile
+            WHERE username=?;`
 
+        const teacher = await request(query,[username],req)
+        if (teacher[0].role != role){
+            if(role == 1){
+                throw new CustomError('input user is not normal user',responseMessage(29))
+            }else if(role == 2){
+                throw new CustomError('input user is not teacher',responseMessage(30))
+            }else if(role ==3){
+                throw new CustomError('input user is not admin',responseMessage(31))
+            }
+        }
+    }catch(err){throw err}
+}
+
+exports.add_class = async (req,values) => {
+    try{
+        await check_role(req,values.teacher,2)
+        await check_role(req,values.student,1)
+        let query = `INSERT INTO music_academy.music_class
+                (teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_payed, teacherـpercentage)
+                VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`
+        await request(query,[values.teacher
+            ,values.student
+            ,values.session_price
+            ,values.week_day
+            ,values.houre,values.duration
+            ,values.session_left
+            ,values.absence_left
+            ,values.is_payed
+            ,values.teacherـpercentage]
+        ,req)
+
+        query = `SELECT max(id) as latest_input_id 
+                    FROM music_academy.music_class;`
+
+        const last_object = await request(query,[],req)
+
+        query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                    FROM music_academy.music_class
+                    WHERE id=?;`
+
+        const class_information = await request(query,[last_object[0].latest_input_id],req)
+        
+        return class_information
+        
+    }catch(err){throw err}
+}
