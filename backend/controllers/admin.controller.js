@@ -28,7 +28,6 @@ exports.register = async (req,values) => {
     }
 }
 
-
 exports.update_user = async (req,values) => {
     try{
         let query = `UPDATE music_academy.user_profile

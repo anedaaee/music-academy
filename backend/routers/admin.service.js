@@ -83,6 +83,7 @@ router.patch('/update-user', async(req,res) => {
         let message = responseMessage(5)
         if(err.details) {
             if(err.details[0].path[0] === 'username') { message = responseMessage(8)}
+            if(err.details[0].path[0] === 'role') { message = responseMessage(18)}
             if(err.details[0].path[0] === 'name') { message = responseMessage(10)}
             if(err.details[0].path[0] === 'last_name') { message = responseMessage(11)}
             if(err.details[0].path[0] === 'mobile') { message = responseMessage(12)}
@@ -720,9 +721,9 @@ router.get('/get-salary-report',async(req,res) => {
     }catch(err){
         let message = responseMessage(5)
         if(err.details) {
-            if(err.details[0].path[0] === 'class_id') { message = responseMessage(33)}
-            if(err.details[0].path[0] === 'only_finished') { message = responseMessage(35)}
-            if(err.details[0].path[0] === 'only_not_finished') { message = responseMessage(35)}
+            if(err.details[0].path[0] === 'teacher') { message = responseMessage(42)}
+            if(err.details[0].path[0] === 'start_date') { message = responseMessage(43)}
+            if(err.details[0].path[0] === 'finish_date') { message = responseMessage(44)}
         }
         if(err.isCustom){
             message = err.reason

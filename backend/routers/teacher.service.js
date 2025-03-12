@@ -1,6 +1,6 @@
 const express = require('express')
 const Joi = require('joi')
-const userCtrl = require('../controllers/user.controller')
+const teacherCtrl = require('../controllers/teacher.controller')
 const router = new express.Router()
 const responseMessage = require('../functions/readMessage')
 
@@ -13,7 +13,7 @@ router.get('/get_classes',async(req,res) => {
                 .optional()
         })
         const values = await schema.validateAsync(req.query)
-        const result = await userCtrl.get_classes(req,values)
+        const result = await teacherCtrl.get_classes(req,values)
         
         res.status(201).send({
             "metadata": responseMessage(1),
@@ -49,7 +49,7 @@ router.get('/get_class',async(req,res) => {
                 .optional()
         })
         const values = await schema.validateAsync(req.query)
-        const result = await userCtrl.get_class(req,values)
+        const result = await teacherCtrl.get_class(req,values)
         
         res.status(201).send({
             "metadata": responseMessage(1),
@@ -86,7 +86,7 @@ router.get('/get-classes-sessions',async(req,res) => {
                 .optional()
         })
         const values = await schema.validateAsync(req.query)
-        const result = await userCtrl.get_classes_session(req,values)
+        const result = await teacherCtrl.get_classes_session(req,values)
         
         res.status(201).send({
             "metadata": responseMessage(1),
@@ -122,7 +122,7 @@ router.get('/get-class-sessions',async(req,res) => {
                 .optional()
         })
         const values = await schema.validateAsync(req.query)
-        const result = await userCtrl.get_class_session(req,values)
+        const result = await teacherCtrl.get_class_session(req,values)
         
         res.status(201).send({
             "metadata": responseMessage(1),
@@ -137,6 +137,40 @@ router.get('/get-class-sessions',async(req,res) => {
             if(err.details[0].path[0] === 'class_id') { message = responseMessage(33)}
             if(err.details[0].path[0] === 'only_finished') { message = responseMessage(35)}
             if(err.details[0].path[0] === 'only_not_finished') { message = responseMessage(35)}
+        }
+        if(err.isCustom){
+            message = err.reason
+        }
+        return res.status(400).send({
+            "metadata": message
+        })
+
+    }
+})
+
+router.get('/get-salary-report',async(req,res) => {
+    try{
+        const schema = Joi.object({
+            start_date : Joi.date()
+                .optional(),
+            finish_date : Joi.date()
+                .optional()
+        })
+        const values = await schema.validateAsync(req.query)
+        const result = await teacherCtrl.get_salary_report(req,values)
+        
+        res.status(201).send({
+            "metadata": responseMessage(1),
+            "body": {
+                "type": "array",
+                "data": result
+            }
+        })
+    }catch(err){
+        let message = responseMessage(5)
+        if(err.details) {
+            if(err.details[0].path[0] === 'start_date') { message = responseMessage(43)}
+            if(err.details[0].path[0] === 'finish_date') { message = responseMessage(44)}
         }
         if(err.isCustom){
             message = err.reason
@@ -169,7 +203,7 @@ router.patch('/update-profile', async(req,res) => {
         })
 
         const values = await schema.validateAsync(req.body)
-        const result = await userCtrl.update_user(req,values)
+        const result = await teacherCtrl.update_user(req,values)
         
         res.status(201).send({
             "metadata": responseMessage(1),
@@ -198,6 +232,5 @@ router.patch('/update-profile', async(req,res) => {
 
     }
 })
-
 
 module.exports = router
