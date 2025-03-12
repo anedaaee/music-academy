@@ -7,8 +7,6 @@ const responseMessage = require('../functions/readMessage')
 
 router.post('/register-user', async(req,res) => {
     try{
-        console.log('hi');
-        
         const schema = Joi.object({
             username: Joi.string()
                 .min(3)
@@ -240,5 +238,70 @@ router.get('/get-users/none-deleted',async(req,res) => {
 
     }
 })
+
+router.get('/get-user',async(req,res) => {
+    try{
+        const schema = Joi.object({
+            username: Joi.string()
+                .min(3)
+                .max(16)
+                .required()
+        })
+
+        const values = await schema.validateAsync(req.query)
+        const result = await adminCtrl.get_user(req,values)
+        
+        res.status(201).send({
+            "metadata": responseMessage(1),
+            "body": {
+                "type": "object",
+                "data": result[0]
+            }
+        })
+    }catch(err){
+        let message = responseMessage(5)
+        if(err.details) {
+            if(err.details[0].path[0] === 'username') { message = responseMessage(8)}
+        }
+        if(err.isCustom){
+            message = err.reason
+        }
+        return res.status(400).send({
+            "metadata": message
+        })
+
+    }
+})
+
+router.get('/get-users/with-role',async(req,res) => {
+    try{
+        const schema = Joi.object({
+            role : Joi.number().required()
+        })
+        const values = await schema.validateAsync(req.query)
+        const result = await adminCtrl.get_users_with_role(req,values)
+        
+        res.status(201).send({
+            "metadata": responseMessage(1),
+            "body": {
+                "type": "array",
+                "data": result
+            }
+        })
+    }catch(err){
+        let message = responseMessage(5)
+        if(err.details) {
+            if(err.details[0].path[0] === 'role') { message = responseMessage(18)}
+        }
+        if(err.isCustom){
+            message = err.reason
+        }
+        return res.status(400).send({
+            "metadata": message
+        })
+
+    }
+})
+
 
 module.exports = router
