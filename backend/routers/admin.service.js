@@ -453,4 +453,35 @@ router.delete('/delete-class',async(req,res) => {
     }
 })
 
+router.patch('/refactore-class',async(req,res) => {
+    try{
+        const schema = Joi.object({
+            id : Joi.number()
+                .required()
+        })
+        const values = await schema.validateAsync(req.body)
+        const result = await adminCtrl.refactore_class(req,values)
+        
+        res.status(201).send({
+            "metadata": responseMessage(1),
+            "body": {
+                "type": "array",
+                "data": result
+            }
+        })
+    }catch(err){
+        let message = responseMessage(5)
+        if(err.details) {
+            if(err.details[0].path[0] === 'id') { message = responseMessage(31)}
+        }
+        if(err.isCustom){
+            message = err.reason
+        }
+        return res.status(400).send({
+            "metadata": message
+        })
+
+    }
+})
+
 module.exports = router

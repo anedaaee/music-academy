@@ -257,3 +257,34 @@ exports.delete_class = async (req,values) => {
     }catch(err){throw err}
 }
 
+exports.refactore_class = async (req,values) => {
+    try{
+
+        let query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+        FROM music_academy.music_class
+        WHERE id=?;`
+
+        let class_information = await request(query,[values.id],req)
+
+        if(class_information[0].session_left == 0 && class_information[0].absence_left == 0){
+            throw new CustomError('There is no available session of absence left',responseMessage(34))
+        }
+
+        await check_confilict(req,class_information[0].teacher,class_information[0].week_day,class_information[0].houre)
+        
+        query = `UPDATE music_academy.music_class
+                SET is_finish=0
+                WHERE id=?;`
+        await request(query,[values.id],req)
+
+        query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+        FROM music_academy.music_class
+        WHERE id=?;`
+
+        class_information = await request(query,[values.id],req)
+
+        return class_information
+        
+    }catch(err){throw err}
+}
+
