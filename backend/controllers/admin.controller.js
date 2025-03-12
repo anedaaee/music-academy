@@ -81,3 +81,12 @@ exports.refactore_user = async (req,values) => {
         
     }catch(err){throw err}
 }
+
+exports.get_users = async (req) => {
+    try{
+        const query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id
+                    FROM music_academy.user_profile;`
+
+        return await request(query,[],req)
+    }catch(err){throw err}
+} 
