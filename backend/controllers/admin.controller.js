@@ -469,3 +469,38 @@ exports.get_classes_session = async (req,values) => {
         return classes_info
     }catch(err){throw err}
 }
+
+exports.get_class_session = async (req,values) => {
+    try{
+        let query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+            FROM music_academy.music_class
+            WHERE id=?;`
+
+        if(values.only_finished && !values.only_not_finished){
+            query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+            FROM music_academy.music_class
+            WHERE is_finish=1
+                AND id=?;`
+        }else if(values.only_not_finished && !values.only_finished){
+            query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+            FROM music_academy.music_class
+            WHERE is_finish=0 
+                AND id=?;`
+        }
+
+        const classes_info = await request(query,[values.class_id],req)
+        
+        const class_info = classes_info[0]
+             
+        query = `SELECT id, class_id, status, price, description, session_date
+                        FROM music_academy.music_session
+                        WHERE class_id=?
+                        ORDER BY session_date ASC;`
+        
+        const session = await request(query,[class_info.id],req)
+
+        class_info.session = session
+
+        return classes_info
+    }catch(err){throw err}
+}
