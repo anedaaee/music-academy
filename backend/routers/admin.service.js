@@ -195,4 +195,27 @@ router.get('/get-users',async(req,res) => {
     }
 })
 
+router.get('/get-users/deleted',async(req,res) => {
+    try{
+        const result = await adminCtrl.get_deleted_users(req)
+        
+        res.status(201).send({
+            "metadata": responseMessage(1),
+            "body": {
+                "type": "array",
+                "data": result
+            }
+        })
+    }catch(err){
+        let message = responseMessage(5)
+        if(err.isCustom){
+            message = err.reason
+        }
+        return res.status(400).send({
+            "metadata": message
+        })
+
+    }
+})
+
 module.exports = router
