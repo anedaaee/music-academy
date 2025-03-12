@@ -287,17 +287,29 @@ exports.refactore_class = async (req,values) => {
 
 exports.get_classes = async (req,values) => {
     try{
-        let query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
-            FROM music_academy.music_class;`
+        let query = `SELECT id,CONCAT(t.name ,' ',t.last_name)  as teacher_name,CONCAT(t_2.name,' ',t_2.last_name) as student_name, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                FROM music_academy.music_class c
+                INNER JOIN music_academy.user_profile t
+                ON c.teacher = t.username
+                INNER JOIN music_academy.user_profile t_2
+                ON c.student = t_2.username;`
 
         if(values.only_finished && !values.only_not_finished){
-            query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
-            FROM music_academy.music_class
-            WHERE is_finish=1;`
+            query = `SELECT id,CONCAT(t.name ,' ',t.last_name)  as teacher_name,CONCAT(t_2.name,' ',t_2.last_name) as student_name, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                FROM music_academy.music_class c
+                INNER JOIN music_academy.user_profile t
+                ON c.teacher = t.username
+                INNER JOIN music_academy.user_profile t_2
+                ON c.student = t_2.username
+                WHERE is_finish=1;`
         }else if(values.only_not_finished && !values.only_finished){
-            query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
-            FROM music_academy.music_class
-            WHERE is_finish=0;`
+            query = `SELECT id,CONCAT(t.name ,' ',t.last_name)  as teacher_name,CONCAT(t_2.name,' ',t_2.last_name) as student_name, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                FROM music_academy.music_class c
+                INNER JOIN music_academy.user_profile t
+                ON c.teacher = t.username
+                INNER JOIN music_academy.user_profile t_2
+                ON c.student = t_2.username
+                WHERE is_finish=0;`
         }
 
         return await request(query,[],req)
@@ -306,20 +318,32 @@ exports.get_classes = async (req,values) => {
 
 exports.get_class = async (req,values) => {
     try{
-        let query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
-            FROM music_academy.music_class
-            WHERE id=?;`
+        let query = `SELECT id,CONCAT(t.name ,' ',t.last_name)  as teacher_name,CONCAT(t_2.name,' ',t_2.last_name) as student_name, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                FROM music_academy.music_class c
+                INNER JOIN music_academy.user_profile t
+                ON c.teacher = t.username
+                INNER JOIN music_academy.user_profile t_2
+                ON c.student = t_2.username
+                WHERE id=?;`
 
         if(values.only_finished && !values.only_not_finished){
-            query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
-            FROM music_academy.music_class
-            WHERE is_finish=1
-                AND id=?;`
+            query = `SELECT id,CONCAT(t.name ,' ',t.last_name)  as teacher_name,CONCAT(t_2.name,' ',t_2.last_name) as student_name, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                FROM music_academy.music_class c
+                INNER JOIN music_academy.user_profile t
+                ON c.teacher = t.username
+                INNER JOIN music_academy.user_profile t_2
+                ON c.student = t_2.username
+                WHERE is_finish=1
+                    AND id=?;`
         }else if(values.only_not_finished && !values.only_finished){
-            query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
-            FROM music_academy.music_class
-            WHERE is_finish=0 
-                AND id=?;`
+            query = `SELECT id,CONCAT(t.name ,' ',t.last_name)  as teacher_name,CONCAT(t_2.name,' ',t_2.last_name) as student_name, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                FROM music_academy.music_class c
+                INNER JOIN music_academy.user_profile t
+                ON c.teacher = t.username
+                INNER JOIN music_academy.user_profile t_2
+                ON c.student = t_2.username
+                WHERE is_finish=0
+                    AND id=?;`
         }
 
         return await request(query,[values.class_id],req)
@@ -471,17 +495,29 @@ exports.delete_session = async (req,values) => {
 
 exports.get_classes_session = async (req,values) => {
     try{
-        let query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
-            FROM music_academy.music_class;`
+        let query = `SELECT id,CONCAT(t.name ,' ',t.last_name)  as teacher_name,CONCAT(t_2.name,' ',t_2.last_name) as student_name, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+        FROM music_academy.music_class c
+        INNER JOIN music_academy.user_profile t
+        ON c.teacher = t.username
+        INNER JOIN music_academy.user_profile t_2
+        ON c.student = t_2.username;`
 
         if(values.only_finished && !values.only_not_finished){
-            query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
-            FROM music_academy.music_class
-            WHERE is_finish=1;`
+            query = `SELECT id,CONCAT(t.name ,' ',t.last_name)  as teacher_name,CONCAT(t_2.name,' ',t_2.last_name) as student_name, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                FROM music_academy.music_class c
+                INNER JOIN music_academy.user_profile t
+                ON c.teacher = t.username
+                INNER JOIN music_academy.user_profile t_2
+                ON c.student = t_2.username
+                WHERE is_finish=1;`
         }else if(values.only_not_finished && !values.only_finished){
-            query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
-            FROM music_academy.music_class
-            WHERE is_finish=0;`
+            query = `SELECT id,CONCAT(t.name ,' ',t.last_name)  as teacher_name,CONCAT(t_2.name,' ',t_2.last_name) as student_name, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                FROM music_academy.music_class c
+                INNER JOIN music_academy.user_profile t
+                ON c.teacher = t.username
+                INNER JOIN music_academy.user_profile t_2
+                ON c.student = t_2.username
+                WHERE is_finish=0;`
         }
 
         const classes_info = await request(query,[],req)
@@ -504,20 +540,32 @@ exports.get_classes_session = async (req,values) => {
 
 exports.get_class_session = async (req,values) => {
     try{
-        let query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
-            FROM music_academy.music_class
-            WHERE id=?;`
+        let query = `SELECT id,CONCAT(t.name ,' ',t.last_name)  as teacher_name,CONCAT(t_2.name,' ',t_2.last_name) as student_name, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+        FROM music_academy.music_class c
+        INNER JOIN music_academy.user_profile t
+        ON c.teacher = t.username
+        INNER JOIN music_academy.user_profile t_2
+        ON c.student = t_2.username
+        WHERE id=?;`
 
         if(values.only_finished && !values.only_not_finished){
-            query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
-            FROM music_academy.music_class
-            WHERE is_finish=1
-                AND id=?;`
+            query = `SELECT id,CONCAT(t.name ,' ',t.last_name)  as teacher_name,CONCAT(t_2.name,' ',t_2.last_name) as student_name, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                FROM music_academy.music_class c
+                INNER JOIN music_academy.user_profile t
+                ON c.teacher = t.username
+                INNER JOIN music_academy.user_profile t_2
+                ON c.student = t_2.username
+                WHERE is_finish=1
+                    AND id=?;`
         }else if(values.only_not_finished && !values.only_finished){
-            query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
-            FROM music_academy.music_class
-            WHERE is_finish=0 
-                AND id=?;`
+            query = `SELECT id,CONCAT(t.name ,' ',t.last_name)  as teacher_name,CONCAT(t_2.name,' ',t_2.last_name) as student_name, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                FROM music_academy.music_class c
+                INNER JOIN music_academy.user_profile t
+                ON c.teacher = t.username
+                INNER JOIN music_academy.user_profile t_2
+                ON c.student = t_2.username
+                WHERE is_finish=0
+                    AND id=?;`
         }
 
         const classes_info = await request(query,[values.class_id],req)
