@@ -152,10 +152,28 @@ const check_role = async (req,username,role) => {
     }catch(err){throw err}
 }
 
+const check_confilict = async (req,teacher,week_day,houre) => {
+    try{
+        const query = `SELECT id
+                FROM music_academy.music_class
+                WHERE teacher=? 
+                    AND week_day=?
+                    AND houre=?
+                    AND is_finish=0;`
+        const classes = await request(query,[teacher,week_day,houre],req)
+
+        if(classes.length !== 0){
+            throw new CustomError('This class conflicts with another class.',responseMessage(32))
+        }
+    }catch(err){throw err}
+}
+
 exports.add_class = async (req,values) => {
     try{
         await check_role(req,values.teacher,2)
         await check_role(req,values.student,1)
+        await check_confilict(req,values.teacher,values.week_day,values.houre)
+
         let query = `INSERT INTO music_academy.music_class
                 (teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_payed, teacherـpercentage)
                 VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`
@@ -180,6 +198,40 @@ exports.add_class = async (req,values) => {
                     WHERE id=?;`
 
         const class_information = await request(query,[last_object[0].latest_input_id],req)
+        
+        return class_information
+        
+    }catch(err){throw err}
+}
+
+
+exports.update_class = async (req,values) => {
+    try{
+        await check_role(req,values.teacher,2)
+        await check_role(req,values.student,1)
+        await check_confilict(req,values.teacher,values.week_day,values.houre)
+        
+        let query = `UPDATE music_academy.music_class
+                SET teacher=?, student=?, session_price=?, week_day=?, houre=?, duration=?, session_left=?, absence_left=?, is_payed=?, teacherـpercentage=?
+                WHERE id=?;`
+        await request(query,[values.teacher
+            ,values.student
+            ,values.session_price
+            ,values.week_day
+            ,values.houre
+            ,values.duration
+            ,values.session_left
+            ,values.absence_left
+            ,values.is_payed
+            ,values.teacherـpercentage
+            ,values.id]
+        ,req)
+
+        query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                    FROM music_academy.music_class
+                    WHERE id=?;`
+
+        const class_information = await request(query,[values.id],req)
         
         return class_information
         

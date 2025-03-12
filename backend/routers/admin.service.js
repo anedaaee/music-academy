@@ -361,6 +361,66 @@ router.post('/add-class',async(req,res) => {
     }
 })
 
+router.patch('/update-class',async(req,res) => {
+    try{
+        const schema = Joi.object({
+            id : Joi.number()
+                .required(),
+            teacher : Joi.string()
+                .required(),
+            student : Joi.string()
+                .required(),
+            session_price : Joi.number()
+                .required(),
+            week_day : Joi.string()
+                .required(),
+            houre : Joi.string()
+                .required(),
+            duration: Joi.string()
+                .required(),
+            session_left: Joi.number()
+                .required(),
+            absence_left: Joi.number()
+                .required(),
+            is_payed : Joi.boolean()
+                .required(),
+            teacherـpercentage : Joi.number()
+                .required()
+        })
+        const values = await schema.validateAsync(req.body)
+        const result = await adminCtrl.update_class(req,values)
+        
+        res.status(201).send({
+            "metadata": responseMessage(1),
+            "body": {
+                "type": "array",
+                "data": result
+            }
+        })
+    }catch(err){
+        let message = responseMessage(5)
+        if(err.details) {
+            if(err.details[0].path[0] === 'id') { message = responseMessage(31)}
+            if(err.details[0].path[0] === 'teacher') { message = responseMessage(19)}
+            if(err.details[0].path[0] === 'student') { message = responseMessage(20)}
+            if(err.details[0].path[0] === 'session_price') { message = responseMessage(21)}
+            if(err.details[0].path[0] === 'week_day') { message = responseMessage(22)}
+            if(err.details[0].path[0] === 'houre') { message = responseMessage(23)}
+            if(err.details[0].path[0] === 'duration') { message = responseMessage(24)}
+            if(err.details[0].path[0] === 'session_left') { message = responseMessage(25)}
+            if(err.details[0].path[0] === 'absence_left') { message = responseMessage(26)}
+            if(err.details[0].path[0] === 'is_payed') { message = responseMessage(27)}
+            if(err.details[0].path[0] === 'teacherـpercentage') { message = responseMessage(28)}
+        }
+        if(err.isCustom){
+            message = err.reason
+        }
+        return res.status(400).send({
+            "metadata": message
+        })
+
+    }
+})
 
 
 module.exports = router
