@@ -14,8 +14,8 @@ const strategy = new JWTStrategy(options,async(payload , done) => {
     try{
         let today = Date.now() / 1000;
         if( today > payload.exp){
-            const query = `select phone_number,role,is_active from ${config().APP_DB_NAME}.user_profile where phone_number=?;`;
-            const result = await request(query,[token.user.phone_number],appPool)
+            const query = `select username,role,is_active from ${config().APP_DB_NAME}.user_profile where username=?;`;
+            const result = await request(query,[token.user.username],appPool)
 
             if(!result[0]){
                 throw { customError: 11, statusCode: 401}
@@ -25,6 +25,7 @@ const strategy = new JWTStrategy(options,async(payload , done) => {
             done(null,payload.sub.user);
         }
     }catch(error){
+        
         done(error,false);
     }
 });

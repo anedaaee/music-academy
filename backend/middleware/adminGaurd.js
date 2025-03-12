@@ -6,12 +6,12 @@ const responseMessage = require('../functions/readMessage')
 const adminGourd = async(req,res,next) => {
     try{
         let query = `SELECT ${`role`}   
-            FROM ${config().APP_DB_NAME}.user_profile WHERE phone_number=?;`
-        const user = await request(query,[req.user.phone_number],req)
-        if (user[0].role == 2){
+            FROM ${config().APP_DB_NAME}.user_profile WHERE username=?;`
+        const user = await request(query,[req.user.username],req)
+        if (user[0].role == 3){
             next()
         }else{
-            throw new CustomError('You do not have permission to access',responseMessage(27))
+            throw new CustomError('You do not have permission to access',responseMessage(17))
         }
     }catch(err){
         let message = responseMessage(5)

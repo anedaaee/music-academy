@@ -3,15 +3,15 @@ const request = require('../db/request')
 const CustomError = require('../functions/customError')
 const responseMessage = require('../functions/readMessage')
 
-const admitGaurd = async(req,res,next) => {
+const teacherGaurd = async(req,res,next) => {
     try{
-        let query = `SELECT admit  
-            FROM ${config().APP_DB_NAME}.user_profile WHERE phone_number=?;`
-        const user = await request(query,[req.user.phone_number],req)
-        if (user[0].admit == true){
+        let query = `SELECT ${`role`}   
+            FROM ${config().APP_DB_NAME}.user_profile WHERE username=?;`
+        const user = await request(query,[req.user.username],req)
+        if (user[0].role == 2){
             next()
         }else{
-            throw new CustomError('You do not have permission to access',responseMessage(27))
+            throw new CustomError('You do not have permission to access',responseMessage(17))
         }
     }catch(err){
         let message = responseMessage(5)
@@ -24,4 +24,4 @@ const admitGaurd = async(req,res,next) => {
     }
 }
 
-module.exports = admitGaurd
+module.exports = teacherGaurd

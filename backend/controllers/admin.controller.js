@@ -27,3 +27,21 @@ exports.register = async (req,values) => {
         throw err
     }
 }
+
+
+exports.update_user = async (req,values) => {
+    try{
+        let query = `UPDATE music_academy.user_profile
+                            SET ${`role`}=?, name=?, last_name=?, mobile=?, phone=?, email=?, address=?, national_id=?
+                            WHERE username=?;  `
+        await request(query, [values.role,values.name,values.last_name,values.mobile,values.phone,values.email,values.address,values.national_id,values.username],req)
+
+        query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id
+                    FROM music_academy.user_profile
+                    WHERE username =?;`
+        const user = await request(query,[values.username],req)
+
+        return user[0]
+
+    }catch(err){}
+}
