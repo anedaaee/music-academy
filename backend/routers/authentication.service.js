@@ -47,7 +47,7 @@ router.post('/login', async (req, res) => {
             username: Joi.string()
                 .required(),
             password: Joi.string()
-            .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&()])[A-Za-z\d@$!%*#?&()]{8,}$/),
+                .required(),
         })
     
         const value = await schema.validateAsync(req.body)
