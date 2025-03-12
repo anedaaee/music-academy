@@ -288,3 +288,22 @@ exports.refactore_class = async (req,values) => {
     }catch(err){throw err}
 }
 
+
+exports.get_classes = async (req,values) => {
+    try{
+        let query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+            FROM music_academy.music_class;`
+
+        if(values.only_finished && !values.only_not_finished){
+            query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+            FROM music_academy.music_class
+            WHERE is_finish=1;`
+        }else if(values.only_not_finished && !values.only_finished){
+            query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+            FROM music_academy.music_class
+            WHERE is_finish=0;`
+        }
+
+        return await request(query,[],req)
+    }catch(err){throw err}
+}
