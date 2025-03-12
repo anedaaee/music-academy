@@ -697,4 +697,40 @@ router.get('/get-class-sessions',async(req,res) => {
     }
 })
 
+router.get('/get-salary-report',async(req,res) => {
+    try{
+        const schema = Joi.object({
+            teacher : Joi.string()
+                .required(),
+            start_date : Joi.date()
+                .optional(),
+            finish_date : Joi.date()
+                .optional()
+        })
+        const values = await schema.validateAsync(req.query)
+        const result = await adminCtrl.get_salary_report(req,values)
+        
+        res.status(201).send({
+            "metadata": responseMessage(1),
+            "body": {
+                "type": "array",
+                "data": result
+            }
+        })
+    }catch(err){
+        let message = responseMessage(5)
+        if(err.details) {
+            if(err.details[0].path[0] === 'class_id') { message = responseMessage(33)}
+            if(err.details[0].path[0] === 'only_finished') { message = responseMessage(35)}
+            if(err.details[0].path[0] === 'only_not_finished') { message = responseMessage(35)}
+        }
+        if(err.isCustom){
+            message = err.reason
+        }
+        return res.status(400).send({
+            "metadata": message
+        })
+
+    }
+})
 module.exports = router

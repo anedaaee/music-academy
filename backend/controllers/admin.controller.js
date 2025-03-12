@@ -263,7 +263,7 @@ exports.refactore_class = async (req,values) => {
 
         let class_information = await request(query,[values.id],req)
 
-        if(class_information[0].session_left == 0 && class_information[0].absence_left == 0){
+        if(class_information[0].session_left == 0){
             throw new CustomError('There is no available session of absence left',responseMessage(34))
         }
 
@@ -326,13 +326,13 @@ exports.get_class = async (req,values) => {
     }catch(err){throw err}
 }
 
-const update_class_session = async(req,calss_id,status) => {
+const update_class_session = async(req,class_id,status) => {
     try{
         let query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
                     FROM music_academy.music_class
                     WHERE id=?;`
 
-        const class_information = await request(query,[calss_id],req)
+        const class_information = await request(query,[class_id],req)
 
         const info = {
             price:class_information[0].session_price,
@@ -359,7 +359,7 @@ const update_class_session = async(req,calss_id,status) => {
         await request(query,[
             info.session_left
             ,info.absence_left
-            ,calss_id]
+            ,class_id]
         ,req)
 
         
@@ -369,10 +369,42 @@ const update_class_session = async(req,calss_id,status) => {
     }catch(err){throw err}
 }
 
+const check_session_finish = async(req,class_id) => {
+    try{
+        let query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                    FROM music_academy.music_class
+                    WHERE id=?;`
+
+        const class_information = await request(query,[class_id],req)
+
+        if(class_information[0].session_left == 0){
+            query = `UPDATE music_academy.music_class
+                SET is_finish=?
+                WHERE id=?;`
+            await request(query,[true,class_id],req)
+        }
+    }catch(err){throw err}
+}
+
+const check_session_availablity = async(req,class_id) => {
+    try{
+        let query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                    FROM music_academy.music_class
+                    WHERE id=?;`
+
+        const class_information = await request(query,[class_id],req)
+
+        if(class_information[0].is_finish){
+            throw new CustomError('Class hase been finished',responseMessage(41))
+        }
+    }catch(err){throw err}
+}
+
 exports.add_session = async (req,values) => {
     try{
+        await check_session_availablity(req,values.class_id)
         const info = await update_class_session(req,values.class_id,values.status)
-
+        await check_session_finish(req,values.class_id)
         let query = `INSERT INTO music_academy.music_session
                         (class_id, status, price, description, session_date)
                         VALUES(?, ?, ?, ?, ?);`
@@ -502,5 +534,81 @@ exports.get_class_session = async (req,values) => {
         class_info.session = session
 
         return classes_info
+    }catch(err){throw err}
+}
+
+exports.get_salary_report = async (req,values) => {
+    try{
+        await check_role(req,values.teacher,2)
+        let query=`select c_t.class_id,c_t.class_count,c_t.total_earn,s_p.class_count as presence_count,
+                                s_v_a.class_count as valid_absence_count,s_v_i.class_count as invalid_absence_count,
+                                s_s.teacherـsalary,s_s.academyـsalary,s_s.is_payed,s_s.student,s_s.week_day,s_s.houre
+                        FROM
+                            (SELECT class_id ,COUNT(id) as class_count, SUM(price) total_earn
+                            FROM music_academy.music_session s
+                            WHERE class_id IN (SELECT id
+                                                    FROM music_academy.music_class
+                                                    WHERE teacher=?)
+                            AND s.session_date >= ? AND s.session_date  <= ?
+                            GROUP BY class_id) c_t
+                        LEFT JOIN
+                            (SELECT class_id ,COUNT(id) as class_count
+                            FROM music_academy.music_session s
+                            WHERE class_id IN (SELECT id
+                                                    FROM music_academy.music_class
+                                                    WHERE teacher=?)
+                                AND s.status = 'presence'
+                                AND s.session_date >= ? AND s.session_date  <= ?
+                            GROUP BY class_id) s_p
+                        ON c_t.class_id  = s_p.class_id
+                        LEFT JOIN
+                            (SELECT class_id ,COUNT(id) as class_count
+                            FROM music_academy.music_session s
+                            WHERE class_id IN (SELECT id
+                                                    FROM music_academy.music_class
+                                                    WHERE teacher=?)
+                                AND s.status = 'valid_absence'
+                                AND s.session_date >= ? AND s.session_date  <= ?
+                            GROUP BY class_id) s_v_a
+                        ON c_t.class_id  = s_v_a.class_id
+                        LEFT JOIN
+                            (SELECT class_id ,COUNT(id) as class_count
+                            FROM music_academy.music_session s
+                            WHERE class_id IN (SELECT id
+                                                    FROM music_academy.music_class
+                                                    WHERE teacher=?)
+                                AND s.status = 'invalid_absence'
+                                AND s.session_date >= ? AND s.session_date  <= ?
+                            GROUP BY class_id) s_v_i
+                        ON c_t.class_id  = s_v_i.class_id
+                        LEFT JOIN 
+                            (SELECT c.student,c.week_day,c.houre,c.is_payed,s.class_id ,s.class_count, s.total_earn , (s.total_earn * c.teacherـpercentage / 100) as teacherـsalary ,  (s.total_earn * (100 - c.teacherـpercentage) / 100) as academyـsalary
+                                FROM (SELECT class_id ,COUNT(id) as class_count, SUM(price) total_earn
+                                        FROM music_academy.music_session s
+                                        WHERE class_id IN (SELECT id
+                                                                FROM music_academy.music_class
+                                                                WHERE teacher=?)
+                                        AND s.session_date >= ?AND s.session_date  <= ?
+                                        GROUP BY class_id) s
+                                INNER JOIN (SELECT id, teacherـpercentage, is_payed,student,week_day,houre
+                                        FROM music_academy.music_class
+                                        WHERE teacher=? ) c
+                                ON s.class_id = c.id
+                            
+                            ) s_s
+                        ON c_t.class_id  = s_s.class_id
+                        `
+
+        return await request(query,
+                [
+                    values.teacher,values.start_date,values.finish_date,
+                    values.teacher,values.start_date,values.finish_date,
+                    values.teacher,values.start_date,values.finish_date,
+                    values.teacher,values.start_date,values.finish_date,
+                    values.teacher,values.start_date,values.finish_date,
+                    values.teacher
+                ],
+                req
+        )
     }catch(err){throw err}
 }
