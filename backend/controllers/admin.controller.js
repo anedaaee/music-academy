@@ -237,3 +237,23 @@ exports.update_class = async (req,values) => {
         
     }catch(err){throw err}
 }
+
+exports.delete_class = async (req,values) => {
+    try{
+
+        let query = `UPDATE music_academy.music_class
+                SET is_finish=1
+                WHERE id=?;`
+        await request(query,[values.id],req)
+
+        query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+        FROM music_academy.music_class
+        WHERE id=?;`
+
+        const class_information = await request(query,[values.id],req)
+
+        return class_information
+        
+    }catch(err){throw err}
+}
+
