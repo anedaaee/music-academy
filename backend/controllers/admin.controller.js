@@ -121,7 +121,6 @@ exports.get_user = async (req,values) => {
     }catch(err){throw err}
 } 
 
-
 exports.get_users_with_role = async (req,values) => {
     try{
         const query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id
@@ -131,7 +130,6 @@ exports.get_users_with_role = async (req,values) => {
         return await request(query,[values.role],req)
     }catch(err){throw err}
 } 
-
 
 const check_role = async (req,username,role) => {
     try{
@@ -203,7 +201,6 @@ exports.add_class = async (req,values) => {
         
     }catch(err){throw err}
 }
-
 
 exports.update_class = async (req,values) => {
     try{
@@ -288,7 +285,6 @@ exports.refactore_class = async (req,values) => {
     }catch(err){throw err}
 }
 
-
 exports.get_classes = async (req,values) => {
     try{
         let query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
@@ -329,7 +325,6 @@ exports.get_class = async (req,values) => {
         return await request(query,[values.class_id],req)
     }catch(err){throw err}
 }
-
 
 const update_class_session = async(req,calss_id,status) => {
     try{
@@ -397,6 +392,7 @@ exports.add_session = async (req,values) => {
 
     }catch(err){throw err}
 }
+
 const update_class_delete_session = async(req,session_id) => {
     try{
 
@@ -438,5 +434,38 @@ exports.delete_session = async (req,values) => {
 
         await request(query,[values.id],req)
 
+    }catch(err){throw err}
+}
+
+exports.get_classes_session = async (req,values) => {
+    try{
+        let query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+            FROM music_academy.music_class;`
+
+        if(values.only_finished && !values.only_not_finished){
+            query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+            FROM music_academy.music_class
+            WHERE is_finish=1;`
+        }else if(values.only_not_finished && !values.only_finished){
+            query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+            FROM music_academy.music_class
+            WHERE is_finish=0;`
+        }
+
+        const classes_info = await request(query,[],req)
+
+        for(const class_info of classes_info){
+            let query = `SELECT id, class_id, status, price, description, session_date
+                            FROM music_academy.music_session
+                            WHERE class_id=?
+                            ORDER BY session_date ASC;`
+            
+            const session = await request(query,[class_info.id],req)
+
+            class_info.session = session
+
+        }
+
+        return classes_info
     }catch(err){throw err}
 }
