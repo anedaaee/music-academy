@@ -59,8 +59,6 @@ router.get('/get_class',async(req,res) => {
             }
         })
     }catch(err){
-        console.log(err);
-        
         let message = responseMessage(5)
         if(err.details) {
             if(err.details[0].path[0] === 'class_id') { message = responseMessage(33)}

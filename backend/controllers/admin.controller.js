@@ -45,6 +45,65 @@ exports.update_user = async (req,values) => {
     }catch(err){throw err}
 }
 
+const check_user_exist = async(req,username) => {
+    try{
+        const query = `SELECT username
+                            FROM music_academy.user_profile
+                            WHERE username=?;`
+        
+        const users = await request(query,[username],req)
+
+        if(users.length != 1){
+            throw new CustomError('Username dose not exists',responseMessage(8))
+        }
+    }catch(err){throw err}
+}
+
+exports.add_profile = async (req,values) => {
+    try{
+
+        await check_user_exist(req,values.username)
+        if (req.files && req.files['image']){
+
+            const name = req.files['image'].name.split('.')[0]
+            const ext = req.files['image'].name.split('.')[req.files['image'].name.split('.').length-1]
+            const data = req.files['image'].data
+
+            let query = `INSERT INTO music_academy.profile_image
+                            (name, format, blob_data)
+                            VALUES(?,?,?);`
+            
+            await request(query,[name,ext,data],req)
+            
+            query = `SELECT id, name, format, blob_data
+                        FROM music_academy.profile_image
+                        WHERE id IN (SELECT max(id) as latest_input_id
+                                                FROM music_academy.profile_image);`
+
+            const latest_data = await request(query,[],req)
+
+            query = `UPDATE music_academy.user_profile
+                        SET profile_picture=?
+                        WHERE username=?;`
+
+            await request(query,[latest_data[0].id,values.username],req)
+            
+            query = `SELECT up.username, up.is_active, up.${`role`}, up.name, up.last_name, up.mobile, up.phone, up.email, up.address, up.national_id, up.profile_picture 
+                                ,pi.name as picture_name , pi.format as picture_format , pi.blob_data as picture_blob_data
+                            FROM music_academy.user_profile up
+                            LEFT JOIN music_academy.profile_image pi
+                            ON up.profile_picture = pi.id
+                            WHERE up.username=?;`
+
+            const user_data = await request(query,[values.username],req)
+
+            return user_data[0]
+
+        }else{
+            throw new CustomError('Invalid profile picture',responseMessage(45))
+        }
+    }catch(err){throw err}
+}
 exports.delete_user = async (req,values) => {
     try{
         let query = `UPDATE music_academy.user_profile
@@ -129,6 +188,8 @@ exports.get_users_with_role = async (req,values) => {
         return await request(query,[values.role],req)
     }catch(err){throw err}
 } 
+
+
 
 const check_role = async (req,username,role) => {
     try{
