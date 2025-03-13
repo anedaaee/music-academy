@@ -135,6 +135,38 @@ router.post('/add-profile', async(req,res) => {
     }
 })
 
+router.get('/get-profile', async(req,res) => {
+    try{
+        const schema = Joi.object({
+            id: Joi.number()
+                .required(),
+        })
+
+        const values = await schema.validateAsync(req.query)
+        const result = await adminCtrl.get_profile(req,values)
+        
+        res.status(201).send({
+            "metadata": responseMessage(1),
+            "body": {
+                "type": "object",
+                "data": result[0]
+            }
+        })
+    }catch(err){
+        let message = responseMessage(5)
+        if(err.details) {
+            if(err.details[0].path[0] === 'id') { message = responseMessage(46)}
+        }
+        if(err.isCustom){
+            message = err.reason
+        }
+        return res.status(400).send({
+            "metadata": message
+        })
+
+    }
+})
+
 router.delete('/delete-user', async(req,res) => {
     try{
         const schema = Joi.object({
@@ -202,7 +234,6 @@ router.patch('/refactore-user', async(req,res) => {
 
     }
 })
-
 
 router.get('/get-users',async(req,res) => {
     try{

@@ -104,6 +104,17 @@ exports.add_profile = async (req,values) => {
         }
     }catch(err){throw err}
 }
+
+exports.get_profile = async (req,values) => {
+    try{
+        const query = `SELECT id, name, format, blob_data
+                        FROM music_academy.profile_image
+                        WHERE id =?;`
+
+        return await request(query,[values.id],req)
+    }catch(err){throw err}
+}
+
 exports.delete_user = async (req,values) => {
     try{
         let query = `UPDATE music_academy.user_profile
