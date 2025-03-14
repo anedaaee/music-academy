@@ -19,7 +19,7 @@ router.post('/register-user', async(req,res) => {
         const values = await schema.validateAsync(req.body)
         const result = await adminCtrl.register(req,values)
         delete result.password
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -71,7 +71,7 @@ router.patch('/update-user', async(req,res) => {
         const values = await schema.validateAsync(req.body)
         const result = await adminCtrl.update_user(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -113,7 +113,7 @@ router.post('/add-profile', async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await adminCtrl.add_profile(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -145,7 +145,7 @@ router.get('/get-profile', async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await adminCtrl.get_profile(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -179,7 +179,7 @@ router.delete('/delete-user', async(req,res) => {
         const values = await schema.validateAsync(req.body)
         const result = await adminCtrl.delete_user(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -213,7 +213,7 @@ router.patch('/refactore-user', async(req,res) => {
         const values = await schema.validateAsync(req.body)
         const result = await adminCtrl.refactore_user(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -239,7 +239,7 @@ router.get('/get-users',async(req,res) => {
     try{
         const result = await adminCtrl.get_users(req)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "array",
@@ -262,7 +262,7 @@ router.get('/get-users/deleted',async(req,res) => {
     try{
         const result = await adminCtrl.get_deleted_users(req)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "array",
@@ -285,7 +285,7 @@ router.get('/get-users/none-deleted',async(req,res) => {
     try{
         const result = await adminCtrl.get_none_deleted_users(req)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "array",
@@ -316,7 +316,7 @@ router.get('/get-user',async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await adminCtrl.get_user(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -346,7 +346,7 @@ router.get('/get-users/with-role',async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await adminCtrl.get_users_with_role(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "array",
@@ -395,7 +395,7 @@ router.post('/add-class',async(req,res) => {
         const values = await schema.validateAsync(req.body)
         const result = await adminCtrl.add_class(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -455,7 +455,7 @@ router.patch('/update-class',async(req,res) => {
         const values = await schema.validateAsync(req.body)
         const result = await adminCtrl.update_class(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -496,7 +496,7 @@ router.delete('/delete-class',async(req,res) => {
         const values = await schema.validateAsync(req.body)
         const result = await adminCtrl.delete_class(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -527,7 +527,7 @@ router.patch('/refactore-class',async(req,res) => {
         const values = await schema.validateAsync(req.body)
         const result = await adminCtrl.refactore_class(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -560,7 +560,7 @@ router.get('/get_classes',async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await adminCtrl.get_classes(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "array",
@@ -596,7 +596,7 @@ router.get('/get_class',async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await adminCtrl.get_class(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -637,7 +637,7 @@ router.post('/add-session',async(req,res) => {
         const values = await schema.validateAsync(req.body)
         const result = await adminCtrl.add_session(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -671,7 +671,7 @@ router.delete('/delete-session',async(req,res) => {
         const values = await schema.validateAsync(req.body)
         await adminCtrl.delete_session(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1)
         })
     }catch(err){
@@ -700,7 +700,7 @@ router.get('/get-classes-sessions',async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await adminCtrl.get_classes_session(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "array",
@@ -736,7 +736,7 @@ router.get('/get-class-sessions',async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await adminCtrl.get_class_session(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -773,7 +773,7 @@ router.get('/get-salary-report',async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await adminCtrl.get_salary_report(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "array",

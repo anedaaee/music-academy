@@ -29,13 +29,16 @@ export default function Home() {
   const [isError,setIsError] = useState(false)
   const [error,setError] = useState("")
   const [loading,setLoading] = useState(true)
+  const [loginButtonLoading,setLoginButtonLoading] = useState(false)
 
   const fetch_data = async () => {
     try{
       if(localStorage.getItem('mahjoubi.music.academy.token')){
-        const result = await api('get','/user/check-auth',{},localStorage.getItem('mahjoubi.music.academy.token'))
+        const result = await api('get','/user/who',{},localStorage.getItem('mahjoubi.music.academy.token'))
         if(result.status == 200){
-          //go to main page
+          if(result.data.body.data.role == 3){
+            window.location.href ='/views/admin'
+          }
         }
       }
       
@@ -55,14 +58,20 @@ export default function Home() {
   },[])
 
   const login = async (e) => {
+    setLoginButtonLoading(true)
     try{
       e.preventDefault()
+      
       const result = await api('post','/auth/login',{
         username:username,
         password:password
       })
-      if(result.status == 200){
+      if(result.status == 201){
         localStorage.setItem('mahjoubi.music.academy.token',result.data.body.data.token.token)
+        if(result.data.body.data.role == 3){
+          window.location.href ='/views/admin'
+        }
+        
       }else{ 
         if(isError){
           setIsError(false)
@@ -79,6 +88,7 @@ export default function Home() {
       setError(app_config.ERROR_MESSAGE)
       setTimeout(() => setIsError(false), 10000);
     }
+    setLoginButtonLoading(false)
   }
 
   return (
@@ -132,7 +142,8 @@ export default function Home() {
                   color: "violet.contrastText", 
                   '&:hover': { bgcolor: "violet.dark" } 
                   }}
-                  onClick={(e) => login(e)}>
+                  onClick={(e) => login(e)}
+                  loading={loginButtonLoading}>
                 ورود
               </Button>
               <Typography variant="body2" sx={{ mt: 1 }}>

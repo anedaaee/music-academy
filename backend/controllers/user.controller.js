@@ -255,3 +255,13 @@ exports.get_profile = async (req,values) => {
         return await request(query,[values.id],req)
     }catch(err){throw err}
 }
+
+exports.who= async (req) => {
+    try{
+        const query = `SELECT username, password, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id, profile_picture
+                FROM music_academy.user_profile
+                WHERE username=?;`
+
+        return await request(query,[req.user.username],req)
+    }catch(err){throw err}
+}

@@ -15,7 +15,7 @@ router.get('/get_classes',async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await teacherCtrl.get_classes(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "array",
@@ -51,7 +51,7 @@ router.get('/get_class',async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await teacherCtrl.get_class(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -86,7 +86,7 @@ router.get('/get-classes-sessions',async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await teacherCtrl.get_classes_session(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "array",
@@ -122,7 +122,7 @@ router.get('/get-class-sessions',async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await teacherCtrl.get_class_session(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -157,7 +157,7 @@ router.get('/get-salary-report',async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await teacherCtrl.get_salary_report(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "array",
@@ -203,7 +203,7 @@ router.patch('/update-profile', async(req,res) => {
         const values = await schema.validateAsync(req.body)
         const result = await teacherCtrl.update_user(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -237,7 +237,7 @@ router.post('/add-profile', async(req,res) => {
 
         const result = await teacherCtrl.add_profile(req)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",
@@ -266,7 +266,7 @@ router.get('/get-profile', async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await teacherCtrl.get_profile(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",

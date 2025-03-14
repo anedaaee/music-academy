@@ -54,7 +54,7 @@ router.post('/login', async (req, res) => {
            
         const result = await authCtrl.login(req,value)
 
-        res.status(200).send({
+        res.status(201).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "object",

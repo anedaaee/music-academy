@@ -30,7 +30,7 @@ export default function Register() {
   const [isError,setIsError] = useState(false)
   const [error,setError] = useState("")
   const [loading,setLoading] = useState(true)
-
+  const [registerButtonLoading,setRegisterButtonLoading] = useState(false)
   const fetch_data = async () => {
     try{
       if(localStorage.getItem('mahjoubi.music.academy.token')){
@@ -57,6 +57,7 @@ export default function Register() {
   },[])
 
   const register = async (e) => {
+    setRegisterButtonLoading(true)
     try{
       e.preventDefault()
       const result = await api('post','/auth/register',{
@@ -81,6 +82,7 @@ export default function Register() {
       setError(app_config.ERROR_MESSAGE)
       setTimeout(() => setIsError(false), 10000);
     }
+    setRegisterButtonLoading(false)
   }
 
   return (
@@ -134,8 +136,9 @@ export default function Register() {
                   color: "violet.contrastText", 
                   '&:hover': { bgcolor: "violet.dark" } 
                   }}
-                  onClick={(e) => register(e)}>
-                ورود
+                  onClick={(e) => register(e)}
+                  loading={registerButtonLoading}>
+                ثبت نام
               </Button>
               <Typography variant="body2" sx={{ mt: 1 }}>
                 حساب کاربری دارید؟ 
