@@ -4,6 +4,22 @@ const userCtrl = require('../controllers/user.controller')
 const router = new express.Router()
 const responseMessage = require('../functions/readMessage')
 
+router.get('/check-auth',async(req,res) => {
+    try{
+        res.status(200).send({
+            "metadata": responseMessage(1)
+        })
+    }catch(err){
+        let message = responseMessage(5)
+        if(err.isCustom){
+            message = err.reason
+        }
+        return res.status(400).send({
+            "metadata": message
+        })
+    }
+})
+
 router.get('/get_classes',async(req,res) => {
     try{
         const schema = Joi.object({
@@ -15,7 +31,7 @@ router.get('/get_classes',async(req,res) => {
         const values = await schema.validateAsync(req.query)
         const result = await userCtrl.get_classes(req,values)
         
-        res.status(201).send({
+        res.status(200).send({
             "metadata": responseMessage(1),
             "body": {
                 "type": "array",
