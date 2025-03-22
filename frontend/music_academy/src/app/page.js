@@ -78,6 +78,7 @@ export default function Home() {
         }
         setIsError(true)
         setError(result.data.metadata.err_persian)
+        setTimeout(() => setIsError(false), 10000);
       }
       
     }catch(err){

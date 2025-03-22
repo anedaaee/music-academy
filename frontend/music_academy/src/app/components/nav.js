@@ -1,7 +1,7 @@
 import { Box,createTheme, alpha, getContrastRatio, Grid2,useMediaQuery
     , Typography,IconButton } from "@mui/material";
   import { useState } from "react";
-  import {Class,ClassOutlined,People,PeopleOutline,School,SchoolOutlined,ManageAccounts,ManageAccountsOutlined} from '@mui/icons-material'
+  import {Class,ClassOutlined,People,PeopleOutline,School,SchoolOutlined,ManageAccounts,ManageAccountsOutlined,AdminPanelSettings,AdminPanelSettingsOutlined} from '@mui/icons-material'
   
 
 
@@ -78,6 +78,28 @@ const Nav = ({ onChangeState}) => {
                     {
                     !isMobile?
                         <Typography sx={{color:state=='teachers'?theme.palette.violet.main:'#000',margin:"10px"}}>اساتید</Typography>
+                    :null
+                    }
+                </Box>
+            </IconButton>
+            <IconButton onClick={() => changeState('admins')} sx={{"&:hover": {
+                backgroundColor: theme.palette.violet.light,
+                borderRadius:"5px",
+                transition: "0.3s"}
+            }}> 
+                <Box sx={{display:"flex"
+                        ,justifyContent:"center"
+                        ,alignItems:"center"
+                        ,padding:"10px"}}>
+                    {
+                    state=='admins'?
+                        <School sx={{color:theme.palette.violet.main,fontSize:40}}/>
+                    :
+                        <SchoolOutlined sx={{color:theme.palette.violet.main,fontSize:40}}/>
+                    }
+                    {
+                    !isMobile?
+                        <Typography sx={{color:state=='admins'?theme.palette.violet.main:'#000',margin:"10px"}}>مدیران</Typography>
                     :null
                     }
                 </Box>

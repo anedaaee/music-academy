@@ -141,7 +141,7 @@ exports.refactore_user = async (req,values) => {
 
         await request(query,[values.username],req)
 
-        query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id
+        query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id,profile_picture
                     FROM music_academy.user_profile
                     WHERE username =?;`
         const user = await request(query,[values.username],req)
@@ -151,52 +151,74 @@ exports.refactore_user = async (req,values) => {
     }catch(err){throw err}
 }
 
+const attach_profile = async(users,req) => {
+
+    try{
+        for(const user of users){
+            if(user.profile_picture){
+                const query = `SELECT id, name, format, blob_data
+                                FROM music_academy.profile_image
+                                WHERE id =?;`
+        
+                const profile =  await request(query,[user.profile_picture],req)
+                user.profile = profile[0]
+            }
+        }
+        return users
+    }catch(err){throw err}
+
+}
 exports.get_users = async (req) => {
     try{
-        const query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id
+        const query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id,profile_picture
                     FROM music_academy.user_profile;`
 
-        return await request(query,[],req)
+        const users =  await request(query,[],req)
+        return await attach_profile(users,req)
     }catch(err){throw err}
 } 
 
 exports.get_deleted_users = async (req) => {
     try{
-        const query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id
+        const query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id,profile_picture
                     FROM music_academy.user_profile
                     WHERE is_active = 0;`
 
-        return await request(query,[],req)
+        const users =  await request(query,[],req)
+        return await attach_profile(users,req)
     }catch(err){throw err}
 } 
 
 exports.get_none_deleted_users = async (req) => {
     try{
-        const query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id
+        const query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id,profile_picture
                     FROM music_academy.user_profile
                     WHERE is_active = 1;`
 
-        return await request(query,[],req)
+        const users =  await request(query,[],req)
+        return await attach_profile(users,req)
     }catch(err){throw err}
 } 
 
 exports.get_user = async (req,values) => {
     try{
-        const query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id
+        const query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id,profile_picture
                     FROM music_academy.user_profile
                     WHERE username=?;`
 
-        return await request(query,[values.username],req)
+        const users =  await request(query,[values.username],req)
+        return await attach_profile(users,req)
     }catch(err){throw err}
 } 
 
 exports.get_users_with_role = async (req,values) => {
     try{
-        const query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id
+        const query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id,profile_picture
                     FROM music_academy.user_profile
                     WHERE is_active = 1 AND ${'`role`'}=?;`        
         
-        return await request(query,[values.role],req)
+        const users =  await request(query,[values.role],req)
+        return await attach_profile(users,req)
     }catch(err){throw err}
 } 
 
