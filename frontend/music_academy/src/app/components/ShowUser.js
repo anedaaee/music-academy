@@ -62,12 +62,7 @@ const ShowUser = ({username,onError,onClose}) => {
             if(result.status == 200){
                 setUser(result.data.body.data)
             }else{
-                if(isError){
-                setIsError(false)
-                }
-                setIsError(true)
-                setError(result.data.metadata.err_persian)
-                setTimeout(() => setIsError(false), 10000);
+                onError(result.data.metadata.err_persian)
             }
         }catch(err){
             throw err
@@ -304,7 +299,10 @@ const ShowUser = ({username,onError,onClose}) => {
                             <GetAvatar user={user}/>
                         </Grid2> 
                         <Grid2 item size={{xs:12,md:12}}>
-                            <TextField  fullWidth sx={input_style} label='نام کاربری' placeholder='نام کاربری' defaultValue={user.username} onChange={(e) => onChange(e.target.value,'username')}/>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <AccountCircle sx={{color:theme.palette.violet.light}}/>
+                                <h3 style={{marginLeft:'10px',color:theme.palette.primary.light}}>نام کاربری : <span style={{color:'#939393',fontWeight:'lighter',color:theme.palette.primary.dark}}>{user.username}</span></h3>
+                            </Box>
                         </Grid2>
                         <Grid2 item size={{xs:12,md:6}}>
                             <TextField  fullWidth sx={input_style} label='نام' placeholder='نام' defaultValue={user.name} onChange={(e) => onChange(e.target.value,'name')}/>

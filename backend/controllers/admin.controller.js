@@ -263,6 +263,24 @@ const check_confilict = async (req,teacher,week_day,houre) => {
     }catch(err){throw err}
 }
 
+const check_confilict_update = async (req,teacher,week_day,houre,id) => {
+    try{
+        const query = `SELECT id
+                FROM music_academy.music_class
+                WHERE teacher=? 
+                    AND week_day=?
+                    AND houre=?
+                    AND is_finish=0
+                    AND id !=?;`
+        const classes = await request(query,[teacher,week_day,houre,id],req)
+
+        if(classes.length !== 0){
+            throw new CustomError('This class conflicts with another class.',responseMessage(32))
+        }
+    }catch(err){throw err}
+}
+
+
 exports.add_class = async (req,values) => {
     try{
         await check_role(req,values.teacher,2)
@@ -303,7 +321,7 @@ exports.update_class = async (req,values) => {
     try{
         await check_role(req,values.teacher,2)
         await check_role(req,values.student,1)
-        await check_confilict(req,values.teacher,values.week_day,values.houre)
+        await check_confilict_update(req,values.teacher,values.week_day,values.houre,values.id)
         
         let query = `UPDATE music_academy.music_class
                 SET teacher=?, student=?, session_price=?, week_day=?, houre=?, duration=?, session_left=?, absence_left=?, is_payed=?, teacherـpercentage=?
@@ -321,13 +339,17 @@ exports.update_class = async (req,values) => {
             ,values.id]
         ,req)
 
-        query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
-                    FROM music_academy.music_class
-                    WHERE id=?;`
+        query = `SELECT id,CONCAT(t.name ,' ',t.last_name)  as teacher_name,CONCAT(t_2.name,' ',t_2.last_name) as student_name, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                FROM music_academy.music_class c
+                INNER JOIN music_academy.user_profile t
+                ON c.teacher = t.username
+                INNER JOIN music_academy.user_profile t_2
+                ON c.student = t_2.username
+                WHERE id=?;`
 
         const class_information = await request(query,[values.id],req)
         
-        return class_information
+        return class_information[0]
         
     }catch(err){throw err}
 }
@@ -340,13 +362,17 @@ exports.delete_class = async (req,values) => {
                 WHERE id=?;`
         await request(query,[values.id],req)
 
-        query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
-        FROM music_academy.music_class
-        WHERE id=?;`
+        query = `SELECT id,CONCAT(t.name ,' ',t.last_name)  as teacher_name,CONCAT(t_2.name,' ',t_2.last_name) as student_name, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                FROM music_academy.music_class c
+                INNER JOIN music_academy.user_profile t
+                ON c.teacher = t.username
+                INNER JOIN music_academy.user_profile t_2
+                ON c.student = t_2.username
+                WHERE id=?;`
 
         const class_information = await request(query,[values.id],req)
 
-        return class_information
+        return class_information[0]
         
     }catch(err){throw err}
 }
@@ -371,13 +397,17 @@ exports.refactore_class = async (req,values) => {
                 WHERE id=?;`
         await request(query,[values.id],req)
 
-        query = `SELECT id, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
-        FROM music_academy.music_class
-        WHERE id=?;`
+        query = `SELECT id,CONCAT(t.name ,' ',t.last_name)  as teacher_name,CONCAT(t_2.name,' ',t_2.last_name) as student_name, teacher, student, session_price, week_day, houre, duration, session_left, absence_left, is_finish, is_payed, teacherـpercentage
+                FROM music_academy.music_class c
+                INNER JOIN music_academy.user_profile t
+                ON c.teacher = t.username
+                INNER JOIN music_academy.user_profile t_2
+                ON c.student = t_2.username
+                WHERE id=?;`
 
         class_information = await request(query,[values.id],req)
 
-        return class_information
+        return class_information[0]
         
     }catch(err){throw err}
 }

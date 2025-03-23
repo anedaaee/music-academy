@@ -9,6 +9,7 @@ import Nav from "@/app/components/nav";
 import ShowUsers from '@/app/components/ShowUsers'
 import ShowUser from "@/app/components/ShowUser";
 import ShowClasses from "@/app/components/ShowClasses";
+import ShowClass from "@/app/components/ShowClass";
 import app_config from "@/config/config";
 
 
@@ -226,6 +227,10 @@ export default function Home() {
     setShowClassId(id)
   }
 
+  const handleOnCloseClass = async() => {
+    setEditClass(false)
+  }
+
   useEffect(() => {
     try{ 
       fetch()
@@ -290,6 +295,11 @@ export default function Home() {
         {
           editUser?
             <ShowUser username={showUserUsername} onError={(message) => handleOnError(message)} onClose={() => handleOnCloseUser()}/>
+          :null
+        }
+        {
+          editClass?
+            <ShowClass id={showclassId} onError={(message) => handleOnError(message)} onClose={() => handleOnCloseClass()}/>
           :null
         }
       </Box>
