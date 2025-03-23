@@ -3,7 +3,7 @@
 import { Box,createTheme, alpha, getContrastRatio, Avatar,TextField,IconButton} from "@mui/material";
 import { useEffect, useState } from "react";
 
-import {Check,Close,Edit} from '@mui/icons-material'
+import {Check,Close,Edit,Add} from '@mui/icons-material'
 import { DataGrid,GridToolbarContainer } from "@mui/x-data-grid";
 
 
@@ -121,6 +121,13 @@ const ShowUsers = (props) => {
                 },
             }}
           />
+          <IconButton onClick={(e) => props.onAdd()} sx={{"&:hover": {
+                        backgroundColor: theme.palette.violet.light,
+                        borderRadius:"5px",
+                        transition: "0.3s"}
+                    }}>
+                        <Add/>
+          </IconButton>
         </GridToolbarContainer>
         )
     };

@@ -11,6 +11,7 @@ import ShowUser from "@/app/components/ShowUser";
 import ShowClasses from "@/app/components/ShowClasses";
 import ShowClass from "@/app/components/ShowClass";
 import AddClass from "@/app/components/addClass";
+import AddUser from "@/app/components/addUser";
 import app_config from "@/config/config";
 
 
@@ -51,6 +52,7 @@ export default function Home() {
   const [editUser,setEditUser] = useState(false)
   const [editClass,setEditClass] = useState(false)
   const [addClass,setAddClass] = useState(false)
+  const [addUser,setAddUser] = useState(false)
   const [showUserUsername,setShowUserUsername] = useState('')
   const [showclassId,setShowClassId] = useState('')
 
@@ -239,6 +241,12 @@ export default function Home() {
     setAddClass(false)
     //window.location.reload()
   }
+
+  const handleOnCloseAddUser = async() => {
+    setAddUser(false)
+    //window.location.reload()
+  }
+
   useEffect(() => {
     try{ 
       fetch()
@@ -277,13 +285,13 @@ export default function Home() {
                 <Grid2 item xs={12} sm={8} sx={{width:isMobile?"100":"87%", height: isMobile? "90vh":"100vh",display:"flex",justifyContent:"center",alignItems:"center"}}>
                   {
                     state === 'teachers'?
-                      <ShowUsers input_users={teachers} key="teachers" onEdit={handleOnEditUser}/>
+                      <ShowUsers input_users={teachers} key="teachers" onEdit={handleOnEditUser} onAdd={() => setAddUser(true)}/>
                     :(
                       state === 'admins'?
-                        <ShowUsers input_users={admins} key="admins" onEdit={handleOnEditUser}/>
+                        <ShowUsers input_users={admins} key="admins" onEdit={handleOnEditUser} onAdd={() => setAddUser(true)}/>
                       :(
                         state==='users'?
-                          <ShowUsers input_users={users} key="users" onEdit={handleOnEditUser}/>
+                          <ShowUsers input_users={users} key="users" onEdit={handleOnEditUser} onAdd={() => setAddUser(true)}/>
                         :(
                           state ==='classes'?
                             <ShowClasses input_classes={classes} onDelete={onDeleteClasses} onEdit={handleOnEditClasses} onAdd={() => setAddClass(true)}/>
@@ -313,6 +321,11 @@ export default function Home() {
         {
           addClass?
             <AddClass onClose={() => handleOnCloseAddClass()} onError={(message) => handleOnError(message)}/>
+          :null
+        }
+        {
+          addUser?
+            <AddUser onClose={() => handleOnCloseAddUser()} onError={(message) => handleOnError(message)}/>
           :null
         }
       </Box>

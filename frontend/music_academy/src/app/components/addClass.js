@@ -1,7 +1,7 @@
 "use client";
-import { Grid2,Avatar,Input,Box,Button,createTheme,alpha,getContrastRatio,CardContent,LinearProgress,TextField,Select,MenuItem, IconButton,FormControlLabel,Checkbox,ListItem,ListItemText,Paper,List,InputLabel,FormControl,Autocomplete} from "@mui/material";
-import { Info,AccountCircle,Phone,Email,QrCode,LocationOn,Close,CalendarToday,Watch,HourglassBottom,Check ,Percent,Paid} from "@mui/icons-material";
-import { useRef,useEffect,useState } from "react";
+import { Grid2,Box,Button,createTheme,alpha,getContrastRatio,CardContent,LinearProgress,TextField,Select,MenuItem, IconButton,FormControlLabel,Checkbox,Autocomplete} from "@mui/material";
+import { Close} from "@mui/icons-material";
+import { useEffect,useState } from "react";
 import app_config from "@/config/config";
 import api from "@/function/api";
 
@@ -117,19 +117,6 @@ const AddClass = ({onClose,onError}) => {
     const addClass = async() => {
         setAddLoading(true)
         try{
-            // const data ={
-            //     id:class_.id,
-            //     teacher : class_.teacher,
-            //     student : class_.student,
-            //     session_price : class_.session_price,
-            //     week_day : class_.week_day,
-            //     houre : class_.houre,
-            //     duration: class_.duration,
-            //     session_left:class_.session_left,
-            //     absence_left: class_.absence_left,
-            //     is_payed : class_.is_payed==1?true:false,
-            //     teacherـpercentage : class_.teacherـpercentage
-            // }
             const result = await api('post',`/admin/add-class`,class_,localStorage.getItem('mahjoubi.music.academy.token'))
             if(result.status == 200){
                 onClose()
@@ -295,7 +282,7 @@ const AddClass = ({onClose,onError}) => {
                         </Grid2>
                         <Grid2 item size={{xs:12,md:6}}>
                             <Button variant='contained' loading={addLoading} sx={{ marginRight: 3.5 }} onClick={(e) => addClass()}>
-                                ویرایش
+                                تایید
                             </Button>
                         </Grid2>
                     </Grid2>
