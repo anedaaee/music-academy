@@ -2,7 +2,7 @@ import axios from "axios";
 
 import app_config from "@/config/config"
 
-const api = async (method,url,data,token) => {
+const api = async (method,url,data,token,contentType) => {
     try{
         let config = {
             method : method,
@@ -10,7 +10,7 @@ const api = async (method,url,data,token) => {
             maxBodyLength: Infinity,
             data:data,
             headers:{
-                "Content-Type": "application/json",
+                "Content-Type": contentType?contentType:"application/json",
                 ...(token && {Authorization:token})
             }
         }

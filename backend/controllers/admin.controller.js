@@ -35,12 +35,12 @@ exports.update_user = async (req,values) => {
                             WHERE username=?;  `
         await request(query, [values.role,values.name,values.last_name,values.mobile,values.phone,values.email,values.address,values.national_id,values.username],req)
 
-        query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id
+        query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id,profile_picture
                     FROM music_academy.user_profile
                     WHERE username =?;`
         const user = await request(query,[values.username],req)
-
-        return user[0]
+        const attached_user = await attach_profile(user,req)
+        return attached_user[0]
 
     }catch(err){throw err}
 }
@@ -63,6 +63,7 @@ exports.add_profile = async (req,values) => {
     try{
 
         await check_user_exist(req,values.username)
+        
         if (req.files && req.files['image']){
 
             const name = req.files['image'].name.split('.')[0]
@@ -97,7 +98,8 @@ exports.add_profile = async (req,values) => {
 
             const user_data = await request(query,[values.username],req)
 
-            return user_data[0]
+            const attached_user = await attach_profile(user_data,req)
+            return attached_user[0]
 
         }else{
             throw new CustomError('Invalid profile picture',responseMessage(45))
@@ -123,12 +125,13 @@ exports.delete_user = async (req,values) => {
 
         await request(query,[values.username],req)
 
-        query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id
+        query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id,profile_picture
                     FROM music_academy.user_profile
                     WHERE username =?;`
         const user = await request(query,[values.username],req)
 
-        return user[0]
+        const attached_user = await attach_profile(user,req)
+        return attached_user[0]
         
     }catch(err){throw err}
 }
@@ -146,7 +149,8 @@ exports.refactore_user = async (req,values) => {
                     WHERE username =?;`
         const user = await request(query,[values.username],req)
 
-        return user[0]
+        const attached_user = await attach_profile(user,req)
+        return attached_user[0]
         
     }catch(err){throw err}
 }

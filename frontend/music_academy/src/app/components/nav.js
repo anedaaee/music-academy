@@ -93,9 +93,9 @@ const Nav = ({ onChangeState}) => {
                         ,padding:"10px"}}>
                     {
                     state=='admins'?
-                        <School sx={{color:theme.palette.violet.main,fontSize:40}}/>
+                        <AdminPanelSettings sx={{color:theme.palette.violet.main,fontSize:40}}/>
                     :
-                        <SchoolOutlined sx={{color:theme.palette.violet.main,fontSize:40}}/>
+                        <AdminPanelSettingsOutlined sx={{color:theme.palette.violet.main,fontSize:40}}/>
                     }
                     {
                     !isMobile?

@@ -2,11 +2,13 @@
 
 import { Box,createTheme, alpha, getContrastRatio,
    CircularProgress, Grid2,ThemeProvider
-  ,Paper,useMediaQuery,Alert}  from "@mui/material";
-import { useEffect, useState } from "react";
+  ,useMediaQuery,Alert,CardContent,
+  LinearProgress}  from "@mui/material";
+import { useEffect, useState} from "react";
 import api from "@/function/api";
 import Nav from "@/app/components/nav";
 import ShowUsers from '@/app/components/ShowUsers'
+import ShowUser from "@/app/components/ShowUser";
 import app_config from "@/config/config";
 
 
@@ -16,6 +18,13 @@ const violetMain = alpha(violetBase, 0.7);
 const theme = createTheme({
   palette: {
     violet: {
+      main: violetMain,
+      light: alpha(violetBase, 0.2),
+      dark: alpha(violetBase, 0.9),
+      contrastText: getContrastRatio(violetMain, '#fff') > 4.5 ? '#fff' : '#111',
+      text : '#451f6d'
+    },
+    primary: {
       main: violetMain,
       light: alpha(violetBase, 0.2),
       dark: alpha(violetBase, 0.9),
@@ -36,8 +45,14 @@ export default function Home() {
   const [users,setUsers] = useState([])
   const [teachers,setTeachers] = useState([])
   const [admins,setAdmins] = useState([])
+  const [editUser,setEditUser] = useState(false)
+
+  const [showUserUsername,setShowUserUsername] = useState('')
+  
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+
 
   const fetch_data = async () => {
     try{
@@ -115,6 +130,7 @@ export default function Home() {
     }
   }
 
+
   const fetch = async () => {
     try{
       await fetch_data()
@@ -123,25 +139,43 @@ export default function Home() {
       await fetch_admins()
       setLoading(false)
     }catch(err){
-      if(isError){
-        setIsError(false)
-      }
-      setIsError(true)
-      setError(app_config.ERROR_MESSAGE)
-      setTimeout(() => setIsError(false), 10000);
+      throw err
     }
+  }
+
+  const handleOnEditUser = async(e,username) => {
+    setEditUser(true)
+    setShowUserUsername(username)
+  }
+
+  const handleOnError = async(message) => {
+    if(isError){
+      setIsError(false)
+    }
+    setIsError(true)
+    setError(message)
+    setTimeout(() => setIsError(false), 10000);
+  }
+  
+  const handleOnCloseUser = async() => {
+    setEditUser(false)
   }
 
   useEffect(() => {
     try{ 
       fetch()
     }catch(err){
-
+      if(isError){
+        setIsError(false)
+      }
+      setIsError(true)
+      setError(app_config.ERROR_MESSAGE)
+      setTimeout(() => setIsError(false), 10000);
     }finally{
     }
   },[])
 
-
+  
  
 
   return (
@@ -151,7 +185,6 @@ export default function Home() {
           height: "100vh",
           width: "100vw",
           display: "flex",
-          display: "flex",
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: "#f5f5f5",
@@ -159,20 +192,20 @@ export default function Home() {
       >
         {
             loading?
-            <CircularProgress/>
+            <CircularProgress color="primary"/>
             :
             (
               <Grid2 container spacing={2} direction={isMobile ? "column" : "row-reverse"} sx={{width:"100%",height:"100"}}>
-                <Grid2 item xs={12} sm={8} sx={{width:isMobile?"100":"87%", height: isMobile? "94.5vh":"100vh",display:"flex",justifyContent:"center",alignItems:"center"}}>
+                <Grid2 item xs={12} sm={8} sx={{width:isMobile?"100":"87%", height: isMobile? "90vh":"100vh",display:"flex",justifyContent:"center",alignItems:"center"}}>
                   {
                     state === 'teachers'?
-                      <ShowUsers input_users={teachers} key="teachers"/>
+                      <ShowUsers input_users={teachers} key="teachers" onEdit={handleOnEditUser}/>
                     :(
                       state === 'admins'?
-                        <ShowUsers input_users={admins} key="admins"/>
+                        <ShowUsers input_users={admins} key="admins" onEdit={handleOnEditUser}/>
                       :(
                         state==='users'?
-                          <ShowUsers input_users={users} key="users"/>
+                          <ShowUsers input_users={users} key="users" onEdit={handleOnEditUser}/>
                         :null
                       )
                     )
@@ -184,6 +217,11 @@ export default function Home() {
                 }}/>
               </Grid2>
             )
+        }
+        {
+          editUser?
+            <ShowUser username={showUserUsername} onError={(message) => handleOnError(message)} onClose={() => handleOnCloseUser()}/>
+          :null
         }
       </Box>
       {

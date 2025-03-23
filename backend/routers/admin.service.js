@@ -50,22 +50,37 @@ router.patch('/update-user', async(req,res) => {
                 .max(16)
                 .required(),
             role: Joi.number()
-                .optional(),
+                .optional()
+                .allow(null),
             name: Joi.string()
-                .optional(),
+                .optional()
+                .allow(null)
+                .empty(''),
             last_name: Joi.string()
-                .optional(),
+                .optional()
+                .allow(null)
+                .empty(''),
             mobile: Joi.string()
-                .optional(),
+                .optional()
+                .allow(null)
+                .empty(''),
             phone: Joi.string()
-                .optional(),
+                .optional()
+                .allow(null)
+                .empty(''),
             email:Joi.string()
                 .email()
-                .optional(),
+                .optional()
+                .allow(null)
+                .empty(''),
             address:Joi.string()
-                .optional(),
+                .optional()
+                .allow(null)
+                .empty(''),
             national_id:Joi.string()
                 .optional()
+                .allow(null)
+                .empty('')
         })
 
         const values = await schema.validateAsync(req.body)
@@ -79,6 +94,8 @@ router.patch('/update-user', async(req,res) => {
             }
         })
     }catch(err){
+        console.log(err);
+        
         let message = responseMessage(5)
         if(err.details) {
             if(err.details[0].path[0] === 'username') { message = responseMessage(8)}
@@ -109,7 +126,7 @@ router.post('/add-profile', async(req,res) => {
                 .max(16)
                 .required(),
         })
-
+        
         const values = await schema.validateAsync(req.query)
         const result = await adminCtrl.add_profile(req,values)
         
