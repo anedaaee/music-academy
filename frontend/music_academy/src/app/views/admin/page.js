@@ -188,8 +188,6 @@ export default function Home() {
 
   const onDeleteClasses = async(id,type) => {
     try{
-      console.log(id);
-      
       if(type=='delete'){
         const result = await api('delete','/admin/delete-class',{id:id},localStorage.getItem('mahjoubi.music.academy.token'))
         if(result.status == 200){

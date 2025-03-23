@@ -396,7 +396,7 @@ const ShowUser = ({username,onError,onClose}) => {
                                 <h3 style={{color:theme.palette.primary.light}}>آدرس : <span style={{color:'#939393',fontWeight:'lighter',color:theme.palette.primary.dark}}>{user.address?user.address:'---'}</span></h3>
                             </Box>
                         </Grid2>
-                        <Grid2 item size={{xs:12,md:12}}>
+                        <Grid2 item size={{xs:12,md:6}}>
                         {
                             user.is_active?
                             <Button variant='contained' loading={deleteLoading} style={{backgroundColor:'transparent',border:'1px solid red',color:'red'}} sx={{ marginRight: 3.5 }} onClick={(e) => deleteUser()}>حذف</Button>
@@ -404,11 +404,20 @@ const ShowUser = ({username,onError,onClose}) => {
                             <Button variant='contained' loading={deleteLoading} style={{backgroundColor:'transparent',border:'1px solid green',color:'green'}} sx={{ marginRight: 3.5 }} onClick={(e) => refactoreUser()}>بازسازی</Button>
                         }
                         </Grid2>
-                        <Grid2 item size={{xs:12,md:12}}>
+                        <Grid2 item size={{xs:12,md:6}}>
                             <Button variant='contained'  sx={{ marginRight: 3.5 }} onClick={(e) => setEditMode(true)}>
                                 ویرایش
                             </Button>
                         </Grid2>
+                        {
+                            user.role==2?
+                                <Grid2 item size={{xs:12,md:12}}>
+                                    <Button variant='contained'  sx={{ marginRight: 3.5 }} onClick={(e) => {window.location.href=`/views/show_classes?teacher=${user.username}`}}>
+                                        کلاس ها
+                                    </Button>
+                                </Grid2>
+                            :null
+                        }
                     </Grid2>
                 </form>
             }

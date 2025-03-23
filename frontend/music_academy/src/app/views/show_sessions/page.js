@@ -2,20 +2,13 @@
 
 import { Box,createTheme, alpha, getContrastRatio,
    CircularProgress, Grid2,ThemeProvider,IconButton
-  ,useMediaQuery,Alert}  from "@mui/material";
-import { Info,AccountCircle,Close,CalendarToday,Watch,HourglassBottom,Check ,Percent,Paid,Delete,Add} from "@mui/icons-material";
+  ,Alert}  from "@mui/material";
+import { Info,AccountCircle,Home,CalendarToday,Watch,HourglassBottom,Check ,Percent,Paid,Delete,Add} from "@mui/icons-material";
 import { DataGrid,GridToolbarContainer } from "@mui/x-data-grid";
 import { useEffect, useState} from "react";
 import api from "@/function/api";
 import moment from "jalali-moment";
 import AddSession from "@/app/components/addSession";
-import Nav from "@/app/components/nav";
-import ShowUsers from '@/app/components/ShowUsers'
-import ShowUser from "@/app/components/ShowUser";
-import ShowClasses from "@/app/components/ShowClasses";
-import ShowClass from "@/app/components/ShowClass";
-import AddClass from "@/app/components/addClass";
-import AddUser from "@/app/components/addUser";
 import app_config from "@/config/config";
 
 
@@ -195,6 +188,15 @@ export default function ShowSessions() {
 
   return (
     <ThemeProvider theme={theme}>
+      <Box sx={{backgroundColor:"#f5f5f5"}}>
+      <IconButton onClick={(e) => {window.location.href='/views/admin'}} sx={{"&:hover": {
+            backgroundColor: theme.palette.violet.light,
+            borderRadius:"5px",
+            transition: "0.3s"}
+        }}>
+            <Home sx={{color:theme.palette.primary.dark}}/>
+        </IconButton>
+      </Box>
         <Box
         sx={{
           height: "100vh",
@@ -205,6 +207,7 @@ export default function ShowSessions() {
           backgroundColor: "#f5f5f5",
         }}
       >
+        
         {
             loading?
             <CircularProgress color="primary"/>
