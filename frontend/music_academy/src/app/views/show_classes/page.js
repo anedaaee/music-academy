@@ -3,12 +3,9 @@
 import { Box,createTheme, alpha, getContrastRatio,
    CircularProgress, Grid2,ThemeProvider,IconButton,Avatar
   ,Alert}  from "@mui/material";
-import { Info,AccountCircle,Home,CalendarToday,Watch,HourglassBottom,Check ,Percent,Paid,Delete,Add,Phone,Email,QrCode,LocationOn} from "@mui/icons-material";
-import { DataGrid,GridToolbarContainer } from "@mui/x-data-grid";
+import { Info,AccountCircle,Home,Phone,Email,QrCode,LocationOn} from "@mui/icons-material";
 import { useEffect, useState} from "react";
 import api from "@/function/api";
-import moment from "jalali-moment";
-import AddSession from "@/app/components/addSession";
 import ShowClasses from "@/app/components/ShowClasses";
 import AddClass from "@/app/components/addClass";
 import ShowClass from "@/app/components/ShowClass";

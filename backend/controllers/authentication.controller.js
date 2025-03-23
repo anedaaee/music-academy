@@ -32,7 +32,7 @@ exports.register = async (req,values) => {
 
 exports.login = async (req,values) => {
     try{
-        let query = `SELECT count(username) as username_number FROM ${config().APP_DB_NAME}.user_profile WHERE username = ? ;`
+        let query = `SELECT count(username) as username_number FROM ${config().APP_DB_NAME}.user_profile WHERE username = ? AND is_active=1;`
         let result = await request(query , [values.username] , req)
         
         if(result[0].username_number === 0){

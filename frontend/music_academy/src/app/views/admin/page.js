@@ -12,6 +12,7 @@ import ShowClasses from "@/app/components/ShowClasses";
 import ShowClass from "@/app/components/ShowClass";
 import AddClass from "@/app/components/addClass";
 import AddUser from "@/app/components/addUser";
+import ShowUser2 from '@/app/components/ShowUser2'
 import app_config from "@/config/config";
 
 
@@ -40,7 +41,7 @@ const theme = createTheme({
 
 
 export default function Home() {
-
+  const [who,setWho] = useState({})
   const [isError,setIsError] = useState(false)
   const [error,setError] = useState("")
   const [loading,setLoading] = useState(true)
@@ -58,8 +59,6 @@ export default function Home() {
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-
-
   const fetch_data = async () => {
     try{
       if(localStorage.getItem('mahjoubi.music.academy.token')){
@@ -68,6 +67,7 @@ export default function Home() {
             if(result.data.body.data.role != 3){
                 window.location.href ='/'   
             }
+            setWho(result.data.body.data)
         }else{
             window.location.href ='/'
         }
@@ -298,7 +298,11 @@ export default function Home() {
                         :(
                           state ==='classes'?
                             <ShowClasses input_classes={classes} onDelete={onDeleteClasses} onEdit={handleOnEditClasses} onAdd={() => setAddClass(true)} onSession={(e,id) => handleShowSessions(id)}/>
-                          :null
+                          :(
+                            state ==='account'?
+                              <ShowUser2 username={who.username} onError={(message) => handleOnError(message)}/>
+                            :null
+                          )
                         )
                       )
                     )

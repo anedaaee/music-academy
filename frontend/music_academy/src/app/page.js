@@ -68,7 +68,7 @@ export default function Home() {
       })
       if(result.status == 201){
         localStorage.setItem('mahjoubi.music.academy.token',result.data.body.data.token.token)
-        if(result.data.body.data.role == 3){
+        if(result.data.body.data.user_information.role == 3){
           window.location.href ='/views/admin'
         }
         

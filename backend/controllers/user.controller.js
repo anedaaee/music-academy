@@ -256,12 +256,33 @@ exports.get_profile = async (req,values) => {
     }catch(err){throw err}
 }
 
+const attach_profile = async(users,req) => {
+
+    try{
+        for(const user of users){
+            if(user.profile_picture){
+                const query = `SELECT id, name, format, blob_data
+                                FROM music_academy.profile_image
+                                WHERE id =?;`
+        
+                const profile =  await request(query,[user.profile_picture],req)
+                user.profile = profile[0]
+            }
+        }
+        return users
+    }catch(err){throw err}
+
+}
+
 exports.who= async (req) => {
     try{
         const query = `SELECT username, password, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id, profile_picture
                 FROM music_academy.user_profile
                 WHERE username=?;`
 
-        return await request(query,[req.user.username],req)
+        const users = await request(query,[req.user.username],req)
+        return await attach_profile(users,req)
     }catch(err){throw err}
 }
+
+
