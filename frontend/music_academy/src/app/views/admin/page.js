@@ -10,6 +10,7 @@ import ShowUsers from '@/app/components/ShowUsers'
 import ShowUser from "@/app/components/ShowUser";
 import ShowClasses from "@/app/components/ShowClasses";
 import ShowClass from "@/app/components/ShowClass";
+import AddClass from "@/app/components/addClass";
 import app_config from "@/config/config";
 
 
@@ -49,6 +50,7 @@ export default function Home() {
   const [classes,setClasses] = useState([])
   const [editUser,setEditUser] = useState(false)
   const [editClass,setEditClass] = useState(false)
+  const [addClass,setAddClass] = useState(false)
   const [showUserUsername,setShowUserUsername] = useState('')
   const [showclassId,setShowClassId] = useState('')
 
@@ -225,12 +227,18 @@ export default function Home() {
   const handleOnEditClasses = async(e,id) => {
     setEditClass(true)
     setShowClassId(id)
+    //window.location.reload()
   }
 
   const handleOnCloseClass = async() => {
     setEditClass(false)
+    //window.location.reload()
   }
 
+  const handleOnCloseAddClass = async() => {
+    setAddClass(false)
+    //window.location.reload()
+  }
   useEffect(() => {
     try{ 
       fetch()
@@ -278,7 +286,7 @@ export default function Home() {
                           <ShowUsers input_users={users} key="users" onEdit={handleOnEditUser}/>
                         :(
                           state ==='classes'?
-                            <ShowClasses input_classes={classes} onDelete={onDeleteClasses} onEdit={handleOnEditClasses}/>
+                            <ShowClasses input_classes={classes} onDelete={onDeleteClasses} onEdit={handleOnEditClasses} onAdd={() => setAddClass(true)}/>
                           :null
                         )
                       )
@@ -300,6 +308,11 @@ export default function Home() {
         {
           editClass?
             <ShowClass id={showclassId} onError={(message) => handleOnError(message)} onClose={() => handleOnCloseClass()}/>
+          :null
+        }
+        {
+          addClass?
+            <AddClass onClose={() => handleOnCloseAddClass()} onError={(message) => handleOnError(message)}/>
           :null
         }
       </Box>

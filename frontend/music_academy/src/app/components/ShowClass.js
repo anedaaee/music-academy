@@ -297,7 +297,7 @@ const ShowClass = ({id,onError,onClose}) => {
                                 control={
                                     <Checkbox
                                     checked={class_.is_payed}
-                                    onChange={(e) => onChange(event.target.checked,'is_payed')}
+                                    onChange={(e) => onChange(e.target.checked,'is_payed')}
                                     color="#7F00FF"
                                     />
                                 }
@@ -310,7 +310,7 @@ const ShowClass = ({id,onError,onClose}) => {
                             <Button variant='contained' style={{backgroundColor:'transparent',border:'1px solid red',color:'red'}} sx={{ marginRight: 3.5 }} onClick={(e) => setEditMode(false)}>لغو</Button>
                         </Grid2>
                         <Grid2 item size={{xs:12,md:6}}>
-                            <Button variant='contained'  sx={{ marginRight: 3.5 }} onClick={(e) => updateClass()}>
+                            <Button variant='contained' loading={editLoading} sx={{ marginRight: 3.5 }} onClick={(e) => updateClass()}>
                                 ویرایش
                             </Button>
                         </Grid2>
