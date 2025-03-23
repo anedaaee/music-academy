@@ -79,8 +79,6 @@ const ShowUsers = (props) => {
     });
 
     useEffect(() => {
-        console.log(props.input_users);
-        
         setUsers(props.input_users)
         setBaseUsers(props.input_users)
     },[])
@@ -88,7 +86,6 @@ const ShowUsers = (props) => {
     const handleSearch = (event) => {
         
         const value = event.target.value;
-        console.log(value);
         setSearchValue(value);
     
         const result = baseUsers.filter((obj) =>

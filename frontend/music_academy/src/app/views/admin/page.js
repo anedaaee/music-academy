@@ -2,13 +2,13 @@
 
 import { Box,createTheme, alpha, getContrastRatio,
    CircularProgress, Grid2,ThemeProvider
-  ,useMediaQuery,Alert,CardContent,
-  LinearProgress}  from "@mui/material";
+  ,useMediaQuery,Alert}  from "@mui/material";
 import { useEffect, useState} from "react";
 import api from "@/function/api";
 import Nav from "@/app/components/nav";
 import ShowUsers from '@/app/components/ShowUsers'
 import ShowUser from "@/app/components/ShowUser";
+import ShowClasses from "@/app/components/ShowClasses";
 import app_config from "@/config/config";
 
 
@@ -45,10 +45,11 @@ export default function Home() {
   const [users,setUsers] = useState([])
   const [teachers,setTeachers] = useState([])
   const [admins,setAdmins] = useState([])
+  const [classes,setClasses] = useState([])
   const [editUser,setEditUser] = useState(false)
-
+  const [editClass,setEditClass] = useState(false)
   const [showUserUsername,setShowUserUsername] = useState('')
-  
+  const [showclassId,setShowClassId] = useState('')
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -130,13 +131,32 @@ export default function Home() {
     }
   }
 
-
+  const fetch_classes = async () => {
+    try{
+      const result = await api('get','/admin/get_classes?only_not_finished=true&only_finished=true',{},localStorage.getItem('mahjoubi.music.academy.token'))
+      if(result.status == 200){
+        setClasses(result.data.body.data)
+        
+      }else{
+        if(isError){
+          setIsError(false)
+        }
+        setIsError(true)
+        setError(result.data.metadata.err_persian)
+        setTimeout(() => setIsError(false), 10000);
+      }
+    }catch(err){
+      
+      throw err
+    }
+  }
   const fetch = async () => {
     try{
       await fetch_data()
       await fetch_users()
       await fetch_teachers()
       await fetch_admins()
+      await fetch_classes()
       setLoading(false)
     }catch(err){
       throw err
@@ -159,6 +179,51 @@ export default function Home() {
   
   const handleOnCloseUser = async() => {
     setEditUser(false)
+  }
+
+  const onDeleteClasses = async(id,type) => {
+    try{
+      console.log(id);
+      
+      if(type=='delete'){
+        const result = await api('delete','/admin/delete-class',{id:id},localStorage.getItem('mahjoubi.music.academy.token'))
+        if(result.status == 200){
+          window.location.reload()
+        }else{
+          if(isError){
+            setIsError(false)
+          }
+          setIsError(true)
+          setError(result.data.metadata.err_persian)
+          setTimeout(() => setIsError(false), 10000);
+        }
+      }else if(type=='refactore'){
+        
+        const result = await api('patch','/admin/refactore-class',{id:id},localStorage.getItem('mahjoubi.music.academy.token'))
+        if(result.status == 200){
+          window.location.reload()
+        }else{
+          if(isError){
+            setIsError(false)
+          }
+          setIsError(true)
+          setError(result.data.metadata.err_persian)
+          setTimeout(() => setIsError(false), 10000);
+        }
+      }
+    }catch(err){
+      if(isError){
+        setIsError(false)
+      }
+      setIsError(true)
+      setError(app_config.ERROR_MESSAGE)
+      setTimeout(() => setIsError(false), 10000);
+    }
+  }
+
+  const handleOnEditClasses = async(e,id) => {
+    setEditClass(true)
+    setShowClassId(id)
   }
 
   useEffect(() => {
@@ -206,7 +271,11 @@ export default function Home() {
                       :(
                         state==='users'?
                           <ShowUsers input_users={users} key="users" onEdit={handleOnEditUser}/>
-                        :null
+                        :(
+                          state ==='classes'?
+                            <ShowClasses input_classes={classes} onDelete={onDeleteClasses} onEdit={handleOnEditClasses}/>
+                          :null
+                        )
                       )
                     )
                   }
