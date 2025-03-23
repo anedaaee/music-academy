@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "آموزشگاه موسیقی محجوبی| صفحه اصلی",
+  title: "آموزشگاه موسیقی محجوبی| جلسات",
   description: "وب سایت مدیریت اساتید آموزشگاه محجوبی",
   icons: {
     icon: "/favicon.ico", 

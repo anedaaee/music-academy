@@ -1,6 +1,6 @@
 "use client";
 import { Grid2,Avatar,Input,Box,Button,createTheme,alpha,getContrastRatio,CardContent,LinearProgress,TextField,Select,MenuItem, IconButton,FormControlLabel,Checkbox} from "@mui/material";
-import { Info,AccountCircle,Phone,Email,QrCode,LocationOn,Close,CalendarToday,Watch,HourglassBottom,Check ,Percent,Paid} from "@mui/icons-material";
+import { Info,AccountCircle,Close,CalendarToday,Watch,HourglassBottom,Check ,Percent,Paid} from "@mui/icons-material";
 import { useRef,useEffect,useState } from "react";
 import app_config from "@/config/config";
 import api from "@/function/api";

@@ -247,6 +247,11 @@ export default function Home() {
     //window.location.reload()
   }
 
+  const handleShowSessions = async(id) => {
+    const queryString = new URLSearchParams({id:id}).toString();
+    const newUrl = `/views/show_sessions?${queryString}`;
+    window.location.href = newUrl
+  }
   useEffect(() => {
     try{ 
       fetch()
@@ -294,7 +299,7 @@ export default function Home() {
                           <ShowUsers input_users={users} key="users" onEdit={handleOnEditUser} onAdd={() => setAddUser(true)}/>
                         :(
                           state ==='classes'?
-                            <ShowClasses input_classes={classes} onDelete={onDeleteClasses} onEdit={handleOnEditClasses} onAdd={() => setAddClass(true)}/>
+                            <ShowClasses input_classes={classes} onDelete={onDeleteClasses} onEdit={handleOnEditClasses} onAdd={() => setAddClass(true)} onSession={(e,id) => handleShowSessions(id)}/>
                           :null
                         )
                       )

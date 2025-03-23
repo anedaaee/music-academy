@@ -3,7 +3,7 @@
 import { Box,createTheme, alpha, getContrastRatio,TextField,IconButton} from "@mui/material";
 import { useEffect, useState } from "react";
 
-import {Check,Close,Edit,Delete,Refresh,Add} from '@mui/icons-material'
+import {Check,Close,Edit,Delete,Refresh,Add,MoreVert} from '@mui/icons-material'
 import { DataGrid,GridToolbarContainer } from "@mui/x-data-grid";
 
 
@@ -86,7 +86,22 @@ const ShowClasses = (props) => {
                 <Edit sx={{color:theme.palette.violet.main}}/>
             </IconButton>
         ),
-    },
+      },
+      {
+        field: 'sessions',
+        headerName: 'جلسات',
+        headerClassName:'grid-header',
+        width: 150,
+        renderCell: (params) => (
+            <IconButton sx={{'&:hover':{
+                            bgcolor:theme.palette.violet.light,
+                            transition : '.3s'
+                        }}}
+                        onClick={(e) => props.onSession(e,params.row.id)}>
+                <MoreVert sx={{color:theme.palette.violet.main}}/>
+            </IconButton>
+        ),
+      },
     ]
     const [basesClasses,setBaseClasses] = useState([])
     const [classes,setClasses] = useState([])
