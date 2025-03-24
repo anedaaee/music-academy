@@ -1,7 +1,7 @@
 import { Box,createTheme, alpha, getContrastRatio, Grid2,useMediaQuery
     , Typography,IconButton } from "@mui/material";
   import { useState } from "react";
-  import {Class,ClassOutlined,People,PeopleOutline,School,SchoolOutlined,ManageAccounts,ManageAccountsOutlined,AdminPanelSettings,AdminPanelSettingsOutlined} from '@mui/icons-material'
+  import {Class,ClassOutlined,People,PeopleOutline,School,SchoolOutlined,ManageAccounts,ManageAccountsOutlined,AdminPanelSettings,AdminPanelSettingsOutlined,Logout,LogoutOutlined} from '@mui/icons-material'
   
 
 
@@ -144,6 +144,32 @@ const Nav = ({ onChangeState}) => {
                     {
                     !isMobile?
                         <Typography sx={{color:state=='account'?theme.palette.violet.main:'#000',margin:"10px"}}>پروفایل</Typography>
+                    :null
+                    }
+                </Box>
+            </IconButton>
+            <IconButton onClick={() => {
+                changeState('logout')
+                localStorage.removeItem('mahjoubi.music.academy.token')
+                window.location.href='/'
+            }} sx={{"&:hover": {
+                backgroundColor: theme.palette.violet.light,
+                borderRadius:"5px",
+                transition: "0.3s" }
+            }}> 
+                <Box sx={{display:"flex",
+                        justifyContent:"center"
+                        ,alignItems:"center"
+                        ,padding:"10px"}}>
+                    {
+                    state=="logout"?
+                        <Logout sx={{color:theme.palette.violet.main,fontSize:40}}/>
+                    :
+                        <LogoutOutlined sx={{color:theme.palette.violet.main,fontSize:40}}/>
+                    }
+                    {
+                    !isMobile?
+                        <Typography sx={{color:state=='logout'?theme.palette.violet.main:'#000',margin:"10px"}}>خروج</Typography>
                     :null
                     }
                 </Box>
