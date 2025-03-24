@@ -35,9 +35,11 @@ export default function Home() {
     try{
       if(localStorage.getItem('mahjoubi.music.academy.token')){
         const result = await api('get','/user/who',{},localStorage.getItem('mahjoubi.music.academy.token'))
-        if(result.status == 200){
+        if(result.status == 201){
           if(result.data.body.data.role == 3){
             window.location.href ='/views/admin'
+          }else if(result.data.body.data.role == 2){
+            window.location.href ='/views/teacher'
           }
         }
       }
@@ -70,6 +72,8 @@ export default function Home() {
         localStorage.setItem('mahjoubi.music.academy.token',result.data.body.data.token.token)
         if(result.data.body.data.user_information.role == 3){
           window.location.href ='/views/admin'
+        }if(result.data.body.data.user_information.role == 2){
+          window.location.href ='/views/teacher'
         }
         
       }else{ 

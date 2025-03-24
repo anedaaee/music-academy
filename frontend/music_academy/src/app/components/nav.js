@@ -36,7 +36,7 @@ const Nav = ({ onChangeState}) => {
                     , display:"flex"
                     , flexDirection:isMobile?"row":"column"
                     , justifyContent:"center"
-                    ,alignItems:"center"}}>
+                    ,alignItems:"flex-start"}}>
             <IconButton onClick={() => changeState('classes')} sx={{"&:hover": {
                 backgroundColor: theme.palette.violet.light,
                 borderRadius:"5px",

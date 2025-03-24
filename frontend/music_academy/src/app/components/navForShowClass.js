@@ -1,7 +1,7 @@
 import { Box,createTheme, alpha, getContrastRatio, Grid2,useMediaQuery
     , Typography,IconButton } from "@mui/material";
 import { useState } from "react";
-import {Class,ClassOutlined,PointOfSale,PointOfSaleOutlined,ManageAccounts,ManageAccountsOutlined} from '@mui/icons-material'
+import {Class,ClassOutlined,ManageAccounts,ManageAccountsOutlined,Calculate,CalculateOutlined} from '@mui/icons-material'
 
 
 
@@ -21,7 +21,7 @@ const theme = createTheme({
 
 const NavForShowClass = ({ onChangeState}) => {
 
-    const [state,setState] = useState('classes')
+    const [state,setState] = useState('account')
 
     const changeState = (state) => {
         setState(state)
@@ -36,7 +36,7 @@ const NavForShowClass = ({ onChangeState}) => {
                     , display:"flex"
                     , flexDirection:isMobile?"row":"column"
                     , justifyContent:"center"
-                    ,alignItems:"center"}}>
+                    ,alignItems:"flex-start"}}>
             
             <IconButton onClick={() => changeState('account')} sx={{"&:hover": {
                 backgroundColor: theme.palette.violet.light,
@@ -95,9 +95,9 @@ const NavForShowClass = ({ onChangeState}) => {
                         ,padding:"10px"}}>
                     {
                     state=='salary'?
-                        <PointOfSale sx={{color:theme.palette.violet.main,fontSize:40}}/>
+                        <Calculate sx={{color:theme.palette.violet.main,fontSize:40}}/>
                     :
-                        <PointOfSaleOutlined sx={{color:theme.palette.violet.main,fontSize:40}}/>
+                        <CalculateOutlined sx={{color:theme.palette.violet.main,fontSize:40}}/>
                     }
                     {
                     !isMobile?

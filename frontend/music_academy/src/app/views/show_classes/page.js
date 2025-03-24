@@ -52,6 +52,27 @@ export default function ShowClassesPage() {
   const [state,setState] = useState('account')
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const fetch_data = async () => {
+    try{
+      if(localStorage.getItem('mahjoubi.music.academy.token')){
+        const result = await api('get','/user/who',{},localStorage.getItem('mahjoubi.music.academy.token'))
+        if(result.status == 200){
+            if(result.data.body.data.role != 3){
+                window.location.href ='/'   
+            }
+        }else{
+            window.location.href ='/'
+        }
+      }else{
+        window.location.href ='/'
+      }
+      
+    }catch(err){
+      throw err
+    } 
+  }
+
+
   const fetch_teacher = async (username) => {
     try{
       const result = await api('get',`/admin/get-user?username=${username}`,{},localStorage.getItem('mahjoubi.music.academy.token'))
@@ -92,6 +113,7 @@ export default function ShowClassesPage() {
 
   const fetch = async () => {
     try{
+      await fetch_data()
       const params = new URLSearchParams(window.location.search);
       const input_username = params.get('teacher');
       setUsername(input_username)

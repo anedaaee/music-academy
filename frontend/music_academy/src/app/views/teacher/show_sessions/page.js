@@ -43,21 +43,6 @@ export default function ShowSessions() {
     { field: 'price', headerName: 'هزینه', width: 150, sortable: true ,align: 'right',headerAlign: 'right', headerClassName:'grid-header'},
     { field: 'description', headerName: 'توضیحات', width: 150, sortable: true , headerClassName:'grid-header'},
     { field: 'session_date', headerName: 'تاریخ ثبت', width: 150, sortable: true , headerClassName:'grid-header', renderCell: (params) => (moment(params.row.session_date).locale('fa').format('YYYY/MM/DD'))},
-    {
-      field: 'operation',
-      headerName: 'عملیات',
-      headerClassName:'grid-header',
-      width: 150,
-      renderCell: (params) => (
-          <IconButton sx={{'&:hover':{
-                          bgcolor:theme.palette.violet.light,
-                          transition : '.3s'
-                      }}}
-                      onClick={(e) => handleDelete(e,params.row.id)}>
-              <Delete sx={{color:'red'}}/>
-          </IconButton>
-      ),
-    },
   ]
   const [id,setId] = useState('')
   const [isError,setIsError] = useState(false)
@@ -65,7 +50,6 @@ export default function ShowSessions() {
   const [loading,setLoading] = useState(true)
   const [class_,setClass_] = useState({})
   const [sessions,setSessions] = useState([])
-  const [addSession,setAddSession] = useState(false)
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 5,
     page: 0,
@@ -76,7 +60,7 @@ export default function ShowSessions() {
       if(localStorage.getItem('mahjoubi.music.academy.token')){
         const result = await api('get','/user/who',{},localStorage.getItem('mahjoubi.music.academy.token'))
         if(result.status == 200){
-            if(result.data.body.data.role != 3){
+            if(result.data.body.data.role != 2){
                 window.location.href ='/'   
             }
         }else{
@@ -94,7 +78,7 @@ export default function ShowSessions() {
 
   const fetch_class = async (id) => {
     try{
-      const result = await api('get',`/admin/get_class?class_id=${id}&only_not_finished=true&only_finished=true`,{},localStorage.getItem('mahjoubi.music.academy.token'))
+      const result = await api('get',`/teacher/get_class?class_id=${id}&only_not_finished=true&only_finished=true`,{},localStorage.getItem('mahjoubi.music.academy.token'))
       if(result.status == 200){
         setClass_(result.data.body.data)
         
@@ -114,7 +98,7 @@ export default function ShowSessions() {
 
   const fetch_sessions = async (id) => {
     try{
-      const result = await api('get',`/admin/get-class-sessions?class_id=${id}&only_not_finished=true&only_finished=true`,{},localStorage.getItem('mahjoubi.music.academy.token'))
+      const result = await api('get',`/teacher/get-class-sessions?class_id=${id}&only_not_finished=true&only_finished=true`,{},localStorage.getItem('mahjoubi.music.academy.token'))
       if(result.status == 200){
         setSessions(result.data.body.data[0].session)
       }else{
@@ -158,60 +142,12 @@ export default function ShowSessions() {
     }
   },[])  
  
-  const handleDelete = async(e,id) => {
-    try{
-      const result = await api('delete',`/admin/delete-session`,{id:id},localStorage.getItem('mahjoubi.music.academy.token'))
-      if(result.status == 200){
-        window.location.reload()
-      }else{
-        if(isError){
-          setIsError(false)
-        }
-        setIsError(true)
-        setError(result.data.metadata.err_persian)
-        setTimeout(() => setIsError(false), 10000);
-      }
-    }catch(err){
-      if(isError){
-        setIsError(false)
-      }
-      setIsError(true)
-      setError(app_config.ERROR_MESSAGE)
-      setTimeout(() => setIsError(false), 10000);
-    }
-  }
-
-  const handleOnClose = () => {
-    setAddSession(false)
-  }
-
-  const handleOnError = async(message) => {
-    if(isError){
-      setIsError(false)
-    }
-    setIsError(true)
-    setError(message)
-    setTimeout(() => setIsError(false), 10000);
-  }
-
-  const CustomToolbar = () => {
-      return(
-      <GridToolbarContainer sx={{display:"flex",justifyContent:"right",paddingRight:'18px'}}>
-        <IconButton onClick={(e) => setAddSession(true)} sx={{"&:hover": {
-            backgroundColor: theme.palette.violet.light,
-            borderRadius:"5px",
-            transition: "0.3s"}
-        }}>
-            <Add/>
-        </IconButton>
-      </GridToolbarContainer>
-      )
-  };
+ 
 
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{backgroundColor:"#f5f5f5"}}>
-      <IconButton onClick={(e) => {window.location.href='/views/admin'}} sx={{"&:hover": {
+      <IconButton onClick={(e) => {window.location.href='/views/teacher'}} sx={{"&:hover": {
             backgroundColor: theme.palette.violet.light,
             borderRadius:"5px",
             transition: "0.3s"}
@@ -326,7 +262,6 @@ export default function ShowSessions() {
                   pagination
                   disableRowSelectionOnClick
                   onPaginationModelChange={setPaginationModel}
-                  slots={{ toolbar: CustomToolbar }}
                   getRowId={(row) => row.id}
                   sx={{
                   direction:"ltr",
@@ -355,11 +290,6 @@ export default function ShowSessions() {
               />
               </Grid2>
             )
-        }
-        {
-          addSession?
-            <AddSession class_id={id} onClose={() => handleOnClose()} onError={(message) => handleOnError(message)}/>
-          :null
         }
       </Box>
       {
