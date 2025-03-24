@@ -749,7 +749,7 @@ exports.get_salary_report = async (req,values) => {
     try{
         await check_role(req,values.teacher,2)
         let query=`select c_t.class_id,c_t.class_count,c_t.total_earn,s_p.class_count as presence_count,
-                                s_v_a.class_count as valid_absence_count,s_v_i.class_count as invalid_absence_count,
+                                IFNULL(s_v_a.class_count,0) as valid_absence_count,IFNULL(s_v_i.class_count,0) as invalid_absence_count,
                                 s_s.teacherـsalary,s_s.academyـsalary,s_s.is_payed,s_s.student,s_s.week_day,s_s.houre
                         FROM
                             (SELECT class_id ,COUNT(id) as class_count, SUM(price) total_earn
