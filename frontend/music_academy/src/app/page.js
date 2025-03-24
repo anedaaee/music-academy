@@ -35,12 +35,22 @@ export default function Home() {
     try{
       if(localStorage.getItem('mahjoubi.music.academy.token')){
         const result = await api('get','/user/who',{},localStorage.getItem('mahjoubi.music.academy.token'))
-        if(result.status == 201){
+        if(result.status == 200){
           if(result.data.body.data.role == 3){
             window.location.href ='/views/admin'
           }else if(result.data.body.data.role == 2){
             window.location.href ='/views/teacher'
+          }else if(result.data.body.data.role == 1){
+
+            window.location.href ='/views/student'
           }
+        }else{
+          if(isError){
+            setIsError(false)
+          }
+          setIsError(true)
+          setError(result.data.metadata.err_persian)
+          setTimeout(() => setIsError(false), 10000);
         }
       }
       
@@ -74,6 +84,8 @@ export default function Home() {
           window.location.href ='/views/admin'
         }if(result.data.body.data.user_information.role == 2){
           window.location.href ='/views/teacher'
+        }if(result.data.body.data.user_information.role == 1){
+          window.location.href ='/views/student'
         }
         
       }else{ 
