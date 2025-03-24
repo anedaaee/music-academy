@@ -1,13 +1,12 @@
 "use client"; 
 
 import { Box,createTheme, alpha, getContrastRatio,
-   CircularProgress, Grid2,ThemeProvider,IconButton,Avatar,useMediaQuery
+   CircularProgress, Grid2,ThemeProvider,useMediaQuery
   ,Alert}  from "@mui/material";
 import { useEffect, useState} from "react";
 import api from "@/function/api";
 import ShowClasses2 from "@/app/components/ShowClasses2";
 import ShowUserTeacher from "@/app/components/ShowUserTeacher";
-import ShowSalaryTeacher from "@/app/components/ShowSalaryTeacher";
 import NavForUser from "@/app/components/navForUser";
 import app_config from "@/config/config";
 
