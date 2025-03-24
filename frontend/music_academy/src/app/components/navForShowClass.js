@@ -1,8 +1,8 @@
 import { Box,createTheme, alpha, getContrastRatio, Grid2,useMediaQuery
     , Typography,IconButton } from "@mui/material";
-  import { useState } from "react";
-  import {Class,ClassOutlined,PointOfSale,PointOfSaleOutlined,ManageAccounts,ManageAccountsOutlined} from '@mui/icons-material'
-  
+import { useState } from "react";
+import {Class,ClassOutlined,PointOfSale,PointOfSaleOutlined,ManageAccounts,ManageAccountsOutlined} from '@mui/icons-material'
+
 
 
 const violetBase = '#7F00FF';

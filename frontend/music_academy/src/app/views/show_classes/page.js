@@ -9,6 +9,7 @@ import api from "@/function/api";
 import ShowClasses from "@/app/components/ShowClasses";
 import AddClass from "@/app/components/addClass";
 import ShowClass from "@/app/components/ShowClass";
+import ShowSalary from "@/app/components/showSalary";
 import NavForShowClass from "@/app/components/navForShowClass";
 import app_config from "@/config/config";
 
@@ -326,7 +327,11 @@ function stringAvatar(name) {
                   (
                     state=='classes'?
                       <ShowClasses input_classes={classes} onDelete={onDeleteClasses} onEdit={handleOnEditClasses} onAdd={() => setAddClass(true)} onSession={(e,id) => handleShowSessions(id)}/>
-                    :null
+                    :(
+                      state=='salary'?
+                        <ShowSalary teacher={teacher.username} onError={(message) => handleOnError(message)}/>
+                      :null
+                    )
                   )
                 }
                  </Grid2>
