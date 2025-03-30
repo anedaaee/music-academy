@@ -1,5 +1,5 @@
 "use client";
-import { Grid2,Box,Button,createTheme,alpha,getContrastRatio,CardContent,LinearProgress,TextField,Select,MenuItem, IconButton,FormControlLabel,Checkbox} from "@mui/material";
+import { Grid2,Box,Button,createTheme,alpha,getContrastRatio,CardContent,LinearProgress,TextField,Select,MenuItem, IconButton,FormControlLabel,Checkbox, InputLabel} from "@mui/material";
 import { Info,AccountCircle,Close,CalendarToday,Watch,HourglassBottom,Check ,Percent,Paid} from "@mui/icons-material";
 import { useEffect,useState } from "react";
 import app_config from "@/config/config";
@@ -230,7 +230,8 @@ const ShowClass = ({id,onError,onClose}) => {
                             </Box>
                         </Grid2>
                         <Grid2 item size={{xs:6,md:4}}> 
-                            <Select fullWidth sx={input_style}  label='روز' value={class_.week_day} onChange={(e) => onChange(e.target.value,'week_day')}>
+                            <InputLabel id="week_day-label">روز</InputLabel>
+                            <Select fullWidth sx={input_style}  labelId="week_day-label" value={class_.week_day} onChange={(e) => onChange(e.target.value,'week_day')}>
                                 {
                                     days.map((item) => (
                                         <MenuItem  key={item} value={item}>{item}</MenuItem>
@@ -239,7 +240,8 @@ const ShowClass = ({id,onError,onClose}) => {
                             </Select>
                         </Grid2>
                         <Grid2 item size={{xs:6,md:4}}>
-                            <Select fullWidth sx={input_style}  label='ساعت' value={class_.houre} onChange={(e) => onChange(e.target.value,'houre')}>
+                            <InputLabel id="houre-label">ساعت</InputLabel>
+                            <Select fullWidth sx={input_style}  labelId="houre-label" value={class_.houre} onChange={(e) => onChange(e.target.value,'houre')}>
                                 {
                                     hours.map((item) => (
                                         <MenuItem key={item} value={item}>{item}</MenuItem>
@@ -248,7 +250,8 @@ const ShowClass = ({id,onError,onClose}) => {
                             </Select>
                         </Grid2>
                         <Grid2 item size={{xs:6,md:4}}>
-                            <Select fullWidth sx={input_style}  label='مدت زمان' value={class_.duration} onChange={(e) => onChange(e.target.value,'duration')}>
+                            <InputLabel id="duration-label">مدت زمان</InputLabel>
+                            <Select fullWidth sx={input_style}  labelId="duration-label" value={class_.duration} onChange={(e) => onChange(e.target.value,'duration')}>
                                 {
                                     durations.map((item) => (
                                         <MenuItem  key={item} value={item}>{item}</MenuItem>

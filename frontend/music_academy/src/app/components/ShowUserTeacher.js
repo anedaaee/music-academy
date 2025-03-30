@@ -1,5 +1,5 @@
 "use client";
-import { Grid2,Avatar,Input,Box,Button,createTheme,alpha,getContrastRatio,CardContent,LinearProgress,TextField,Select,MenuItem} from "@mui/material";
+import { Grid2,Avatar,Input,Box,Button,createTheme,alpha,getContrastRatio,CardContent,LinearProgress,TextField,Select,MenuItem, InputLabel} from "@mui/material";
 import { Info,AccountCircle,Phone,Email,QrCode,LocationOn } from "@mui/icons-material";
 import { useRef,useEffect,useState } from "react";
 import app_config from "@/config/config";
@@ -320,7 +320,8 @@ const ShowUserTeacher = ({onError}) => {
                             <TextField  fullWidth sx={input_style} label='آدرس' placeholder='آدرس' defaultValue={user.address} onChange={(e) => onChange(e.target.value,'address')}/>
                         </Grid2>
                         <Grid2 item size={{xs:12,md:12}}>
-                            <Select fullWidth sx={input_style}  label='نقش کاربری' value={user.role} onChange={(e) => onChange(e.target.value,'role')}>
+                            <InputLabel id="role-label">نقش کاربری</InputLabel>
+                            <Select fullWidth sx={input_style}  labelId="role-label" value={user.role} onChange={(e) => onChange(e.target.value,'role')}>
                                 <MenuItem value={1}>کاربر</MenuItem>
                                 <MenuItem value={2}>استاد</MenuItem>
                                 <MenuItem value={3}>مدیر سایت</MenuItem>

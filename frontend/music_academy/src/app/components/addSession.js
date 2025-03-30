@@ -1,5 +1,5 @@
 "use client";
-import { Grid2,Button,createTheme,alpha,getContrastRatio,CardContent,TextField,IconButton,Select,MenuItem} from "@mui/material";
+import { Grid2,Button,createTheme,alpha,getContrastRatio,CardContent,TextField,IconButton,Select,MenuItem, InputLabel} from "@mui/material";
 import { Close} from "@mui/icons-material";
 import { useState } from "react";
 import { AdapterDateFnsJalali} from '@mui/x-date-pickers/AdapterDateFnsJalaliV3';
@@ -105,7 +105,8 @@ const AddSession = ({class_id,onClose,onError}) => {
                 <form style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, width: '100%', height: '100%' , display:'flex',justifyContent:'center',alignItems:'center'}}>
                     <Grid2 container spacing={2} sx={{height:"100%"}}>
                         <Grid2 item size={{xs:12,md:12}}>
-                            <Select fullWidth sx={input_style}  label='وضعیت' value={session.status} onChange={(e) => onChange(e.target.value,'status')}>
+                            <InputLabel id="status-label">وضعیت</InputLabel>
+                            <Select fullWidth sx={input_style}  labelId="status-label" value={session.status} onChange={(e) => onChange(e.target.value,'status')}>
                                 <MenuItem value={'presence'}>حضور</MenuItem>
                                 <MenuItem value={'valid_absence'}>غیبت موجه</MenuItem>
                                 <MenuItem value={'invalid_absence'}>غیبت غیرموجه</MenuItem>
