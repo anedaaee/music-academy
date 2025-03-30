@@ -1,11 +1,11 @@
 "use client"; 
 
-import { Box,createTheme, alpha, getContrastRatio,TextField,IconButton} from "@mui/material";
+import { Box,createTheme, alpha, getContrastRatio,ThemeProvider,IconButton} from "@mui/material";
 import { useEffect, useState } from "react";
 
 import {Check,Close,MoreVert} from '@mui/icons-material'
-import { DataGrid,GridToolbarContainer } from "@mui/x-data-grid";
-
+import { DataGrid,GridToolbarContainer ,GridToolbarColumnsButton,GridToolbarFilterButton,GridToolbarDensitySelector,GridToolbarExport} from "@mui/x-data-grid";
+import {faIR} from  "@mui/x-data-grid/locales"
 
 const violetBase = '#7F00FF';
 const violetMain = alpha(violetBase, 0.7);
@@ -22,7 +22,17 @@ const theme = createTheme({
   },
 });
 
-
+const gridTheme = createTheme({
+  palette: {
+    primary: {
+      main: violetMain,
+      light: alpha(violetBase, 0.2),
+      dark: alpha(violetBase, 0.9),
+      contrastText: getContrastRatio(violetMain, '#fff') > 4.5 ? '#fff' : '#111',
+      text : '#451f6d'
+    },
+  },
+},faIR)
 
 const ShowClasses2 = (props) => {
     const columns = [
@@ -68,9 +78,8 @@ const ShowClasses2 = (props) => {
         ),
       },
     ]
-    const [basesClasses,setBaseClasses] = useState([])
+
     const [classes,setClasses] = useState([])
-    const [searchValue,setSearchValue] = useState('')
     const [paginationModel, setPaginationModel] = useState({
         pageSize: 5,
         page: 0,
@@ -78,53 +87,23 @@ const ShowClasses2 = (props) => {
 
     useEffect(() => {
         setClasses(props.input_classes)
-        setBaseClasses(props.input_classes)
     },[])
 
-    const handleSearch = (event) => {
-        
-        const value = event.target.value;
-        setSearchValue(value);
-    
-        const result = basesClasses.filter((obj) =>
-          Object.values(obj).some((val) => val && val.toString().includes(value))
-        );
-        setClasses(result);
-    };
+
     const CustomToolbar = () => {
         return(
         <GridToolbarContainer sx={{display:"flex",justifyContent:"right",paddingRight:'18px'}}>
-          <TextField
-            margin="normal"
-            label="جست و جو"
-            variant="outlined"
-            fullWidth
-            value={searchValue}
-            onChange={handleSearch}
-            color={theme.palette.violet.main}
-            sx={{
-                width:"30%",
-                borderRadius: 2,
-                boxShadow: 2,
-                '& .MuiOutlinedInput-root': {
-                    '& fieldset': {
-                    borderColor: theme.palette.violet.light, 
-                    },
-                    '&:hover fieldset': {
-                    borderColor: theme.palette.violet.dark,
-                    },
-                    '&.Mui-focused fieldset': {
-                    borderColor: theme.palette.violet.dark,
-                    },
-                },
-            }}
-          />
+          <GridToolbarDensitySelector/>
+          <GridToolbarExport/>
+          <GridToolbarColumnsButton/>
+          <GridToolbarFilterButton/>
         </GridToolbarContainer>
         )
     };
 
     return(
-        <Box sx={{color:"black" ,width:"90%",height:"90%",overflow:"auto"}}>            
+        <Box sx={{color:"black" ,width:"90%",height:"90%",overflow:"auto"}}>   
+          <ThemeProvider theme={gridTheme}>
             <DataGrid
                 rows={classes}
                 columns={columns}
@@ -160,6 +139,7 @@ const ShowClasses2 = (props) => {
                 borderRadius: 2, 
                 }}
             />
+          </ThemeProvider>         
         </Box>
     )
 }

@@ -219,7 +219,7 @@ exports.get_users_with_role = async (req,values) => {
     try{
         const query = `SELECT username, is_active, ${`role`}, name, last_name, mobile, phone, email, address, national_id,profile_picture
                     FROM music_academy.user_profile
-                    WHERE is_active = 1 AND ${'`role`'}=?;`        
+                    WHERE ${'`role`'}=?;`        
         
         const users =  await request(query,[values.role],req)
         return await attach_profile(users,req)

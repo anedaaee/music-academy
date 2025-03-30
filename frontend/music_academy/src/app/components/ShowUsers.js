@@ -1,11 +1,11 @@
 "use client"; 
 
-import { Box,createTheme, alpha, getContrastRatio, Avatar,TextField,IconButton} from "@mui/material";
+import { Box,createTheme, alpha, getContrastRatio, Avatar,TextField,IconButton,ThemeProvider} from "@mui/material";
 import { useEffect, useState } from "react";
 
 import {Check,Close,Edit,Add} from '@mui/icons-material'
-import { DataGrid,GridToolbarContainer } from "@mui/x-data-grid";
-
+import { DataGrid,GridToolbarContainer,GridToolbarColumnsButton,GridToolbarFilterButton,GridToolbarDensitySelector,GridToolbarExport } from "@mui/x-data-grid";
+import {faIR} from  "@mui/x-data-grid/locales"
 
 const violetBase = '#7F00FF';
 const violetMain = alpha(violetBase, 0.7);
@@ -22,7 +22,17 @@ const theme = createTheme({
   },
 });
 
-
+const gridTheme = createTheme({
+  palette: {
+    primary: {
+      main: violetMain,
+      light: alpha(violetBase, 0.2),
+      dark: alpha(violetBase, 0.9),
+      contrastText: getContrastRatio(violetMain, '#fff') > 4.5 ? '#fff' : '#111',
+      text : '#451f6d'
+    },
+  },
+},faIR)
 
 const ShowUsers = (props) => {
     const columns = [
@@ -42,9 +52,9 @@ const ShowUsers = (props) => {
         },
       },
       { field: 'username', headerName: 'نام کاربری', width: 150, sortable: true, headerClassName:'grid-header' },
-      { field: 'name', headerName: 'نام', width: 150, sortable: true,align: 'right',headerAlign: 'right', headerClassName:'grid-header', renderCell: (params) => (params.row.name ? params.row.name : '-')},
-      { field: 'last_name', headerName: 'نام خانوادگی', width: 150, sortable: true ,align: 'right',headerAlign: 'right', headerClassName:'grid-header', renderCell: (params) => (params.row.last_name ? params.row.last_name : '-')},
-      { field: 'mobile', headerName: 'شماره همراه', width: 150, sortable: true , headerClassName:'grid-header', renderCell: (params) => (params.row.mobile ? params.row.mobile : '-')},
+      { field: 'name', headerName: 'نام', width: 200, sortable: true,align: 'right',headerAlign: 'right', headerClassName:'grid-header', renderCell: (params) => (params.row.name ? params.row.name : '-')},
+      { field: 'last_name', headerName: 'نام خانوادگی', width: 200, sortable: true ,align: 'right',headerAlign: 'right', headerClassName:'grid-header', renderCell: (params) => (params.row.last_name ? params.row.last_name : '-')},
+      { field: 'mobile', headerName: 'شماره همراه', width: 200, sortable: true , headerClassName:'grid-header', renderCell: (params) => (params.row.mobile ? params.row.mobile : '-')},
       { field: 'national_id', headerName: 'کد ملی', width: 150, sortable: true , headerClassName:'grid-header', renderCell: (params) => (params.row.national_id ? params.row.national_id : '-')},
       { field: 'email', headerName: 'پست الکترونیک', width: 150, sortable: true , headerClassName:'grid-header', renderCell: (params) => (params.row.email ? params.row.email : '-')},
       { field: 'is_active', headerName: 'وضعیت اکانت', width: 150, sortable: true , headerClassName:'grid-header', renderCell: (params) => (
@@ -70,9 +80,7 @@ const ShowUsers = (props) => {
         ),
       },
     ]
-    const [baseUsers,setBaseUsers] = useState([])
     const [users,setUsers] = useState([])
-    const [searchValue,setSearchValue] = useState('')
     const [paginationModel, setPaginationModel] = useState({
         pageSize: 5,
         page: 0,
@@ -80,60 +88,29 @@ const ShowUsers = (props) => {
 
     useEffect(() => {
         setUsers(props.input_users)
-        setBaseUsers(props.input_users)
     },[])
 
-    const handleSearch = (event) => {
-        
-        const value = event.target.value;
-        setSearchValue(value);
-    
-        const result = baseUsers.filter((obj) =>
-          Object.values(obj).some((val) => val && val.toString().includes(value))
-        );
-        setUsers(result);
-    };
     const CustomToolbar = () => {
         return(
         <GridToolbarContainer sx={{display:"flex",justifyContent:"right",paddingRight:'18px'}}>
-          <TextField
-            margin="normal"
-            label="جست و جو"
-            variant="outlined"
-            fullWidth
-            value={searchValue}
-            onChange={handleSearch}
-            color={theme.palette.violet.main}
-            sx={{
-                width:"30%",
-                borderRadius: 2,
-                boxShadow: 2,
-                '& .MuiOutlinedInput-root': {
-                    '& fieldset': {
-                    borderColor: theme.palette.violet.light, 
-                    },
-                    '&:hover fieldset': {
-                    borderColor: theme.palette.violet.dark,
-                    },
-                    '&.Mui-focused fieldset': {
-                    borderColor: theme.palette.violet.dark,
-                    },
-                },
-            }}
-          />
+          <GridToolbarDensitySelector/>
+          <GridToolbarExport/>
+          <GridToolbarColumnsButton/>
+          <GridToolbarFilterButton/>
           <IconButton onClick={(e) => props.onAdd()} sx={{"&:hover": {
                         backgroundColor: theme.palette.violet.light,
                         borderRadius:"5px",
                         transition: "0.3s"}
                     }}>
-                        <Add/>
+                        <Add color="primary"/>
           </IconButton>
         </GridToolbarContainer>
         )
     };
 
     return(
-        <Box sx={{color:"black" ,width:"90%",height:"90%",overflow:"auto"}}>            
+        <Box sx={{color:"black" ,width:"90%",height:"90%",overflow:"auto"}}>      \
+          <ThemeProvider theme={gridTheme}> 
             <DataGrid
                 rows={users}
                 columns={columns}
@@ -169,6 +146,7 @@ const ShowUsers = (props) => {
                 borderRadius: 2, // حاشیه گرد
                 }}
             />
+          </ThemeProvider>      
         </Box>
     )
 }

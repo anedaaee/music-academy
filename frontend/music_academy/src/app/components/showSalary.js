@@ -1,14 +1,15 @@
 "use client"; 
 
-import { Box,createTheme, alpha, getContrastRatio} from "@mui/material";
+import { Box,createTheme, alpha, getContrastRatio,ThemeProvider} from "@mui/material";
 import { useEffect, useState } from "react";
 
 import {Check,Close} from '@mui/icons-material'
-import { DataGrid,GridToolbarContainer } from "@mui/x-data-grid";
+import { DataGrid,GridToolbarContainer,GridToolbarColumnsButton,GridToolbarFilterButton,GridToolbarDensitySelector,GridToolbarExport } from "@mui/x-data-grid";
 import app_config from "@/config/config";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalaliV3";
 import api from "@/function/api";
+import {faIR} from  "@mui/x-data-grid/locales"
 
 
 const violetBase = '#7F00FF';
@@ -25,7 +26,17 @@ const theme = createTheme({
     },
   },
 });
-
+const gridTheme = createTheme({
+  palette: {
+    primary: {
+      main: violetMain,
+      light: alpha(violetBase, 0.2),
+      dark: alpha(violetBase, 0.9),
+      contrastText: getContrastRatio(violetMain, '#fff') > 4.5 ? '#fff' : '#111',
+      text : '#451f6d'
+    },
+  },
+},faIR)
 
 
 const ShowSalary = (props) => {
@@ -114,7 +125,8 @@ const ShowSalary = (props) => {
     }
     const CustomToolbar = () => {
         return(
-        <GridToolbarContainer sx={{display:"flex",justifyContent:"right",paddingRight:'18px'}}>
+        <GridToolbarContainer sx={{display:"flex",flexDirection:"row",justifyContent:"right",paddingRight:'18px'}}>
+            
             <div dir="rtl" sx={{width:'100%'}}>
                 <LocalizationProvider fullWidth dateAdapter={AdapterDateFnsJalali}>
                     <DateTimePicker
@@ -160,47 +172,53 @@ const ShowSalary = (props) => {
                     />
                 </LocalizationProvider>
             </div>
+            <GridToolbarDensitySelector/>
+            <GridToolbarExport/>
+            <GridToolbarColumnsButton/>
+            <GridToolbarFilterButton/>
         </GridToolbarContainer>
         )
     };
 
     return(
-        <Box sx={{color:"black" ,width:"90%",height:"90%",overflow:"auto"}}>            
-            <DataGrid
-                rows={salary}
-                columns={columns}
-                paginationModel={paginationModel}
-                pageSizeOptions={[5, 10, 15]} 
-                pagination
-                disableRowSelectionOnClick
-                onPaginationModelChange={setPaginationModel}
-                slots={{ toolbar: CustomToolbar }}
-                getRowId={(row) => row.id}
-                sx={{
-                direction:"ltr",
-                '& .grid-header': {
-                    backgroundColor: theme.palette.violet.light, 
-                    color: theme.palette.violet.text,
-                    fontWeight: 'bold',
-                },
-                '& .MuiDataGrid-cell': {
-                    fontSize: 14, 
-                    color: theme.palette.violet.text
-                },
-                '& .MuiDataGrid-row:hover': {
-                    backgroundColor: '#f1f1f1', 
-                },
-                '& .MuiPaginationItem-root': {
-                    color: theme.palette.violet.text
-                },
-                '& .MuiPaginationItem-root.Mui-selected': {
-                    backgroundColor: theme.palette.violet.text, 
-                    color: theme.palette.violet.text,
-                },
-                boxShadow: 3, 
-                borderRadius: 2, 
-                }}
-            />
+        <Box sx={{color:"black" ,width:"90%",height:"90%",overflow:"auto"}}>      
+            <ThemeProvider theme={gridTheme}>
+                <DataGrid
+                    rows={salary}
+                    columns={columns}
+                    paginationModel={paginationModel}
+                    pageSizeOptions={[5, 10, 15]} 
+                    pagination
+                    disableRowSelectionOnClick
+                    onPaginationModelChange={setPaginationModel}
+                    slots={{ toolbar: CustomToolbar }}
+                    getRowId={(row) => row.id}
+                    sx={{
+                    direction:"ltr",
+                    '& .grid-header': {
+                        backgroundColor: theme.palette.violet.light, 
+                        color: theme.palette.violet.text,
+                        fontWeight: 'bold',
+                    },
+                    '& .MuiDataGrid-cell': {
+                        fontSize: 14, 
+                        color: theme.palette.violet.text
+                    },
+                    '& .MuiDataGrid-row:hover': {
+                        backgroundColor: '#f1f1f1', 
+                    },
+                    '& .MuiPaginationItem-root': {
+                        color: theme.palette.violet.text
+                    },
+                    '& .MuiPaginationItem-root.Mui-selected': {
+                        backgroundColor: theme.palette.violet.text, 
+                        color: theme.palette.violet.text,
+                    },
+                    boxShadow: 3, 
+                    borderRadius: 2, 
+                    }}
+                />
+            </ThemeProvider>      
         </Box>
     )
 }
