@@ -277,14 +277,19 @@ const ShowUser = ({username,onError,onClose}) => {
             bgcolor:'#fff',
             position:'fixed',
             zIndex:999,
-            width:{xs:'80vw',mb:'50vw'},
-            height:{xs:'80vh',mb:'50vh'},
-            borderRadius:'10px',}}
+            overflow:"auto",
+            width:'80vw',
+            height:'90vh',
+            borderRadius:'10px',
+            marginTop: '20px'}}
         >   
             <IconButton onClick={(e) => onClose()} sx={{"&:hover": {
                 backgroundColor: theme.palette.violet.light,
                 borderRadius:"5px",
-                transition: "0.3s"}
+                transition: "0.3s"},
+                position: 'absolute',
+                top: '10px',
+                left: '10px',
             }}>
                 <Close/>
             </IconButton>
@@ -293,8 +298,8 @@ const ShowUser = ({username,onError,onClose}) => {
                 <LinearProgress color="primary" size={100} sx={{color: "violet.contrastText",width:"80%",height:'.5%'}}/>
             :   
                 editMode?
-                <form style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, width: '100%', height: '100%' , display:'flex',justifyContent:'center',alignItems:'center'}}>
-                    <Grid2 container spacing={2} >
+                <form style={{display: 'flex', flexDirection: 'column', flexGrow: 1, width: '90%', height: '100%' , display:'flex',justifyContent:'center',alignItems:'center'}}>
+                    <Grid2 container spacing={2} sx={{height:"100%",margin:'10px'}}>
                         <Grid2 item size={{xs:12,md:12}}>
                             <GetAvatar user={user}/>
                         </Grid2> 
@@ -344,7 +349,7 @@ const ShowUser = ({username,onError,onClose}) => {
                 </form>
                 :
                 <form style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, width: '100%', height: '100%' , display:'flex',justifyContent:'center',alignItems:'center'}}>
-                    <Grid2 container spacing={2} >
+                    <Grid2 container spacing={2} sx={{height:"100%",margin:'10px'}}>
                         <Grid2 item size={{xs:12,md:12}}>
                             <GetAvatar user={user}/>
                         </Grid2> 
@@ -413,7 +418,7 @@ const ShowUser = ({username,onError,onClose}) => {
                             user.role==2?
                                 <Grid2 item size={{xs:12,md:12}}>
                                     <Button variant='contained'  sx={{ marginRight: 3.5 }} onClick={(e) => {window.location.href=`/views/show_classes?teacher=${user.username}`}}>
-                                        کلاس ها
+                                        بیشتر
                                     </Button>
                                 </Grid2>
                             :null

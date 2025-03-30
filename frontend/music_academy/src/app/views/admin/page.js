@@ -285,7 +285,7 @@ export default function Home() {
             :
             (
               <Grid2 container spacing={2} direction={isMobile ? "column" : "row-reverse"} sx={{width:"100%",height:"100"}}>
-                <Grid2 item xs={12} sm={8} sx={{width:isMobile?"100":"87%", height: isMobile? "90vh":"100vh",display:"flex",justifyContent:"center",alignItems:"center"}}>
+                <Grid2 item xs={12} sm={8} sx={{width:isMobile?"100%":"87%", height: isMobile? "90vh":"100vh",display:"flex",justifyContent:"center",alignItems:"center"}}>
                   {
                     state === 'teachers'?
                       <ShowUsers input_users={teachers} key="teachers" onEdit={handleOnEditUser} onAdd={() => setAddUser(true)}/>
@@ -343,7 +343,7 @@ export default function Home() {
                 position: "fixed",
                 bottom: 20,
                 right: 20,
-                zIndex: 9999,
+                zIndex: 999,
                 width: "auto",
                 minWidth: 250
               }}

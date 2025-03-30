@@ -31,12 +31,17 @@ const Nav = ({ onChangeState}) => {
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     return (
-        <Grid2 item xs={12} sm={4} sx={{width:isMobile?"100%":"10%"
-                    , height: isMobile ? "4vh" : "100vh"
+        <Grid2 item xs={12} sm={4} sx={{width:isMobile?"100vw":"10%"
+                    , height: isMobile ? "auto" : "100vh"
                     , display:"flex"
                     , flexDirection:isMobile?"row":"column"
                     , justifyContent:"center"
-                    ,alignItems:"flex-start"}}>
+                    ,alignItems:"flex-start"
+                    ,position:isMobile?"fixed":"static"
+                    ,zIndex:isMobile?"800":"100"
+                    ,bottom: isMobile ? 0 : "auto"
+                    ,backgroundColor: isMobile ? "white" : "transparent"
+                    }}>
             <IconButton onClick={() => changeState('classes')} sx={{"&:hover": {
                 backgroundColor: theme.palette.violet.light,
                 borderRadius:"5px",
@@ -46,7 +51,7 @@ const Nav = ({ onChangeState}) => {
                         display:"flex"
                         ,justifyContent:"center"
                         ,alignItems:"center"
-                        ,padding:"10px"}}>
+                        ,padding:"5px"}}>
                     {
                     state=='classes'?
                         <Class sx={{color:theme.palette.violet.main,fontSize:40}}/>
@@ -68,7 +73,7 @@ const Nav = ({ onChangeState}) => {
                 <Box sx={{display:"flex"
                         ,justifyContent:"center"
                         ,alignItems:"center"
-                        ,padding:"10px"}}>
+                        ,padding:"5px"}}>
                     {
                     state=='teachers'?
                         <School sx={{color:theme.palette.violet.main,fontSize:40}}/>
@@ -90,7 +95,7 @@ const Nav = ({ onChangeState}) => {
                 <Box sx={{display:"flex"
                         ,justifyContent:"center"
                         ,alignItems:"center"
-                        ,padding:"10px"}}>
+                        ,padding:"5px"}}>
                     {
                     state=='admins'?
                         <AdminPanelSettings sx={{color:theme.palette.violet.main,fontSize:40}}/>
@@ -112,7 +117,7 @@ const Nav = ({ onChangeState}) => {
                 <Box sx={{display:"flex",
                         justifyContent:"center"
                         ,alignItems:"center"
-                        ,padding:"10px"}}>
+                        ,padding:"5px"}}>
                     {
                     state=="users"?
                         <People sx={{color:theme.palette.violet.main,fontSize:40}}/>
@@ -134,7 +139,7 @@ const Nav = ({ onChangeState}) => {
                 <Box sx={{display:"flex",
                         justifyContent:"center"
                         ,alignItems:"center"
-                        ,padding:"10px"}}>
+                        ,padding:"5px"}}>
                     {
                     state=="account"?
                         <ManageAccounts sx={{color:theme.palette.violet.main,fontSize:40}}/>
@@ -160,7 +165,7 @@ const Nav = ({ onChangeState}) => {
                 <Box sx={{display:"flex",
                         justifyContent:"center"
                         ,alignItems:"center"
-                        ,padding:"10px"}}>
+                        ,padding:"5px"}}>
                     {
                     state=="logout"?
                         <Logout sx={{color:theme.palette.violet.main,fontSize:40}}/>

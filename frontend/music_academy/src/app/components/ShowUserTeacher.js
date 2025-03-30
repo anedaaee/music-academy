@@ -277,9 +277,10 @@ const ShowUserTeacher = ({onError}) => {
     return(
         <CardContent sx={{
             bgcolor:'#fff',
-            width:{xs:'80vw',mb:'50vw'},
-            height:{xs:'80vh',mb:'50vh'},
-            borderRadius:'10px',}}
+            overflow:"auto",
+            width:'80vw',
+            height:'100%',
+            borderRadius:'10px'}}
         >   
             {
             editUserLoading?
@@ -287,7 +288,7 @@ const ShowUserTeacher = ({onError}) => {
             :   
                 editMode?
                 <form style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, width: '100%', height: '100%' , display:'flex',justifyContent:'center',alignItems:'center'}}>
-                    <Grid2 container spacing={2} >
+                    <Grid2 container spacing={2} sx={{height:'100%'}}>
                         <Grid2 item size={{xs:12,md:12}}>
                             <GetAvatar user={user}/>
                         </Grid2> 
@@ -337,7 +338,7 @@ const ShowUserTeacher = ({onError}) => {
                 </form>
                 :
                 <form style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, width: '100%', height: '100%' , display:'flex',justifyContent:'center',alignItems:'center'}}>
-                    <Grid2 container spacing={2} >
+                    <Grid2 container spacing={.1} >
                         <Grid2 item size={{xs:12,md:12}}>
                             <GetAvatar user={user}/>
                         </Grid2> 

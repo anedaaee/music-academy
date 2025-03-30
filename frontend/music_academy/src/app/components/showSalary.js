@@ -126,52 +126,6 @@ const ShowSalary = (props) => {
     const CustomToolbar = () => {
         return(
         <GridToolbarContainer sx={{display:"flex",flexDirection:"row",justifyContent:"right",paddingRight:'18px'}}>
-            
-            <div dir="rtl" sx={{width:'100%'}}>
-                <LocalizationProvider fullWidth dateAdapter={AdapterDateFnsJalali}>
-                    <DateTimePicker
-                    fullWidth
-                    label="تاریخ شروع"
-                    defaultValue={new Date(startDate)}
-                    minDate={new Date(1938, 0, 1)}
-                    maxDate={new Date(2075, 11, 31)}
-                    onChange={(val) => onChange(val,setStartDate)}
-                    onSelectedSectionsChange={(val) => onChange(val,setStartDate)}
-                    style={input_style}
-                    slotProps={{
-                        desktopPaper: {
-                        dir: 'rtl',
-                        },
-                        mobilePaper: {
-                        dir: 'rtl',
-                        },
-                    }}
-                    />
-                </LocalizationProvider>
-            </div>
-            <div dir="rtl" sx={{width:'100%'}}>
-                <LocalizationProvider fullWidth dateAdapter={AdapterDateFnsJalali}>
-                    <DateTimePicker
-                    fullWidth
-                    label="تاریخ پایان"
-                    defaultValue={new Date(finishDate)}
-                    minDate={new Date(1938, 0, 1)}
-                    maxDate={new Date(2075, 11, 31)}
-                    onChange={(val) => onChange(val,setFinishDate)}
-                    onSelectedSectionsChange={(val) => onChange(val,setFinishDate)}
-                    on
-                    style={input_style}
-                    slotProps={{
-                        desktopPaper: {
-                        dir: 'rtl',
-                        },
-                        mobilePaper: {
-                        dir: 'rtl',
-                        },
-                    }}
-                    />
-                </LocalizationProvider>
-            </div>
             <GridToolbarDensitySelector/>
             <GridToolbarExport/>
             <GridToolbarColumnsButton/>
@@ -183,6 +137,53 @@ const ShowSalary = (props) => {
     return(
         <Box sx={{color:"black" ,width:"90%",height:"90%",overflow:"auto"}}>      
             <ThemeProvider theme={gridTheme}>
+                <div style={{display:"flex",padding:'10px',justifyContent:"space-evenly"}}>
+                    <div dir="rtl" style={{margin:'10px'}}>
+                        <LocalizationProvider fullWidth dateAdapter={AdapterDateFnsJalali}>
+                            <DateTimePicker
+                            fullWidth
+                            label="تاریخ شروع"
+                            defaultValue={new Date(startDate)}
+                            minDate={new Date(1938, 0, 1)}
+                            maxDate={new Date(2075, 11, 31)}
+                            onChange={(val) => onChange(val,setStartDate)}
+                            onSelectedSectionsChange={(val) => onChange(val,setStartDate)}
+                            style={input_style}
+                            slotProps={{
+                                desktopPaper: {
+                                dir: 'rtl',
+                                },
+                                mobilePaper: {
+                                dir: 'rtl',
+                                },
+                            }}
+                            />
+                        </LocalizationProvider>
+                    </div>
+                    <div dir="rtl" style={{margin:'10px'}}>
+                        <LocalizationProvider fullWidth dateAdapter={AdapterDateFnsJalali}>
+                            <DateTimePicker
+                            fullWidth
+                            label="تاریخ پایان"
+                            defaultValue={new Date(finishDate)}
+                            minDate={new Date(1938, 0, 1)}
+                            maxDate={new Date(2075, 11, 31)}
+                            onChange={(val) => onChange(val,setFinishDate)}
+                            onSelectedSectionsChange={(val) => onChange(val,setFinishDate)}
+                            on
+                            style={input_style}
+                            slotProps={{
+                                desktopPaper: {
+                                dir: 'rtl',
+                                },
+                                mobilePaper: {
+                                dir: 'rtl',
+                                },
+                            }}
+                            />
+                        </LocalizationProvider>
+                    </div>
+                </div>
                 <DataGrid
                     rows={salary}
                     columns={columns}

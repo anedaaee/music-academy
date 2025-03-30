@@ -165,10 +165,12 @@ router.get('/get-salary-report',async(req,res) => {
             }
         })
     }catch(err){
+        console.log(err);
+        
         let message = responseMessage(5)
         if(err.details) {
-            if(err.details[0].path[0] === 'start_date') { message = responseMessage(43)}
-            if(err.details[0].path[0] === 'finish_date') { message = responseMessage(44)}
+            if(err.details[0].path[0] === 'start_date') { message = responseMessage(42)}
+            if(err.details[0].path[0] === 'finish_date') { message = responseMessage(43)}
         }
         if(err.isCustom){
             message = err.reason

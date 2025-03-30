@@ -277,8 +277,9 @@ const ShowUser2 = ({username,onError}) => {
     return(
         <CardContent sx={{
             bgcolor:'#fff',
-            width:{xs:'80vw',mb:'50vw'},
-            height:{xs:'80vh',mb:'50vh'},
+            overflow:"auto",
+            width:'80vw',
+            height:'90vh',
             borderRadius:'10px',}}
         >   
             {
@@ -406,7 +407,7 @@ const ShowUser2 = ({username,onError}) => {
                             user.role==2?
                                 <Grid2 item size={{xs:12,md:12}}>
                                     <Button variant='contained'  sx={{ marginRight: 3.5 }} onClick={(e) => {window.location.href=`/views/show_classes?teacher=${user.username}`}}>
-                                        کلاس ها
+                                         بیشتر
                                     </Button>
                                 </Grid2>
                             :null

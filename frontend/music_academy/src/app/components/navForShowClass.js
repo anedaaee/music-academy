@@ -32,11 +32,15 @@ const NavForShowClass = ({ onChangeState}) => {
 
     return (
         <Grid2 item xs={12} sm={4} sx={{width:isMobile?"100%":"10%"
-                    , height: isMobile ? "4vh" : "100vh"
+                    , height: isMobile ? "auto" : "100vh"
                     , display:"flex"
                     , flexDirection:isMobile?"row":"column"
                     , justifyContent:"center"
-                    ,alignItems:"flex-start"}}>
+                    ,alignItems:"flex-start",position:isMobile?"fixed":"static"
+                    ,zIndex:isMobile?"800":"100"
+                    ,bottom: isMobile ? 0 : "auto"
+                    ,backgroundColor: isMobile ? "white" : "transparent"
+                    }}>
             
             <IconButton onClick={() => changeState('account')} sx={{"&:hover": {
                 backgroundColor: theme.palette.violet.light,

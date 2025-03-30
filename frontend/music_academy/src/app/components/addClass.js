@@ -4,6 +4,7 @@ import { Close} from "@mui/icons-material";
 import { useEffect,useState } from "react";
 import app_config from "@/config/config";
 import api from "@/function/api";
+import zIndex from "@mui/material/styles/zIndex";
 
 const violetBase = '#7F00FF';
 const violetMain = alpha(violetBase, 0.7);
@@ -63,7 +64,8 @@ const AddClass = ({onClose,onError}) => {
             borderColor: theme.palette.violet.dark,
             },
         },
-        color: theme.palette.violet.dark
+        color: theme.palette.violet.dark,
+        zIndex:100000
     }
 
 
@@ -149,8 +151,9 @@ const AddClass = ({onClose,onError}) => {
             bgcolor:'#fff',
             position:'fixed',
             zIndex:999,
-            width:{xs:'80vw',mb:'50vw'},
-            height:{xs:'80vh',mb:'50vh'},
+            overflow:"auto",
+            width:'80vw',
+            height:'90vh',
             borderRadius:'10px',}}
         >   
             <IconButton onClick={(e) => onClose()} sx={{"&:hover": {
@@ -165,7 +168,7 @@ const AddClass = ({onClose,onError}) => {
                 <LinearProgress color="primary" size={100} sx={{color: "violet.contrastText",width:"80%",height:'.5%'}}/>
             :   
                 <form style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, width: '100%', height: '100%' , display:'flex',justifyContent:'center',alignItems:'center'}}>
-                    <Grid2 container spacing={2} >
+                    <Grid2 container spacing={2} sx={{height:"100%"}}>
                         <Grid2 item size={{xs:12,md:6}}>
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>     
                                 <Autocomplete

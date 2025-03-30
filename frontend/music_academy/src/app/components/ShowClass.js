@@ -180,8 +180,9 @@ const ShowClass = ({id,onError,onClose}) => {
             bgcolor:'#fff',
             position:'fixed',
             zIndex:999,
-            width:{xs:'80vw',mb:'50vw'},
-            height:{xs:'80vh',mb:'50vh'},
+            width:'80vw',
+            height:'90vh',
+            overflow:"auto",
             borderRadius:'10px',}}
         >   
             <IconButton onClick={(e) => onClose()} sx={{"&:hover": {
@@ -197,8 +198,8 @@ const ShowClass = ({id,onError,onClose}) => {
             :   
                 editMode?
                 <form style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, width: '100%', height: '100%' , display:'flex',justifyContent:'center',alignItems:'center'}}>
-                    <Grid2 container spacing={2} >
-                        <Grid2 item size={{xs:12,md:12}}>
+                    <Grid2 container spacing={2} sx={{height:"100%"}}>
+                        <Grid2 item size={{xs:12,md:12}} >
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                 <AccountCircle sx={{color:theme.palette.violet.light}}/>
                                 <h3 style={{marginLeft:'10px',color:theme.palette.primary.light}}>شناسه کلاس: <span style={{color:'#939393',fontWeight:'lighter',color:theme.palette.primary.dark}}>{class_.id}</span></h3>
@@ -232,7 +233,7 @@ const ShowClass = ({id,onError,onClose}) => {
                             <Select fullWidth sx={input_style}  label='روز' value={class_.week_day} onChange={(e) => onChange(e.target.value,'week_day')}>
                                 {
                                     days.map((item) => (
-                                        <MenuItem key={item} value={item}>{item}</MenuItem>
+                                        <MenuItem  key={item} value={item}>{item}</MenuItem>
                                     ))
                                 }
                             </Select>
@@ -250,7 +251,7 @@ const ShowClass = ({id,onError,onClose}) => {
                             <Select fullWidth sx={input_style}  label='مدت زمان' value={class_.duration} onChange={(e) => onChange(e.target.value,'duration')}>
                                 {
                                     durations.map((item) => (
-                                        <MenuItem key={item} value={item}>{item}</MenuItem>
+                                        <MenuItem  key={item} value={item}>{item}</MenuItem>
                                     ))
                                 }
                             </Select>
@@ -318,7 +319,7 @@ const ShowClass = ({id,onError,onClose}) => {
                 </form>
                 :
                 <form style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, width: '100%', height: '100%' , display:'flex',justifyContent:'center',alignItems:'center'}}>
-                    <Grid2 container spacing={2} >
+                    <Grid2 container spacing={2} sx={{height:"100%"}}>
                         <Grid2 item size={{xs:12,md:12}}>
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                 <AccountCircle sx={{color:theme.palette.violet.light}}/>

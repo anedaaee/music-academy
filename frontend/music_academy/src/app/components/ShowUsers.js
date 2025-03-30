@@ -109,7 +109,7 @@ const ShowUsers = (props) => {
     };
 
     return(
-        <Box sx={{color:"black" ,width:"90%",height:"90%",overflow:"auto"}}>      \
+        <Box sx={{color:"black" ,width:"90%",height:"90%"}}>      
           <ThemeProvider theme={gridTheme}> 
             <DataGrid
                 rows={users}
@@ -142,8 +142,8 @@ const ShowUsers = (props) => {
                     backgroundColor: theme.palette.violet.text, // رنگ انتخاب شده صفحات
                     color: theme.palette.violet.text,
                 },
-                boxShadow: 3, // سایه اطراف DataGrid
-                borderRadius: 2, // حاشیه گرد
+                boxShadow: 3,
+                borderRadius: 2, 
                 }}
             />
           </ThemeProvider>      

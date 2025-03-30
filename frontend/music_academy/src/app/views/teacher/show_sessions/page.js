@@ -156,7 +156,6 @@ export default function ShowSessions() {
       </Box>
         <Box
         sx={{
-          height: "100vh",
           width: "100vw",
           display: "flex",
           justifyContent: "center",
@@ -170,11 +169,11 @@ export default function ShowSessions() {
             <CircularProgress color="primary"/>
             :
             (
-              <Grid2 container spacing={2} direction={"column"} sx={{width:"100vw",display:'flex',justifyContent:'flex-start',flexDirection:'column',alignItems:'center'}}>
+              <Grid2 container spacing={2} direction={"column"} sx={{width:"100vw",height: '100%' ,display:'flex',justifyContent:'flex-start',flexDirection:'column',alignItems:'center'}}>
                 <form style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, width: '80%', height: '100%' , display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',backgroundColor:'#eadbfc',padding:'40px',borderRadius:'10px'}}>
-                    <Grid2 container spacing={2} >
+                    <Grid2 container spacing={2} sx={{height:"100%",overflow:'auto',}}>
                         <Grid2 item size={{xs:12,md:12}}>
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center' ,overflow:'auto'}}>
                                 <AccountCircle sx={{color:theme.palette.violet.light}}/>
                                 <h3 style={{marginLeft:'10px',color:theme.palette.primary.light}}>شناسه کلاس: <span style={{color:'#939393',fontWeight:'lighter',color:theme.palette.primary.dark}}>{class_.id}</span></h3>
                             </Box>
@@ -282,9 +281,11 @@ export default function ShowSessions() {
                   '& .MuiPaginationItem-root.Mui-selected': {
                       backgroundColor: theme.palette.violet.text, 
                       color: theme.palette.violet.text,
+                      
                   },
                   boxShadow: 3, 
                   borderRadius: 2, 
+                  width:"90%"
                   }}
               />
               </Grid2>
@@ -298,7 +299,7 @@ export default function ShowSessions() {
                 position: "fixed",
                 bottom: 20,
                 right: 20,
-                zIndex: 9999,
+                zIndex: 999,
                 width: "auto",
                 minWidth: 250
               }}
