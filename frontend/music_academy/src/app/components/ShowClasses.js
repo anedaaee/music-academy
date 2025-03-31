@@ -122,7 +122,7 @@ const ShowClasses = (props) => {
     useEffect(() => {
         setClasses(props.input_classes)
     },[props.input_classes])
-    const CustomToolbar = React.memo(() => {
+    const CustomToolbar = () => {
 
         return(
         <GridToolbarContainer sx={{display:"flex",justifyContent:"right",paddingRight:'18px'}}>
@@ -139,7 +139,7 @@ const ShowClasses = (props) => {
           </IconButton>
         </GridToolbarContainer>
         )
-    });
+    };
 
     return(
         <Box sx={{color:"black" ,width:"90%",height:"90%",overflow:"auto"}}>  

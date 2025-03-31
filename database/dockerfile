@@ -1,0 +1,8 @@
+FROM mysql:8.0-debian
+ENV MYSQL_ROOT_PASSWORD=password
+ENV MYSQL_USER=neos
+ENV MYSQL_PASSWORD=password
+
+COPY ./database/init.sql /docker-entrypoint-initdb.d/
+#COPY ./init.sql /docker-entrypoint-initdb.d/
+EXPOSE 3306

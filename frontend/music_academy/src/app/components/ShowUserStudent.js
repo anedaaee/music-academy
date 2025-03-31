@@ -27,7 +27,7 @@ const theme = createTheme({
   },
 });
 
-const ShowUserTeacher = ({onError}) => {
+const ShowUserStudent = ({onError}) => {
     const [editUserLoading,setEditUserLoading] = useState(false)
     const [user,setUser] = useState({})
     const [editMode,setEditMode] = useState(false)
@@ -99,7 +99,7 @@ const ShowUserTeacher = ({onError}) => {
                 address:user.address,
                 national_id:user.national_id
             }
-            const result = await api('patch',`/teacher/update-profile`,data,localStorage.getItem('mahjoubi.music.academy.token'))
+            const result = await api('patch',`/user/update-profile`,data,localStorage.getItem('mahjoubi.music.academy.token'))
             if(result.status == 200){
                 setUser(result.data.body.data)
             }else{
@@ -135,7 +135,7 @@ const ShowUserTeacher = ({onError}) => {
                 formData.append("image", file);
                 
                 
-                const result = await api('post',`/teacher/add-profile`,formData,localStorage.getItem('mahjoubi.music.academy.token'),'multipart/form-data')
+                const result = await api('post',`/user/add-profile`,formData,localStorage.getItem('mahjoubi.music.academy.token'),'multipart/form-data')
                 if(result.status == 200){
                     setUser(result.data.body.data)
                 }else{
@@ -349,4 +349,4 @@ const ShowUserTeacher = ({onError}) => {
 }
 
 
-export default ShowUserTeacher
+export default ShowUserStudent

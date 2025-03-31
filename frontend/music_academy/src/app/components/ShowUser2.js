@@ -320,14 +320,6 @@ const ShowUser2 = ({username,onError}) => {
                             <TextField  fullWidth sx={input_style} label='آدرس' placeholder='آدرس' defaultValue={user.address} onChange={(e) => onChange(e.target.value,'address')}/>
                         </Grid2>
                         <Grid2 item size={{xs:12,md:12}}>
-                            <InputLabel id="role-label">نقش کاربری</InputLabel>
-                            <Select fullWidth sx={input_style}  labelId="role-label" value={user.role} onChange={(e) => onChange(e.target.value,'role')}>
-                                <MenuItem value={1}>کاربر</MenuItem>
-                                <MenuItem value={2}>استاد</MenuItem>
-                                <MenuItem value={3}>مدیر سایت</MenuItem>
-                            </Select>
-                        </Grid2>
-                        <Grid2 item size={{xs:12,md:12}}>
                             <Button variant='contained' style={{backgroundColor:'transparent',border:'1px solid red',color:'red'}} sx={{ marginRight: 3.5 }} onClick={(e) => setEditMode(false)}>لغو</Button>
                         </Grid2>
                         <Grid2 item size={{xs:12,md:12}}>

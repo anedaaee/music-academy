@@ -1,0 +1,60 @@
+
+version: '3.8'
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: ./database/dockerfile
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "1400:3306"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      retries: 10
+      start_period: 10s
+
+  server-app:
+    build: 
+      context: .
+      dockerfile: ./backend/dockerfile
+    ports:
+      - "1401:1401"
+    networks:
+      - app-network
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+  
+  react-app:
+    build: 
+      context: .
+      dockerfile: ./frontend/music_academy/dockerfile
+    ports:
+      - "1402:3000"
+    networks:
+      - app-network
+    restart: always
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/dockerfile # Dockerfile برای Nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - react-app
+    networks:
+      - app-network
+
+volumes:
+  db_data:
+networks:
+  app-network:
+    driver: bridge

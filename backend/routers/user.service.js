@@ -166,20 +166,20 @@ router.patch('/update-profile', async(req,res) => {
     try{
         const schema = Joi.object({
             name: Joi.string()
-                .optional(),
+                .optional().allow(null).empty(''),
             last_name: Joi.string()
-                .optional(),
+                .optional().allow(null).empty(''),
             mobile: Joi.string()
-                .optional(),
+                .optional().allow(null).empty(''),
             phone: Joi.string()
-                .optional(),
+                .optional().allow(null).empty(''),
             email:Joi.string()
                 .email()
-                .optional(),
+                .optional().allow(null).empty(''),
             address:Joi.string()
-                .optional(),
+                .optional().allow(null).empty(''),
             national_id:Joi.string()
-                .optional()
+                .optional().allow(null).empty('')
         })
 
         const values = await schema.validateAsync(req.body)

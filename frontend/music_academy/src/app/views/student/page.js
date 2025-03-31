@@ -6,9 +6,9 @@ import { Box,createTheme, alpha, getContrastRatio,
 import { useEffect, useState} from "react";
 import api from "@/function/api";
 import ShowClasses2 from "@/app/components/ShowClasses2";
-import ShowUserTeacher from "@/app/components/ShowUserTeacher";
 import NavForUser from "@/app/components/navForUser";
 import app_config from "@/config/config";
+import ShowUserStudent from "@/app/components/ShowUserStudent";
 
 
 const violetBase = '#7F00FF';
@@ -171,7 +171,7 @@ export default function User() {
                 {
                   state == 'account'?
                   (
-                    <ShowUserTeacher onError={(message) => handleOnError(message)}/>
+                    <ShowUserStudent onError={(message) => handleOnError(message)}/>
                   ):
                   (
                     state=='classes'?
