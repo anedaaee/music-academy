@@ -1,5 +1,6 @@
 import { Box,createTheme, alpha, getContrastRatio, Grid2,useMediaQuery
-    , Typography,IconButton } from "@mui/material";
+    , Typography,IconButton, 
+    Avatar} from "@mui/material";
 import { useState } from "react";
 import {Class,ClassOutlined,ManageAccounts,ManageAccountsOutlined,Logout,LogoutOutlined} from '@mui/icons-material'
 
@@ -42,7 +43,11 @@ const NavForUser = ({ onChangeState}) => {
                     ,bottom: isMobile ? 0 : "auto"
                     ,backgroundColor: isMobile ? "white" : "transparent"
                     }}>
-            
+            <Box sx={{display:isMobile?'none':'block',position:'fixed',top:'10px'}}>
+                <Avatar alt={'mahjoubiIcon'} src="/icon.jpg" sx={{ width: 100, height: 100 }}/>
+                <Typography sx={{color:'#000',fontFamily: 'Amiri',fontSize:'20px',marginTop:'5px'}}>آموزشگاه موسیقی</Typography>
+                <Typography sx={{color:'#000',fontFamily: 'Amiri',fontSize:'20px'}}>محجوبی</Typography>
+            </Box>
             <IconButton onClick={() => changeState('account')} sx={{"&:hover": {
                 backgroundColor: theme.palette.violet.light,
                 borderRadius:"5px",
