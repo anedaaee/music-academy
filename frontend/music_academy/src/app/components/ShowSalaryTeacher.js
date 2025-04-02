@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import {Check,Close, Margin} from '@mui/icons-material'
 import { DataGrid,GridToolbarContainer,GridToolbarColumnsButton,GridToolbarFilterButton,GridToolbarDensitySelector,GridToolbarExport} from "@mui/x-data-grid";
 import app_config from "@/config/config";
-import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalaliV3";
 import api from "@/function/api";
 import {faIR} from  "@mui/x-data-grid/locales"
@@ -86,7 +86,7 @@ const ShowSalaryTeacher = (props) => {
 
     const fetch_salary = async () => {
         try{
-            const result = await api('get',`/teacher/get-salary-report?start_date=${startDate}&finish_date=${finishDate}`,{},localStorage.getItem('mahjoubi.music.academy.token'))
+            const result = await api('get',`/teacher/get-salary-report?start_date=${startDate.toISOString().split('T')[0]}&finish_date=${finishDate.toISOString().split('T')[0]}`,{},localStorage.getItem('mahjoubi.music.academy.token'))
             if(result.status == 200){
                 const rows = await result.data.body.data.map((row, index) => ({
                     id: index + 1, 
@@ -139,7 +139,7 @@ const ShowSalaryTeacher = (props) => {
                 <div style={{display:"flex",padding:'10px',justifyContent:"space-evenly"}}>
                     <div dir="rtl" style={{margin:"10px"}}>
                         <LocalizationProvider fullWidth dateAdapter={AdapterDateFnsJalali}>
-                            <DateTimePicker
+                            <DatePicker
                             fullWidth
                             label="تاریخ شروع"
                             defaultValue={new Date(startDate)}
@@ -161,7 +161,7 @@ const ShowSalaryTeacher = (props) => {
                     </div>
                     <div dir="rtl" style={{margin:"10px"}}>
                         <LocalizationProvider fullWidth dateAdapter={AdapterDateFnsJalali}>
-                            <DateTimePicker
+                            <DatePicker
                             fullWidth
                             label="تاریخ پایان"
                             defaultValue={new Date(finishDate)}

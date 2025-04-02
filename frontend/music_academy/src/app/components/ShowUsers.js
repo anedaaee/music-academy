@@ -55,9 +55,9 @@ const ShowUsers = (props) => {
       { field: 'name', headerName: 'نام', width: 200, sortable: true,align: 'right',headerAlign: 'right', headerClassName:'grid-header', renderCell: (params) => (params.row.name ? params.row.name : '-')},
       { field: 'last_name', headerName: 'نام خانوادگی', width: 200, sortable: true ,align: 'right',headerAlign: 'right', headerClassName:'grid-header', renderCell: (params) => (params.row.last_name ? params.row.last_name : '-')},
       { field: 'mobile', headerName: 'شماره همراه', width: 200, sortable: true , headerClassName:'grid-header', renderCell: (params) => (params.row.mobile ? params.row.mobile : '-')},
-      { field: 'national_id', headerName: 'کد ملی', width: 150, sortable: true , headerClassName:'grid-header', renderCell: (params) => (params.row.national_id ? params.row.national_id : '-')},
-      { field: 'email', headerName: 'پست الکترونیک', width: 150, sortable: true , headerClassName:'grid-header', renderCell: (params) => (params.row.email ? params.row.email : '-')},
-      { field: 'is_active', headerName: 'وضعیت اکانت', width: 150, sortable: true , headerClassName:'grid-header', renderCell: (params) => (
+      { field: 'national_id', headerName: 'کد ملی', width: 200, sortable: true , headerClassName:'grid-header', renderCell: (params) => (params.row.national_id ? params.row.national_id : '-')},
+      { field: 'email', headerName: 'پست الکترونیک', width: 200, sortable: true , headerClassName:'grid-header', renderCell: (params) => (params.row.email ? params.row.email : '-')},
+      { field: 'is_active', headerName: 'وضعیت اکانت', width: 200, sortable: true , headerClassName:'grid-header', renderCell: (params) => (
         params.row.is_active === 1 ? (
           <Check sx={{ color: 'green' }} />
         ) : (

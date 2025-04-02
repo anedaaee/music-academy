@@ -4,9 +4,9 @@ import { Close} from "@mui/icons-material";
 import { useState } from "react";
 import { AdapterDateFnsJalali} from '@mui/x-date-pickers/AdapterDateFnsJalaliV3';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import app_config from "@/config/config";
 import api from "@/function/api";
+import { DatePicker } from "@mui/x-date-pickers";
 
 const violetBase = '#7F00FF';
 const violetMain = alpha(violetBase, 0.7);
@@ -118,7 +118,7 @@ const AddSession = ({class_id,onClose,onError}) => {
                         <Grid2 item size={{xs:12,md:12}}>
                             <div dir="rtl" sx={{width:'100%'}}>
                                 <LocalizationProvider fullWidth dateAdapter={AdapterDateFnsJalali}>
-                                    <DateTimePicker
+                                    <DatePicker
                                     fullWidth
                                     label="تاریخ ثبت"
                                     defaultValue={session.session_date!=''?new Date(session.session_date):new Date}
