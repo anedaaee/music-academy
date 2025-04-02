@@ -179,10 +179,12 @@ export default function ShowSessions() {
       setError(app_config.ERROR_MESSAGE)
       setTimeout(() => setIsError(false), 10000);
     }
+    await fetch()
   }
 
-  const handleOnClose = () => {
+  const handleOnClose = async() => {
     setAddSession(false)
+    await fetch()
   }
 
   const handleOnError = async(message) => {

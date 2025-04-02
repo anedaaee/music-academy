@@ -3,8 +3,14 @@ import style from '@/app/assets/styles/footer.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Phone,AssistantDirection,Instagram, LinkedIn, GitHub} from '@mui/icons-material';
 import { Box,Typography,IconButton ,Link} from '@mui/material';
+import { useEffect,useState } from 'react';
 
 const Footer = () => {
+    const [token,setToken] = useState(undefined)
+
+    useEffect(() => {
+        setToken(localStorage.getItem('mahjoubi.music.academy.token'))
+    } , [])
     return (
         <footer id="footer">
             <div className="footer-top">
@@ -19,7 +25,7 @@ const Footer = () => {
                                     <AssistantDirection sx={{marginLeft:"20px"}}/>زنجان خیابان خرمشهر،تقاطع معلم<br/>
                                     <Phone sx={{marginLeft:"20px"}}/> 024 3341 1951<br/>
                                     <Instagram sx={{marginLeft:"20px"}}/> <a style={{color:"#bca220",textDecoration:"none"}} href='https://www.instagram.com/mahjoubi.music.academy?igsh=MXgyaXgzemxoa3h5eA=='>mahjoubi.music.academy</a><br/>
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d200.0237645949251!2d48.4999885873569!3d36.66535785821494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ff610adb062ed93%3A0xab4ea9398b48690!2z2LLZhtis2KfZhtiMINin2LPYqtin2YYg2LLZhtis2KfZhtiMINin24zYsdin2YY!5e0!3m2!1sfa!2s!4v1743634084648!5m2!1sfa!2s" width="90%" height="300px" style={{border:0,margin:"20px",borderRadius:"20px"}} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d200.0237645949251!2d48.4999885873569!3d36.66535785821494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ff610adb062ed93%3A0xab4ea9398b48690!2z2LLZhtis2KfZhtiMINin2LPYqtin2YYg2LLZhtis2KfZhtiMINin24zYsdin2YY!5e0!3m2!1sfa!2s!4v1743634084648!5m2!1sfa!2s" width="90%" height="300px" style={{border:0,margin:"20px",borderRadius:"20px"}} loading="lazy"></iframe>
                                 </p>
                         </div>
                     </div>
@@ -31,7 +37,7 @@ const Footer = () => {
                         <li><i className="bx bx-chevron-right"></i> <a href="/#about">درباره ما</a></li>
                         <li><i className="bx bx-chevron-right"></i> <a href="/#teachers">اساتید</a></li>
                         {
-                            localStorage.getItem('mahjoubi.music.academy.token')?
+                            !token?
                                 <>
                                     <li><i className="bx bx-chevron-right"></i> <a href="/views/login/">ورود</a></li>
                                     <li><i className="bx bx-chevron-right"></i> <a href="/views/register/">ثبت نام</a></li>

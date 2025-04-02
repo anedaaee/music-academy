@@ -6,6 +6,7 @@ import { Menu } from "@mui/icons-material";
 import Footer from "./components/Footer";
 import api from "../function/api";
 import app_config from "@/config/config";
+import style from '@/app/assets/styles/member.css'
 
 const violetBase = '#7F00FF';
 const violetMain = alpha(violetBase, 0.7);
@@ -30,7 +31,8 @@ export default function Home() {
   const [error,setError] = useState("")
   const [loading,setLoading] = useState(true)
   const [open, setOpen] = useState(false);
-  const navList = !localStorage.getItem('mahjoubi.music.academy.token')? [{title:"درباره ما",link:'/#about'}
+  const [token,setToken] = useState(undefined)
+  const navList = !token ? [{title:"درباره ما",link:'/#about'}
     , {title:"اساتید",link:'/#teachers'}
     , {title:"ورود",link:'/views/login/'}
     , {title:"ثبت نام",link:'/views/register/'}
@@ -42,6 +44,7 @@ export default function Home() {
 
   const fetch_data = async () => {
     try{
+      setToken(localStorage.getItem('mahjoubi.music.academy.token'))
       const result = await api('get','/auth/get-teachers',{},undefined)
       if(result.status == 201){
         setTeachers(result.data.body.data)
@@ -59,7 +62,7 @@ export default function Home() {
   }
 
   const blobToUrl = (teacher) => {
-    const blob = new Blob([new Uint8Array(teacher.profile.blob_data.data)], { type: 'image/jpeg' }); // نوع تصویر را با توجه به فرمت واقعی تغییر دهید
+    const blob = new Blob([new Uint8Array(teacher.profile.blob_data.data)], { type: 'image/jpeg' });
     return URL.createObjectURL(blob);
   };
 
@@ -126,7 +129,7 @@ export default function Home() {
             backgroundSize: "cover",
           }}
         />
-         <section id="about" class="about" style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",marginTop:"40px"}}>
+         <section id="about" style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",marginTop:"40px"}}>
           <div style={{backgroundColor:"#151515",width:"90%",borderRadius:"10px"}}>
             <div style={{display:'flex'}}>
               <div style={{width:"50%", margin:"10%"}}>

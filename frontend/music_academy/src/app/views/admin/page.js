@@ -157,6 +157,7 @@ export default function Home() {
   }
   const fetch = async () => {
     try{
+      setLoading(true)
       await fetch_data()
       await fetch_users()
       await fetch_teachers()
@@ -169,6 +170,7 @@ export default function Home() {
   }
 
   const handleOnEditUser = async(e,username) => {
+    await fetch()
     setEditUser(true)
     setShowUserUsername(username)
   }
@@ -183,6 +185,7 @@ export default function Home() {
   }
   
   const handleOnCloseUser = async() => {
+    await fetch()
     setEditUser(false)
   }
 
@@ -222,27 +225,28 @@ export default function Home() {
       setError(app_config.ERROR_MESSAGE)
       setTimeout(() => setIsError(false), 10000);
     }
+    await fetch()
   }
 
   const handleOnEditClasses = async(e,id) => {
+    await fetch()
     setEditClass(true)
     setShowClassId(id)
-    //window.location.reload()
   }
 
   const handleOnCloseClass = async() => {
+    await fetch()
     setEditClass(false)
-    //window.location.reload()
   }
 
   const handleOnCloseAddClass = async() => {
+    await fetch()
     setAddClass(false)
-    //window.location.reload()
   }
 
   const handleOnCloseAddUser = async() => {
+    await fetch()
     setAddUser(false)
-    //window.location.reload()
   }
 
   const handleShowSessions = async(id) => {

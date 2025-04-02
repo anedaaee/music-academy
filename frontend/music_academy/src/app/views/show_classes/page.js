@@ -167,6 +167,7 @@ export default function ShowClassesPage() {
           setTimeout(() => setIsError(false), 10000);
         }
       }
+      await fetch()
     }catch(err){
       if(isError){
         setIsError(false)
@@ -178,19 +179,19 @@ export default function ShowClassesPage() {
   }
 
   const handleOnEditClasses = async(e,id) => {
+    await fetch()
     setEditClass(true)
     setShowClassId(id)
-    //window.location.reload()
   }
 
   const handleOnCloseAddClass = async() => {
+    await fetch()
     setAddClass(false)
-    //window.location.reload()
   }
 
   const handleOnCloseClass = async() => {
+    await fetch()
     setEditClass(false)
-    //window.location.reload()
   }
 
   const handleOnError = async(message) => {
