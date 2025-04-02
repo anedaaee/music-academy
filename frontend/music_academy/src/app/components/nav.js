@@ -162,7 +162,7 @@ const Nav = ({ onChangeState}) => {
             <IconButton onClick={() => {
                 changeState('logout')
                 localStorage.removeItem('mahjoubi.music.academy.token')
-                window.location.href='/'
+                window.location.href='/views/login/'
             }} sx={{"&:hover": {
                 backgroundColor: theme.palette.violet.light,
                 borderRadius:"5px",

@@ -65,14 +65,14 @@ export default function Home() {
         const result = await api('get','/user/who',{},localStorage.getItem('mahjoubi.music.academy.token'))
         if(result.status == 200){
             if(result.data.body.data.role != 3){
-                window.location.href ='/'   
+                window.location.href ='/views/login/'   
             }
             setWho(result.data.body.data)
         }else{
-            window.location.href ='/'
+            window.location.href ='/views/login/'
         }
       }else{
-        window.location.href ='/'
+        window.location.href ='/views/login/'
       }
       
     }catch(err){
