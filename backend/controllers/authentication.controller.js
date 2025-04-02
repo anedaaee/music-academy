@@ -68,3 +68,31 @@ exports.getRoles = async (req) => {
 }
 
 
+const attach_profile = async(users,req) => {
+
+    try{
+        for(const user of users){
+            if(user.profile_picture){
+                const query = `SELECT id, name, format, blob_data
+                                FROM music_academy.profile_image
+                                WHERE id =?;`
+        
+                const profile =  await request(query,[user.profile_picture],req)
+                user.profile = profile[0]
+            }
+        }
+        return users
+    }catch(err){throw err}
+
+}
+
+exports.get_users_with_role = async (req,role) => {
+    try{
+        const query = `SELECT username, ${`role`}, name, last_name, mobile, email,profile_picture
+                    FROM music_academy.user_profile 
+                    WHERE ${'`role`'}=? AND is_active = 1;`        
+        
+        const users =  await request(query,[role],req)
+        return await attach_profile(users,req)
+    }catch(err){throw err}
+} 

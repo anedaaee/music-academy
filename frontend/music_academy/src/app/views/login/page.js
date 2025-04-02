@@ -6,7 +6,7 @@ import login_background from '@/app/assets/images/login_background.jpg'
 import api from "../../../function/api";
 import app_config from "@/config/config";
 import Link from "next/link";
-
+import Footer from "@/app/components/Footer";
 const violetBase = '#7F00FF';
 const violetMain = alpha(violetBase, 0.7);
 
@@ -49,13 +49,13 @@ export default function Home() {
             setIsError(false)
           }
           setIsError(true)
-          setError(result.data.metadata.err_persian)
+          setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
           setTimeout(() => setIsError(false), 10000);
         }
       }
       
     }catch(err){
-
+      throw err
     }
   }
 
@@ -63,7 +63,12 @@ export default function Home() {
     try{
       fetch_data()
     }catch(err){
-
+      if(isError){
+        setIsError(false)
+      }
+      setIsError(true)
+      setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
+      setTimeout(() => setIsError(false), 10000);
     }finally{
       setLoading(false)
     }
@@ -93,7 +98,7 @@ export default function Home() {
           setIsError(false)
         }
         setIsError(true)
-        setError(result.data.metadata.err_persian)
+        setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
         setTimeout(() => setIsError(false), 10000);
       }
       
@@ -188,6 +193,7 @@ export default function Home() {
           </>
         }
       </Box>
+      <Footer/>
     </ThemeProvider>
   );
 }

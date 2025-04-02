@@ -63,7 +63,7 @@ const AddSession = ({class_id,onClose,onError}) => {
             if(result.status == 200){
                 onClose()
             }else{
-                onError(result.data.metadata.err_persian)
+                onError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
             }
             setAddLoading(false)
         }catch(err){

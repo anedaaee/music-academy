@@ -96,7 +96,7 @@ const ShowSalary = (props) => {
                 setSalary(rows)
                 
             }else{
-                props.onError(result.data.metadata.err_persian)
+                props.onError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
             }
         }catch(err){
           

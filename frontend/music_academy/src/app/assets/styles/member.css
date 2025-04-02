@@ -1,0 +1,33 @@
+.member-container{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    margin-top: 40px;
+}
+.member{
+    min-width: 250px;
+    min-height: 450px;
+    border-radius: 10px;
+    max-width: fit-content;
+    max-height: fit-content;
+    margin: 10px;
+    background: #151515;
+}
+.member img{
+    width: 250px;
+    height: 70%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.member h1{
+    font-family: 'Amiri';
+    text-align: center;
+    color: #bca220
+}
+.member h3{
+    font-family: 'Amiri';
+    text-align: center;
+    color: #bca220
+}

@@ -100,4 +100,27 @@ router.get('/get-all-roles', async (req, res) => {
 
 })
 
+router.get('/get-teachers',async(req,res) => {
+    try{
+        const teachers = await authCtrl.get_users_with_role(req,2)
+        res.status(201).send({
+            "metadata": responseMessage(1),
+            "body": {
+                "type": "array",
+                "data": teachers
+            }
+        })
+    }catch(err){
+        console.log(err);
+        
+        let message = responseMessage(5)
+        if(err.isCustom){
+            message = err.reason
+        }
+        return res.status(400).send({
+            "metadata": message
+        })
+    }
+})
+
 module.exports = router

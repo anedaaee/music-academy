@@ -75,7 +75,7 @@ const AddClass = ({onClose,onError}) => {
             if(result.status == 200){
                 setUsers(result.data.body.data)
             }else{
-                onError(result.data.metadata.err_persian)
+                onError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
             }
         }catch(err){
             throw err
@@ -89,7 +89,7 @@ const AddClass = ({onClose,onError}) => {
             if(result.status == 200){
                 setTeachers(result.data.body.data)
             }else{
-                onError(result.data.metadata.err_persian)
+                onError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
             }
         }catch(err){
             throw err
@@ -124,7 +124,7 @@ const AddClass = ({onClose,onError}) => {
                 onClose()
                 setClass_(result.data.body.data)
             }else{
-                onError(result.data.metadata.err_persian)
+                onError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
             }
             setAddLoading(false)
         }catch(err){

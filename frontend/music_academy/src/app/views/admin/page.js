@@ -14,7 +14,7 @@ import AddClass from "@/app/components/addClass";
 import AddUser from "@/app/components/addUser";
 import ShowUser2 from '@/app/components/ShowUser2'
 import app_config from "@/config/config";
-
+import Footer2 from "@/app/components/Footer2";
 
 const violetBase = '#7F00FF';
 const violetMain = alpha(violetBase, 0.7);
@@ -91,7 +91,7 @@ export default function Home() {
           setIsError(false)
         }
         setIsError(true)
-        setError(result.data.metadata.err_persian)
+        setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
         setTimeout(() => setIsError(false), 10000);
       }
     }catch(err){
@@ -110,7 +110,7 @@ export default function Home() {
           setIsError(false)
         }
         setIsError(true)
-        setError(result.data.metadata.err_persian)
+        setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
         setTimeout(() => setIsError(false), 10000);
       }
     }catch(err){
@@ -128,7 +128,7 @@ export default function Home() {
           setIsError(false)
         }
         setIsError(true)
-        setError(result.data.metadata.err_persian)
+        setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
         setTimeout(() => setIsError(false), 10000);
       }
     }catch(err){
@@ -147,7 +147,7 @@ export default function Home() {
           setIsError(false)
         }
         setIsError(true)
-        setError(result.data.metadata.err_persian)
+        setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
         setTimeout(() => setIsError(false), 10000);
       }
     }catch(err){
@@ -197,7 +197,7 @@ export default function Home() {
             setIsError(false)
           }
           setIsError(true)
-          setError(result.data.metadata.err_persian)
+          setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
           setTimeout(() => setIsError(false), 10000);
         }
       }else if(type=='refactore'){
@@ -210,7 +210,7 @@ export default function Home() {
             setIsError(false)
           }
           setIsError(true)
-          setError(result.data.metadata.err_persian)
+          setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
           setTimeout(() => setIsError(false), 10000);
         }
       }
@@ -351,6 +351,7 @@ export default function Home() {
           </Alert>
         :null
       }
+      <Footer2/>
     </ThemeProvider>
   );
 }

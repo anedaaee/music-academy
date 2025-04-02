@@ -6,7 +6,7 @@ import login_background from '@/app/assets/images/login_background.jpg'
 import api from "@/function/api";
 import app_config from "@/config/config";
 import Link from "next/link";
-
+import Footer from "@/app/components/Footer";
 
 const violetBase = '#7F00FF';
 const violetMain = alpha(violetBase, 0.7);
@@ -71,7 +71,7 @@ export default function Register() {
           setIsError(false)
         }
         setIsError(true)
-        setError(result.data.metadata.err_persian)
+        setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
       }
       
     }catch(err){
@@ -165,6 +165,7 @@ export default function Register() {
           </>
         }
       </Box>
+      <Footer/>
     </ThemeProvider>
   );
 }

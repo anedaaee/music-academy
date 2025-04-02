@@ -12,7 +12,7 @@ import ShowClass from "@/app/components/ShowClass";
 import ShowSalary from "@/app/components/showSalary";
 import NavForShowClass from "@/app/components/navForShowClass";
 import app_config from "@/config/config";
-
+import Footer2 from "@/app/components/Footer2";
 
 const violetBase = '#7F00FF';
 const violetMain = alpha(violetBase, 0.7);
@@ -84,7 +84,7 @@ export default function ShowClassesPage() {
           setIsError(false)
         }
         setIsError(true)
-        setError(result.data.metadata.err_persian)
+        setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
         setTimeout(() => setIsError(false), 10000);
       }
     }catch(err){
@@ -103,7 +103,7 @@ export default function ShowClassesPage() {
           setIsError(false)
         }
         setIsError(true)
-        setError(result.data.metadata.err_persian)
+        setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
         setTimeout(() => setIsError(false), 10000);
       }
     }catch(err){
@@ -150,7 +150,7 @@ export default function ShowClassesPage() {
             setIsError(false)
           }
           setIsError(true)
-          setError(result.data.metadata.err_persian)
+          setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
           setTimeout(() => setIsError(false), 10000);
         }
       }else if(type=='refactore'){
@@ -163,7 +163,7 @@ export default function ShowClassesPage() {
             setIsError(false)
           }
           setIsError(true)
-          setError(result.data.metadata.err_persian)
+          setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
           setTimeout(() => setIsError(false), 10000);
         }
       }
@@ -390,6 +390,7 @@ function stringAvatar(name) {
           </Alert>
         :null
       }
+      <Footer2/>
     </ThemeProvider>
   );
 }

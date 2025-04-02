@@ -10,7 +10,7 @@ import api from "@/function/api";
 import moment from "jalali-moment";
 import AddSession from "@/app/components/addSession";
 import app_config from "@/config/config";
-
+import Footer2 from "@/app/components/Footer2";
 
 const violetBase = '#7F00FF';
 const violetMain = alpha(violetBase, 0.7);
@@ -103,7 +103,7 @@ export default function ShowSessions() {
           setIsError(false)
         }
         setIsError(true)
-        setError(result.data.metadata.err_persian)
+        setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
         setTimeout(() => setIsError(false), 10000);
       }
     }catch(err){
@@ -122,7 +122,7 @@ export default function ShowSessions() {
           setIsError(false)
         }
         setIsError(true)
-        setError(result.data.metadata.err_persian)
+        setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
         setTimeout(() => setIsError(false), 10000);
       }
     }catch(err){
@@ -168,7 +168,7 @@ export default function ShowSessions() {
           setIsError(false)
         }
         setIsError(true)
-        setError(result.data.metadata.err_persian)
+        setError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
         setTimeout(() => setIsError(false), 10000);
       }
     }catch(err){
@@ -377,6 +377,7 @@ export default function ShowSessions() {
           </Alert>
         :null
       }
+      <Footer2/>
     </ThemeProvider>
   );
 }

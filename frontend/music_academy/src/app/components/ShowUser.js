@@ -62,7 +62,7 @@ const ShowUser = ({username,onError,onClose}) => {
             if(result.status == 200){
                 setUser(result.data.body.data)
             }else{
-                onError(result.data.metadata.err_persian)
+                onError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
             }
         }catch(err){
             throw err
@@ -106,7 +106,7 @@ const ShowUser = ({username,onError,onClose}) => {
             if(result.status == 200){
                 setUser(result.data.body.data)
             }else{
-                onError(result.data.metadata.err_persian)
+                onError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
             }
             setEditLoading(false)
             setEditMode(false)
@@ -127,7 +127,7 @@ const ShowUser = ({username,onError,onClose}) => {
             if(result.status == 200){
                 setUser(result.data.body.data)
             }else{
-                onError(result.data.metadata.err_persian)
+                onError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
             }
             setDeleteLoading(false)
             setEditMode(false)
@@ -148,7 +148,7 @@ const ShowUser = ({username,onError,onClose}) => {
             if(result.status == 200){
                 setUser(result.data.body.data)
             }else{
-                onError(result.data.metadata.err_persian)
+                onError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
             }
             setDeleteLoading(false)
             setEditMode(false)
@@ -184,7 +184,7 @@ const ShowUser = ({username,onError,onClose}) => {
                 if(result.status == 200){
                     setUser(result.data.body.data)
                 }else{
-                    onError(result.data.metadata.err_persian)
+                    onError(result?.data?.metadata?.err_persian?result.data.metadata.err_persian:app_config.ERROR_MESSAGE)
                 }
             
             }else{
