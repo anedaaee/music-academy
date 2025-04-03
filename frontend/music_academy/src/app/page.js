@@ -62,8 +62,12 @@ export default function Home() {
   }
 
   const blobToUrl = (teacher) => {
-    const blob = new Blob([new Uint8Array(teacher.profile.blob_data.data)], { type: 'image/jpeg' });
-    return URL.createObjectURL(blob);
+    if(teacher?.profile?.blob_data.data){
+      const blob = new Blob([new Uint8Array(teacher.profile.blob_data.data)], { type: 'image/jpeg' });
+      return URL.createObjectURL(blob);
+    }else{
+      return '/unknown.jpg'
+    }
   };
 
   useEffect(() => {
