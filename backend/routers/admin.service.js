@@ -3,7 +3,8 @@ const Joi = require('joi')
 const adminCtrl = require('../controllers/admin.controller')
 const router = new express.Router()
 const responseMessage = require('../functions/readMessage')
-
+const fs = require('fs')
+const path = require('path')
 
 router.post('/register-user', async(req,res) => {
     try{
@@ -94,8 +95,6 @@ router.patch('/update-user', async(req,res) => {
             }
         })
     }catch(err){
-        console.log(err);
-        
         let message = responseMessage(5)
         if(err.details) {
             if(err.details[0].path[0] === 'username') { message = responseMessage(8)}
@@ -620,8 +619,6 @@ router.get('/get_classes/teacher',async(req,res) => {
             }
         })
     }catch(err){
-        console.log(err);
-        
         let message = responseMessage(5)
         if(err.details) {
             if(err.details[0].path[0] === 'teacher') { message = responseMessage(19)}
@@ -850,4 +847,54 @@ router.get('/get-salary-report',async(req,res) => {
 
     }
 })
+
+
+router.get('/backup',async(req,res) => {
+    try{
+        const data = await adminCtrl.backup()
+        const folderPath = path.join(__dirname, '..', 'backup');
+        if (!fs.existsSync(folderPath)) {
+            fs.mkdirSync(folderPath);
+        }
+        const now = new Date();
+        const dateString = now.toISOString().replace(/T/, '_').replace(/\..+/, '');
+        const tempFilePath = path.join(folderPath, `backup_${dateString}.json`);
+        fs.writeFileSync(tempFilePath, JSON.stringify(data.dump, null, 2));
+        res.status(200).download(tempFilePath);
+
+    }catch(err){
+        console.log(err);
+        
+        let message = responseMessage(5)
+        if(err.isCustom){
+            message = err.reason
+        }
+        return res.status(400).send({
+            "metadata": message
+        })
+
+    }
+})
+
+
+router.post('/restore',async(req,res) => {
+    try{
+        await adminCtrl.restore(req)
+        res.status(200).send({
+            "metadata": responseMessage(1),
+        })
+    }catch(err){
+        console.log(err);
+        
+        let message = responseMessage(5)
+        if(err.isCustom){
+            message = err.reason
+        }
+        return res.status(400).send({
+            "metadata": message
+        })
+
+    }
+})
+
 module.exports = router

@@ -35,7 +35,7 @@ services:
   react-app:
     build: 
       context: .
-      dockerfile: ./frontend/music_academy/dockerfile
+      dockerfile: ./frontend_eng/music_academy/dockerfile
     ports:
       - "1402:3000"
     networks:

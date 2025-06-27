@@ -3,7 +3,7 @@ const request = require('../db/request')
 const bcrypt = require('bcryptjs')
 const CustomError = require('../functions/customError')
 const responseMessage = require('../functions/readMessage')
-
+const mysqldump = require('mysqldump')
 
 exports.register = async (req,values) => {
     try{
@@ -818,5 +818,42 @@ exports.get_salary_report = async (req,values) => {
                 ],
                 req
         )
+    }catch(err){throw err}
+}
+
+exports.backup = async () => {
+    try{
+        const sql_config = {
+            host: config().APP_DB_HOST,
+            user: config().APP_DB_USER,
+            port : config().APP_DB_PORT,
+            password: config().APP_DB_PWD,
+            database: config().APP_DB_NAME
+        };
+
+        const dump = await mysqldump({
+            connection: sql_config,
+            dumpToFile: false
+        });
+        
+        
+        return dump
+
+    }catch(err){throw err}
+}
+
+exports.restore = async (req) => {
+    try{
+
+        if (req.files && req.files['backup']){
+            const backupData = JSON.parse(req.files['backup'].data.toString('utf8'));
+            await request("DROP DATABASE IF EXISTS music_academy",[],req);
+            await request("CREATE DATABASE music_academy",[],req);
+            await request("USE music_academy",[],req);
+            await request(backupData.schema,[],req);
+            await request(backupData.data,[],req);
+        }
+ 
+
     }catch(err){throw err}
 }

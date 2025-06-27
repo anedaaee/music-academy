@@ -111,8 +111,6 @@ router.get('/get-teachers',async(req,res) => {
             }
         })
     }catch(err){
-        console.log(err);
-        
         let message = responseMessage(5)
         if(err.isCustom){
             message = err.reason

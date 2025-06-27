@@ -165,8 +165,6 @@ router.get('/get-salary-report',async(req,res) => {
             }
         })
     }catch(err){
-        console.log(err);
-        
         let message = responseMessage(5)
         if(err.details) {
             if(err.details[0].path[0] === 'start_date') { message = responseMessage(42)}
