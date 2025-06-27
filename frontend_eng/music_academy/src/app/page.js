@@ -142,7 +142,7 @@ export default function Home() {
               <div style={{width:"50%", margin:"10%"}}>
                 <h3 style={{fontFamily: 'Amiri',fontSize:'20px',color: "#55179b"}}>Nasim Kashanian English Academy</h3>
                 <p style={{fontFamily: 'Amiri',fontSize:'20px',color: "#55179b"}}>
-                Nasim Kashanian ,English language tutor, was born on August 18th 1976 in Tehran. She already has two masters in physics at IASBS university and  TEFEl at Allameh Tabataba'i University. Sha has been teaching English more than a decade.
+                Nasim Kashanian ,English language tutor, was born on August 18th 1976 in Tehran. She already has two masters in physics at IASBS university and  TEFEl at Allameh Tabataba&apos;i University. Sha has been teaching English more than a decade.
                 </p>
                 <Stack
                   direction={isMobile ? 'column' : 'row'}

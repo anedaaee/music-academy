@@ -193,13 +193,13 @@ export default function ShowSessions() {
                                       <Grid2 item size={{xs:12,md:6}}>
                                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                               <Info sx={{color:theme.palette.violet.light}}/>
-                                              <h3 style={{marginLeft:'10px',color:theme.palette.primary.light}}>Teacher's Name : <span style={{color:'#939393',fontWeight:'lighter',color:theme.palette.primary.dark}}>{class_.teacher_name?class_.teacher_name:'---'}</span></h3>
+                                              <h3 style={{marginLeft:'10px',color:theme.palette.primary.light}}>Teacher&apos;s Name : <span style={{color:'#939393',fontWeight:'lighter',color:theme.palette.primary.dark}}>{class_.teacher_name?class_.teacher_name:'---'}</span></h3>
                                           </Box>
                                       </Grid2>
                                       <Grid2 item size={{xs:12,md:6}}>
                                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                               <Info sx={{color:theme.palette.violet.light}}/>
-                                              <h3 style={{marginLeft:'10px',color:theme.palette.primary.light}}>Student's Name : <span style={{color:'#939393',fontWeight:'lighter',color:theme.palette.primary.dark}}>{class_.student_name?class_.student_name:'---'}</span></h3>
+                                              <h3 style={{marginLeft:'10px',color:theme.palette.primary.light}}>Student&apos;s Name : <span style={{color:'#939393',fontWeight:'lighter',color:theme.palette.primary.dark}}>{class_.student_name?class_.student_name:'---'}</span></h3>
                                           </Box>
                                       </Grid2>
                                       <Grid2 item size={{xs:6,md:4}}> 
@@ -235,7 +235,7 @@ export default function ShowSessions() {
                                       <Grid2 item size={{xs:6,md:4}} >
                                           <Box sx={{ display: 'flex', alignItems: 'center'}}>
                                               <Percent sx={{color:theme.palette.violet.light}}/>
-                                              <h3 style={{color:theme.palette.primary.light}}>Teacher's Percentage : <span style={{color:'#939393',fontWeight:'lighter',color:theme.palette.primary.dark}}>{class_.teacherـpercentage}</span></h3>
+                                              <h3 style={{color:theme.palette.primary.light}}>Teacher&apos;s Percentage : <span style={{color:'#939393',fontWeight:'lighter',color:theme.palette.primary.dark}}>{class_.teacherـpercentage}</span></h3>
                                           </Box>
                                       </Grid2>
                                       <Grid2 item size={{xs:12,md:12}} >
